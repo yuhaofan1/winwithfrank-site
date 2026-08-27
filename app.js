@@ -94,6 +94,9 @@ trades.forEach((trade) => {
 });
 
 const grid = document.querySelector("#trade-grid");
+const tradeSlider = document.querySelector("#trade-slider");
+const tradeSliderPrev = document.querySelector("#trade-slider-prev");
+const tradeSliderNext = document.querySelector("#trade-slider-next");
 const dialog = document.querySelector("#trade-dialog");
 const dialogContent = document.querySelector("#dialog-content");
 const dealDialog = document.querySelector("#deal-dialog");
@@ -102,6 +105,37 @@ const dealFormTrigger = document.querySelector("#deal-form-trigger");
 const dealFormStatus = document.querySelector("#deal-form-status");
 const dealEmailFallback = document.querySelector("#deal-email-fallback");
 const dealFormSubmit = document.querySelector("#deal-form-submit");
+const agentEmailCopies = document.querySelectorAll(".agent-email-copy");
+const copyToast = document.querySelector("#copy-toast");
+let copyToastTimer;
+
+async function copyAgentEmail(event) {
+  const email = event.currentTarget?.dataset.email;
+  if (!email) return;
+  try {
+    await navigator.clipboard.writeText(email);
+  } catch (error) {
+    const temporaryInput = document.createElement("textarea");
+    temporaryInput.value = email;
+    temporaryInput.setAttribute("readonly", "");
+    temporaryInput.style.position = "fixed";
+    temporaryInput.style.opacity = "0";
+    document.body.appendChild(temporaryInput);
+    temporaryInput.select();
+    document.execCommand("copy");
+    temporaryInput.remove();
+  }
+  if (!copyToast) return;
+  window.clearTimeout(copyToastTimer);
+  copyToast.hidden = false;
+  window.requestAnimationFrame(() => copyToast.classList.add("is-visible"));
+  copyToastTimer = window.setTimeout(() => {
+    copyToast.classList.remove("is-visible");
+    window.setTimeout(() => { copyToast.hidden = true; }, 200);
+  }, 2000);
+}
+
+agentEmailCopies.forEach((button) => button.addEventListener("click", copyAgentEmail));
 
 function renderTrades() {
   grid.innerHTML = trades.map((trade) => `
@@ -117,6 +151,33 @@ function renderTrades() {
     button.addEventListener("click", () => openTrade(button.dataset.trade));
   });
 }
+
+function moveTradeSlider(direction) {
+  const card = tradeSlider?.querySelector(".trade-card");
+  if (!tradeSlider || !card) return;
+  const gap = 14;
+  const step = card.getBoundingClientRect().width + gap;
+  const maxScroll = tradeSlider.scrollWidth - tradeSlider.clientWidth;
+  let nextPosition = tradeSlider.scrollLeft + direction * step;
+  if (direction > 0 && nextPosition >= maxScroll - 4) nextPosition = 0;
+  if (direction < 0 && nextPosition < 0) nextPosition = maxScroll;
+  tradeSlider.scrollTo({ left: nextPosition, behavior: "smooth" });
+}
+
+let tradeSliderTimer;
+
+function startTradeSliderAutoplay() {
+  window.clearInterval(tradeSliderTimer);
+  if (!tradeSlider || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  tradeSliderTimer = window.setInterval(() => moveTradeSlider(1), 2000);
+}
+
+tradeSliderPrev?.addEventListener("click", () => { moveTradeSlider(-1); startTradeSliderAutoplay(); });
+tradeSliderNext?.addEventListener("click", () => { moveTradeSlider(1); startTradeSliderAutoplay(); });
+tradeSlider?.addEventListener("mouseenter", () => window.clearInterval(tradeSliderTimer));
+tradeSlider?.addEventListener("mouseleave", startTradeSliderAutoplay);
+tradeSlider?.addEventListener("focusin", () => window.clearInterval(tradeSliderTimer));
+tradeSlider?.addEventListener("focusout", startTradeSliderAutoplay);
 
 function openTrade(id) {
   const trade = trades.find((item) => item.id === id);
@@ -190,7 +251,7 @@ function buildDealEmail(formData) {
 
 function submitDealForm(event) {
   event.preventDefault();
-  const requiredTextFields = ["deal-agent-name", "deal-agent-email", "deal-address", "deal-price"];
+  const requiredTextFields = ["deal-agent-name", "deal-agent-email", "deal-address", "deal-price", "deal-link"];
   requiredTextFields.forEach((id) => {
     const field = document.querySelector(`#${id}`);
     field.setCustomValidity(field.value.trim() ? "" : "Please complete this field.");
@@ -215,14 +276,15 @@ function submitDealForm(event) {
   window.setTimeout(() => { dealFormSubmit.disabled = false; }, 1200);
 }
 
-dealFormTrigger.addEventListener("click", openDealDialog);
-document.querySelector("#deal-dialog-close").addEventListener("click", closeDealDialog);
-dealDialog.addEventListener("close", () => {
+dealFormTrigger?.addEventListener("click", openDealDialog);
+document.querySelector("#deal-dialog-close")?.addEventListener("click", closeDealDialog);
+dealDialog?.addEventListener("close", () => {
   document.body.classList.remove("dialog-open");
-  dealFormTrigger.focus();
+  dealFormTrigger?.focus();
 });
-dealForm.addEventListener("input", (event) => event.target.setCustomValidity?.(""));
-dealForm.addEventListener("submit", submitDealForm);
+
+dealForm?.addEventListener("input", (event) => event.target.setCustomValidity?.(""));
+dealForm?.addEventListener("submit", submitDealForm);
 
 const partnerCarousel = document.querySelector("#partner-carousel");
 const partnerSlides = [...document.querySelectorAll(".partner-slide")];
@@ -340,7 +402,7 @@ function enableAchievementSlideshow() {
 
 function enableLocalLiveReload() {
   if (!["127.0.0.1", "localhost"].includes(window.location.hostname)) return;
-  const assets = ["index.html", "styles.css", "app.js"];
+  const assets = ["index.html", "styles.css", "app.js", "assets/achievements/"];
   const versions = new Map();
 
   async function checkForUpdates() {
@@ -367,7 +429,385 @@ function enableLocalLiveReload() {
   window.setInterval(checkForUpdates, 1500);
 }
 
-renderTrades();
+function enableSectionNavigation() {
+  const navigation = document.querySelector(".site-nav");
+  const sectionLinks = [...document.querySelectorAll('.site-nav a[href^="#"]')].map((link) => ({
+    link,
+    section: document.querySelector(link.getAttribute("href"))
+  })).filter((item) => item.section);
+  let scheduled = false;
+  let activeLink = null;
+
+  function updateActiveLink() {
+    const marker = window.scrollY + window.innerHeight * 0.34;
+    const isAtPageEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4;
+    const activeItem = isAtPageEnd ? sectionLinks.at(-1) : sectionLinks.find(({ section }) => {
+      const top = section.offsetTop;
+      return marker >= top && marker < top + section.offsetHeight;
+    });
+    sectionLinks.forEach(({ link }) => {
+      const isActive = link === activeItem?.link;
+      link.classList.toggle("is-active", isActive);
+      if (isActive) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    });
+    if (activeItem?.link && activeItem.link !== activeLink && navigation) {
+      activeLink = activeItem.link;
+      const targetLeft = activeLink.offsetLeft - navigation.offsetLeft - (navigation.clientWidth - activeLink.offsetWidth) / 2;
+      if (Math.abs(navigation.scrollLeft - targetLeft) > 4) {
+        navigation.scrollTo({ left: targetLeft, behavior: "auto" });
+      }
+    }
+    scheduled = false;
+  }
+
+  function scheduleUpdate() {
+    if (scheduled) return;
+    scheduled = true;
+    window.requestAnimationFrame(updateActiveLink);
+  }
+
+  window.addEventListener("scroll", scheduleUpdate, { passive: true });
+  window.addEventListener("resize", scheduleUpdate);
+  if ("ResizeObserver" in window) new ResizeObserver(scheduleUpdate).observe(document.body);
+  updateActiveLink();
+}
+
+function enableInvestmentPreview() {
+  const amountInput = document.querySelector("#investment-amount");
+  const yearsInput = document.querySelector("#investment-years");
+  const amountOutput = document.querySelector("#investment-amount-output");
+  const yearsOutput = document.querySelector("#investment-years-output");
+  const valueOutput = document.querySelector("#investment-value-output");
+  const dividendOutput = document.querySelector("#investment-dividend-output");
+  const annualizedReturnOutput = document.querySelector("#investment-return-output");
+  if (!amountInput || !yearsInput || !amountOutput || !yearsOutput || !valueOutput || !dividendOutput || !annualizedReturnOutput) return;
+
+  const currency = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0
+  });
+  const percentage = new Intl.NumberFormat("en-US", {
+    style: "percent",
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1
+  });
+
+  function updateRangeFill(input) {
+    const progress = ((Number(input.value) - Number(input.min)) / (Number(input.max) - Number(input.min))) * 100;
+    input.style.setProperty("--range-fill", `${progress}%`);
+  }
+
+  function calculateProjection(investment, years) {
+    const completedFiveYearCycles = Math.floor(years / 5);
+    const activeCapital = investment * Math.pow(3, completedFiveYearCycles);
+    const completedPeriodsInCurrentCycle = Math.floor((years - (completedFiveYearCycles * 5)) / 2.5);
+    const estimatedValue = activeCapital * (1 + completedPeriodsInCurrentCycle);
+    const capitalCohorts = [{ amount: investment, startYear: 0 }];
+    for (let cycle = 1; cycle <= completedFiveYearCycles; cycle += 1) {
+      capitalCohorts.push({
+        amount: investment * 2 * Math.pow(3, cycle - 1),
+        startYear: cycle * 5
+      });
+    }
+    let minimumAnnualCashFlow = 0;
+    let maximumAnnualCashFlow = 0;
+    let minimumCumulativeCashFlow = 0;
+    let maximumCumulativeCashFlow = 0;
+    for (const cohort of capitalCohorts) {
+      const completedCohortPeriods = Math.floor((years - cohort.startYear) / 2.5);
+      minimumAnnualCashFlow += cohort.amount * completedCohortPeriods * 0.04;
+      maximumAnnualCashFlow += cohort.amount * completedCohortPeriods * 0.06;
+      for (let period = 1; period <= completedCohortPeriods; period += 1) {
+        const periodStart = cohort.startYear + (period * 2.5);
+        const yearsAtThisRate = Math.max(0, Math.min(years, periodStart + 2.5) - periodStart);
+        minimumCumulativeCashFlow += cohort.amount * period * 0.04 * yearsAtThisRate;
+        maximumCumulativeCashFlow += cohort.amount * period * 0.06 * yearsAtThisRate;
+      }
+    }
+    const minimumAnnualizedReturn = years === 0 ? 0 : Math.pow((estimatedValue + minimumCumulativeCashFlow) / investment, 1 / years) - 1;
+    const maximumAnnualizedReturn = years === 0 ? 0 : Math.pow((estimatedValue + maximumCumulativeCashFlow) / investment, 1 / years) - 1;
+    return {
+      estimatedValue,
+      minimumAnnualCashFlow,
+      maximumAnnualCashFlow,
+      minimumAnnualizedReturn,
+      maximumAnnualizedReturn
+    };
+  }
+
+  const chart = document.querySelector("#investment-growth-chart");
+
+  function compactCurrency(value) {
+    if (value >= 1000000) return `$${Number((value / 1000000).toFixed(1))}M`;
+    if (value >= 1000) return `$${Number((value / 1000).toFixed(0))}K`;
+    return currency.format(value);
+  }
+
+  function updateGrowthChart(investment, selectedYears) {
+    if (!chart) return;
+    const width = Math.max(280, Math.round(chart.getBoundingClientRect().width));
+    const height = width < 500 ? 330 : 360;
+    const margin = { top: 32, right: width < 500 ? 54 : 72, bottom: 42, left: width < 500 ? 54 : 68 };
+    const plotWidth = width - margin.left - margin.right;
+    const plotHeight = height - margin.top - margin.bottom;
+    const samples = Array.from({ length: 31 }, (_, index) => {
+      const years = index * 0.5;
+      return { years, ...calculateProjection(investment, years) };
+    });
+    const maximumEquity = Math.max(...samples.map((sample) => sample.estimatedValue));
+    const maximumDistribution = Math.max(...samples.map((sample) => sample.maximumAnnualCashFlow), 1);
+    const x = (years) => margin.left + ((years / 15) * plotWidth);
+    const equityY = (value) => margin.top + plotHeight - ((value / maximumEquity) * plotHeight);
+    const distributionY = (value) => margin.top + plotHeight - ((value / maximumDistribution) * plotHeight);
+    const stepPath = (key, scale) => samples.reduce((path, sample, index) => {
+      const pointX = x(sample.years);
+      const pointY = scale(sample[key]);
+      if (index === 0) return `M ${pointX} ${pointY}`;
+      const previousY = scale(samples[index - 1][key]);
+      return `${path} L ${pointX} ${previousY} L ${pointX} ${pointY}`;
+    }, "");
+    const bandEdge = (key, scale) => samples.flatMap((sample, index) => {
+      const point = [x(sample.years), scale(sample[key])];
+      if (index === 0) return [point];
+      return [[point[0], scale(samples[index - 1][key])], point];
+    });
+    const upperBand = bandEdge("maximumAnnualCashFlow", distributionY);
+    const lowerBand = bandEdge("minimumAnnualCashFlow", distributionY).reverse();
+    const bandPath = [...upperBand, ...lowerBand].map((point, index) => `${index === 0 ? "M" : "L"} ${point[0]} ${point[1]}`).join(" ") + " Z";
+    const horizontalTicks = [0, 0.25, 0.5, 0.75, 1];
+    const yearTicks = width < 500 ? [0, 5, 10, 15] : [0, 2.5, 5, 7.5, 10, 12.5, 15];
+    const selected = calculateProjection(investment, selectedYears);
+    const selectedX = x(selectedYears);
+    const selectedDistributionMidpoint = (selected.minimumAnnualCashFlow + selected.maximumAnnualCashFlow) / 2;
+    chart.setAttribute("viewBox", `0 0 ${width} ${height}`);
+    chart.innerHTML = `
+      <title id="investment-chart-title">Investment growth over time</title>
+      <desc id="investment-chart-description">Earned equity and annual cash distribution ranges from Day 1 through 15 years.</desc>
+      <rect class="chart-frame" x="${margin.left}" y="${margin.top}" width="${plotWidth}" height="${plotHeight}" />
+      ${horizontalTicks.map((tick) => {
+        const tickY = margin.top + plotHeight - (tick * plotHeight);
+        return `<line class="chart-grid" x1="${margin.left}" y1="${tickY}" x2="${width - margin.right}" y2="${tickY}" />
+          <text class="chart-tick" x="${margin.left - 8}" y="${tickY + 4}" text-anchor="end">${compactCurrency(maximumEquity * tick)}</text>
+          <text class="chart-tick" x="${width - margin.right + 8}" y="${tickY + 4}" text-anchor="start">${compactCurrency(maximumDistribution * tick)}</text>`;
+      }).join("")}
+      ${yearTicks.map((tick) => `<text class="chart-tick" x="${x(tick)}" y="${height - 15}" text-anchor="middle">${tick}</text>`).join("")}
+      <text class="chart-axis-label" x="${margin.left}" y="16">EQUITY</text>
+      <text class="chart-axis-label" x="${width - margin.right}" y="16" text-anchor="end">ANNUAL DISTRIBUTION</text>
+      <text class="chart-axis-label" x="${margin.left + (plotWidth / 2)}" y="${height - 1}" text-anchor="middle">YEARS</text>
+      <path class="chart-distribution-band" d="${bandPath}" />
+      <path class="chart-distribution-line" d="${stepPath("maximumAnnualCashFlow", distributionY)}" />
+      <path class="chart-distribution-line" d="${stepPath("minimumAnnualCashFlow", distributionY)}" />
+      <path class="chart-equity-line" d="${stepPath("estimatedValue", equityY)}" />
+      <line class="chart-selected-line" x1="${selectedX}" y1="${margin.top}" x2="${selectedX}" y2="${margin.top + plotHeight}" />
+      <circle class="chart-equity-point" cx="${selectedX}" cy="${equityY(selected.estimatedValue)}" r="5" />
+      <circle class="chart-distribution-point" cx="${selectedX}" cy="${distributionY(selectedDistributionMidpoint)}" r="5" />`;
+  }
+
+  function updatePreview() {
+    const investment = Number(amountInput.value);
+    const years = Number(yearsInput.value);
+    const {
+      estimatedValue,
+      minimumAnnualCashFlow,
+      maximumAnnualCashFlow,
+      minimumAnnualizedReturn,
+      maximumAnnualizedReturn
+    } = calculateProjection(investment, years);
+    amountOutput.value = currency.format(investment);
+    yearsOutput.value = years === 0 ? "Day 1" : `${years} ${years === 1 ? "year" : "years"}`;
+    valueOutput.textContent = currency.format(estimatedValue);
+    dividendOutput.textContent = minimumAnnualCashFlow === 0
+      ? currency.format(0)
+      : `${currency.format(minimumAnnualCashFlow)}–${currency.format(maximumAnnualCashFlow)}`;
+    annualizedReturnOutput.textContent = Math.abs(maximumAnnualizedReturn - minimumAnnualizedReturn) < 0.0005
+      ? percentage.format(minimumAnnualizedReturn)
+      : `${percentage.format(minimumAnnualizedReturn)}–${percentage.format(maximumAnnualizedReturn)}`;
+    updateGrowthChart(investment, years);
+    updateRangeFill(amountInput);
+    updateRangeFill(yearsInput);
+  }
+
+  amountInput.addEventListener("input", updatePreview);
+  yearsInput.addEventListener("input", updatePreview);
+  if (chart && "ResizeObserver" in window) new ResizeObserver(() => updateGrowthChart(Number(amountInput.value), Number(yearsInput.value))).observe(chart);
+  updatePreview();
+}
+
+function enableFeaturedVideo() {
+  const video = document.querySelector("#featured-video");
+  const projectOverlay = document.querySelector("#video-project-overlay");
+  const lifestyleOverlay = document.querySelector("#video-lifestyle-overlay");
+  const editPauseButton = document.querySelector("#video-edit-pause");
+  if (!video) return;
+  const playlist = [
+    { src: "assets/building-highlights-original.mp4?v=four-buildings-five-seconds", playbackRate: 0.625, type: "projects" },
+    { src: "assets/building-construction-highlight.m4v?v=construction-1", playbackRate: 0.625, type: "construction" },
+    { src: "assets/building-interior-highlight.m4v?v=interiors-1", playbackRate: 1, type: "interiors" },
+  ];
+  const projectDetails = [
+    [
+      { project: "Project #86", marketValue: "$12,500,000", builtYear: "2023" },
+      { project: "Project #546", marketValue: "$6,500,000", builtYear: "2023" },
+      { project: "Project #14", marketValue: "$7,050,000", builtYear: "2024" },
+      { project: "Project #01", marketValue: "$7,200,000", builtYear: "2023" },
+    ],
+    [{ project: "Project #77", marketValue: "$6,500,000", builtYear: "2024" }],
+    [],
+  ];
+  const projectCueOverrides = [
+    [{ start: 3, end: 4, project: "Project #48", marketValue: "$5,500,000", builtYear: "2025" }],
+    [],
+    [],
+  ];
+  const lifestyleMessages = ["Modern Design", "Newly Constructed", "Fully Furnished", "High-Class Living"];
+  let playlistIndex = 0;
+  let activeProjectKey = "";
+  let activeLifestyleKey = "";
+  video.defaultMuted = true;
+  video.muted = true;
+
+  function applyCurrentPlaybackRate() {
+    const playbackRate = playlist[playlistIndex].playbackRate;
+    video.defaultPlaybackRate = playbackRate;
+    video.playbackRate = playbackRate;
+  }
+
+  applyCurrentPlaybackRate();
+
+  function playMuted() {
+    video.muted = true;
+    video.play().catch(() => {
+      // The autoplay attributes remain in place if the browser delays playback.
+    });
+  }
+
+  function updateEditPauseButton() {
+    if (!editPauseButton) return;
+    const isPaused = video.paused;
+    editPauseButton.textContent = isPaused ? "Resume video" : "Pause video";
+    editPauseButton.setAttribute("aria-pressed", String(isPaused));
+  }
+
+  editPauseButton?.addEventListener("click", () => {
+    if (video.paused) playMuted();
+    else video.pause();
+    updateEditPauseButton();
+  });
+  video.addEventListener("play", updateEditPauseButton);
+  video.addEventListener("pause", updateEditPauseButton);
+
+  function updateProjectOverlay() {
+    if (!projectOverlay) return;
+    const isInteriorReel = playlist[playlistIndex].type === "interiors";
+    const isStairShot = playlistIndex === 0 && video.currentTime >= 18;
+    const isExteriorShot = playlist[playlistIndex].type === "projects" && !isStairShot;
+    projectOverlay.classList.toggle("is-visible", isExteriorShot);
+    projectOverlay.setAttribute("aria-hidden", String(!isExteriorShot));
+    lifestyleOverlay?.classList.toggle("is-visible", isInteriorReel);
+    lifestyleOverlay?.setAttribute("aria-hidden", String(!isInteriorReel));
+    if (!isExteriorShot) {
+      projectOverlay.classList.remove("has-updated");
+    }
+    if (isInteriorReel) {
+      const messageIndex = Math.min(Math.floor(video.currentTime / 5), lifestyleMessages.length - 1);
+      const lifestyleKey = `${playlistIndex}-${messageIndex}`;
+      if (lifestyleOverlay && lifestyleKey !== activeLifestyleKey) {
+        lifestyleOverlay.querySelector("strong").textContent = lifestyleMessages[messageIndex];
+        lifestyleOverlay.classList.remove("has-updated");
+        void lifestyleOverlay.offsetWidth;
+        lifestyleOverlay.classList.add("has-updated");
+        activeLifestyleKey = lifestyleKey;
+      }
+      return;
+    }
+    lifestyleOverlay?.classList.remove("has-updated");
+    if (!isExteriorShot) return;
+    const detailsForReel = projectDetails[playlistIndex];
+    const detailIndex = Math.min(Math.floor(video.currentTime / 5), detailsForReel.length - 1);
+    const cueOverride = projectCueOverrides[playlistIndex].find(({ start, end }) => video.currentTime >= start && video.currentTime < end);
+    const details = cueOverride || detailsForReel[detailIndex];
+    const projectKey = cueOverride ? `${playlistIndex}-cue-${cueOverride.start}` : `${playlistIndex}-${detailIndex}`;
+    if (projectKey !== activeProjectKey) {
+      projectOverlay.querySelector(":scope > div:first-child > strong").textContent = details.project;
+      projectOverlay.querySelector(":scope > div:nth-child(2) > strong").textContent = details.marketValue;
+      const builtYearGroup = projectOverlay.querySelector("[data-built-year]");
+      if (builtYearGroup) {
+        builtYearGroup.hidden = !details.builtYear;
+        builtYearGroup.querySelector("strong").textContent = details.builtYear || "";
+        projectOverlay.classList.toggle("has-built-year", Boolean(details.builtYear));
+      }
+      projectOverlay.classList.remove("has-updated");
+      void projectOverlay.offsetWidth;
+      projectOverlay.classList.add("has-updated");
+      activeProjectKey = projectKey;
+    }
+  }
+
+  if (video.readyState >= 2) playMuted();
+  else video.addEventListener("canplay", playMuted, { once: true });
+  video.addEventListener("loadedmetadata", applyCurrentPlaybackRate);
+  video.addEventListener("timeupdate", updateProjectOverlay);
+  video.addEventListener("loadeddata", updateProjectOverlay);
+  video.addEventListener("ended", () => {
+    playlistIndex = (playlistIndex + 1) % playlist.length;
+    video.src = playlist[playlistIndex].src;
+    video.load();
+    applyCurrentPlaybackRate();
+    updateProjectOverlay();
+    playMuted();
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden && video.paused) playMuted();
+  });
+  updateProjectOverlay();
+  updateEditPauseButton();
+}
+
+function enableThanksGallery() {
+  const track = document.querySelector("#thanks-gallery-track");
+  const previousButton = document.querySelector("#thanks-gallery-prev");
+  const nextButton = document.querySelector("#thanks-gallery-next");
+  const slides = track ? [...track.querySelectorAll(".thanks-gallery-slide")] : [];
+  const dots = [...document.querySelectorAll(".thanks-gallery-progress span")];
+  if (!track || !previousButton || !nextButton || !slides.length) return;
+  let currentIndex = 0;
+  let autoplayTimer;
+
+  function showSlide(index) {
+    currentIndex = (index + slides.length) % slides.length;
+    track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    slides.forEach((slide, slideIndex) => slide.setAttribute("aria-hidden", String(slideIndex !== currentIndex)));
+    dots.forEach((dot, dotIndex) => dot.classList.toggle("active", dotIndex === currentIndex));
+  }
+
+  function startAutoplay() {
+    window.clearInterval(autoplayTimer);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    autoplayTimer = window.setInterval(() => showSlide(currentIndex + 1), 5000);
+  }
+
+  previousButton.addEventListener("click", () => {
+    showSlide(currentIndex - 1);
+    startAutoplay();
+  });
+  nextButton.addEventListener("click", () => {
+    showSlide(currentIndex + 1);
+    startAutoplay();
+  });
+  showSlide(0);
+  startAutoplay();
+}
+
+if (grid) {
+  renderTrades();
+  startTradeSliderAutoplay();
+}
 updateCarouselProgress();
 enableAchievementSlideshow();
 enableLocalLiveReload();
+enableSectionNavigation();
+enableInvestmentPreview();
+enableFeaturedVideo();
+enableThanksGallery();
