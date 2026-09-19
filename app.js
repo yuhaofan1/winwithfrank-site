@@ -535,15 +535,19 @@ function enableSectionNavigation() {
 }
 
 function enableInvestorStory() {
-  const story = document.querySelector("#investment-story");
+  const story = document.querySelector("#investment-model");
   const investmentSection = document.querySelector("#rewards");
   const progressBar = document.querySelector("#page-progress-bar");
   const storyIndex = document.querySelector("#story-index");
   const storyMeter = document.querySelector("#story-meter-fill");
   const steps = [...document.querySelectorAll(".story-step")];
+  const stepsTrack = document.querySelector(".investment-story-steps");
   const revealItems = [...document.querySelectorAll("[data-reveal]")];
+  const mobileStoryQuery = window.matchMedia("(max-width: 700px)");
   let activeStep = steps[0] || null;
   let frameRequested = false;
+  let mobileStoryFrameRequested = false;
+  let mobileStoryIndex = -1;
 
   if (story && investmentSection) story.after(investmentSection);
 
@@ -558,6 +562,31 @@ function enableInvestorStory() {
     if (frameRequested) return;
     frameRequested = true;
     window.requestAnimationFrame(updateProgress);
+  }
+
+  function updateMobileStory() {
+    mobileStoryFrameRequested = false;
+    if (!story || !stepsTrack || !steps.length || !mobileStoryQuery.matches) return;
+    const rect = story.getBoundingClientRect();
+    if (rect.top >= window.innerHeight || rect.bottom <= 0) return;
+    const sectionTop = window.scrollY + rect.top;
+    const scrollRange = Math.max(1, story.offsetHeight - window.innerHeight);
+    const progress = Math.max(0, Math.min(1, (window.scrollY - sectionTop) / scrollRange));
+    const nextIndex = Math.min(steps.length - 1, Math.floor(progress * steps.length));
+    if (nextIndex === mobileStoryIndex) return;
+    mobileStoryIndex = nextIndex;
+    const targetLeft = steps[nextIndex].offsetLeft - steps[0].offsetLeft;
+    stepsTrack.scrollTo({
+      left: targetLeft,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"
+    });
+    renderActiveStep(steps[nextIndex]);
+  }
+
+  function scheduleMobileStory() {
+    if (mobileStoryFrameRequested) return;
+    mobileStoryFrameRequested = true;
+    window.requestAnimationFrame(updateMobileStory);
   }
 
   function renderActiveStep(step) {
@@ -581,6 +610,7 @@ function enableInvestorStory() {
     revealItems.forEach((item) => revealObserver.observe(item));
 
     const stepObserver = new IntersectionObserver((entries) => {
+      if (mobileStoryQuery.matches) return;
       const visible = entries
         .filter((entry) => entry.isIntersecting)
         .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
@@ -592,10 +622,18 @@ function enableInvestorStory() {
   }
 
   window.addEventListener("scroll", scheduleProgress, { passive: true });
+  window.addEventListener("scroll", scheduleMobileStory, { passive: true });
   window.addEventListener("resize", scheduleProgress);
+  window.addEventListener("resize", scheduleMobileStory);
+  mobileStoryQuery.addEventListener?.("change", () => {
+    mobileStoryIndex = -1;
+    if (!mobileStoryQuery.matches && stepsTrack) stepsTrack.scrollLeft = 0;
+    scheduleMobileStory();
+  });
   i18n?.onChange(() => renderActiveStep(activeStep));
   renderActiveStep(activeStep);
   updateProgress();
+  updateMobileStory();
 }
 
 function enableInvestmentPreview() {
