@@ -551,6 +551,7 @@ function enableInvestorStory() {
   let frameRequested = false;
   let mobileStoryFrameRequested = false;
   let mobileStoryIndex = -1;
+  let storyGesture = null;
 
   if (story && investmentSection) story.after(investmentSection);
 
@@ -593,6 +594,74 @@ function enableInvestorStory() {
     window.requestAnimationFrame(updateMobileStory);
   }
 
+  function storyScrollBounds() {
+    if (!mobileStoryQuery.matches || !story || !storyPin || !storyStages) return null;
+    const headerHeight = pageHeader?.getBoundingClientRect().height || 60;
+    // Let short landscape screens scroll normally so no content becomes trapped.
+    if (storyPin.offsetHeight > window.innerHeight - headerHeight) return null;
+    const start = window.scrollY + story.getBoundingClientRect().top - headerHeight;
+    const range = storyStages.offsetHeight;
+    return range > 0 ? { start, end: start + range, stage: range / steps.length } : null;
+  }
+
+  function scrollStoryTo(top) {
+    // An instant page anchor keeps the pinned frame still; CSS animates only the cards.
+    window.scrollTo({ top, behavior: "instant" });
+    updateMobileStory();
+  }
+
+  document.addEventListener("touchstart", (event) => {
+    storyGesture = null;
+    if (event.touches.length !== 1 || !storyScrollBounds()) return;
+    if (event.target.closest?.("a, button, input, select, textarea, summary, [contenteditable]")) return;
+    const touch = event.touches[0];
+    storyGesture = { x: touch.clientX, y: touch.clientY, lastY: touch.clientY, captured: false, consumed: false, index: -1 };
+  }, { passive: true });
+
+  document.addEventListener("touchmove", (event) => {
+    if (!storyGesture) return;
+    const bounds = storyScrollBounds();
+    if (event.touches.length !== 1 || !bounds || !event.cancelable) {
+      storyGesture = null;
+      return;
+    }
+    const touch = event.touches[0];
+    const distance = storyGesture.y - touch.clientY;
+    const delta = storyGesture.lastY - touch.clientY;
+    storyGesture.lastY = touch.clientY;
+    if (!storyGesture.captured) {
+      if (Math.abs(distance) < 8 || Math.abs(distance) <= Math.abs(touch.clientX - storyGesture.x)) return;
+      const enteringForward = window.scrollY < bounds.start && window.scrollY + delta >= bounds.start;
+      const enteringBackward = window.scrollY > bounds.end && window.scrollY + delta <= bounds.end;
+      const inside = window.scrollY >= bounds.start - 1 && window.scrollY <= bounds.end + 1;
+      if (!inside && !enteringForward && !enteringBackward) return;
+      updateMobileStory();
+      const index = enteringForward ? 0 : enteringBackward ? steps.length - 1 : mobileStoryIndex;
+      // A fresh outward swipe at either end returns control to ordinary page scrolling.
+      if (inside && ((index === 0 && distance < 0) || (index === steps.length - 1 && distance > 0))) {
+        scrollStoryTo(distance > 0 ? bounds.end : bounds.start);
+        storyGesture = null;
+        return;
+      }
+      storyGesture.captured = true;
+      storyGesture.index = index;
+      if (enteringForward || enteringBackward) {
+        storyGesture.consumed = true;
+        scrollStoryTo(bounds.start + (index + 0.5) * bounds.stage);
+      }
+    }
+    event.preventDefault();
+    // Keep consuming this touch (including reversals) until touchend: never skip cards.
+    if (storyGesture.consumed || Math.abs(distance) < 36) return;
+    storyGesture.consumed = true;
+    const next = Math.max(0, Math.min(steps.length - 1, storyGesture.index + Math.sign(distance)));
+    scrollStoryTo(bounds.start + (next + 0.5) * bounds.stage);
+  }, { passive: false });
+
+  const endStoryGesture = () => { storyGesture = null; };
+  document.addEventListener("touchend", endStoryGesture, { passive: true });
+  document.addEventListener("touchcancel", endStoryGesture, { passive: true });
+
   function renderActiveStep(step) {
     if (!step) return;
     activeStep = step;
@@ -630,6 +699,7 @@ function enableInvestorStory() {
   window.addEventListener("resize", scheduleProgress);
   window.addEventListener("resize", scheduleMobileStory);
   mobileStoryQuery.addEventListener?.("change", () => {
+    storyGesture = null;
     mobileStoryIndex = -1;
     if (stepsTrack) stepsTrack.scrollLeft = 0;
     steps.forEach((step) => {
