@@ -1807,6 +1807,43 @@ footer { border-top: 1px solid #222; background: #000; }
   .investment-preview-note { margin-top: 9px; font-size: .6rem; }
 }
 
+/* Compact calculator: primary results first, optional detail on demand. */
+.investment-slider-controls label { font-size: .875rem; font-weight: 600; }
+.investment-slider-controls output { font-size: 1.25rem; white-space: nowrap; }
+.investment-slider-controls input[type="range"] { height: 44px; }
+.investment-preview-result { min-height: 108px; }
+.investment-preview-result small { font-size: .8125rem; font-weight: 600; letter-spacing: 0; text-transform: none; }
+.investment-preview-result strong,
+.investment-preview-result.dividend-result strong,
+.investment-preview-result.return-result strong { margin: 12px 0 0; font-size: clamp(1.4rem,2.6vw,2.3rem); }
+.investment-chart-details { margin-top: 16px; border-top: 1px solid #303030; }
+.investment-chart-details > summary { display: flex; min-height: 48px; align-items: center; justify-content: space-between; gap: 16px; color: #ffca58; font-size: .875rem; font-weight: 600; list-style: none; cursor: pointer; }
+.investment-chart-details > summary::-webkit-details-marker { display: none; }
+.investment-chart-details > summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
+.chart-disclosure-icon { display: inline-block; font-size: 1.25rem; }
+.investment-chart-details[open] .chart-disclosure-icon { transform: rotate(180deg); }
+.investment-chart-details .investment-growth-chart { margin-top: 0; padding-top: 8px; border-top: 0; }
+.investment-chart-details .investment-growth-chart > header { justify-content: flex-end; }
+.investment-chart-legend { font-size: .75rem; }
+.investment-preview-note { margin-top: 10px; color: #a6a6a6; font-size: .75rem; line-height: 1.5; }
+
+@media (max-width: 700px) {
+  .investment-preview-heading h3 { font-size: 1.5rem; }
+  .investment-control-group { padding: 10px 12px 2px; }
+  .investment-slider-controls label { font-size: .8125rem; gap: 10px; }
+  .investment-slider-controls output { font-size: 1.125rem; }
+  .investment-preview-result,
+  .investment-preview-result.dividend-result,
+  .investment-preview-result.return-result { min-height: 64px; gap: 12px; padding: 12px; }
+  .investment-preview-result small { max-width: 45%; font-size: .75rem; letter-spacing: 0; }
+  .investment-preview-result strong,
+  .investment-preview-result.dividend-result strong,
+  .investment-preview-result.return-result strong { max-width: 55%; margin: 0; font-size: clamp(1.05rem,4.8vw,1.35rem); }
+  .investment-chart-details { margin-top: 12px; }
+  .investment-chart-details .investment-growth-chart > header { align-items: flex-end; }
+  .investment-preview-note { margin-top: 4px; font-size: .6875rem; }
+}
+
 /* User-controlled operating-model cards: one deliberate snap per swipe. */
 @media (max-width: 900px) {
   .investment-story-steps {

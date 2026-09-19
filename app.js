@@ -876,10 +876,12 @@ function enableInvestmentPreview() {
     } = calculateProjection(investment, years);
     amountOutput.value = currency.format(investment);
     yearsOutput.value = years === 0 ? t("investment.dayOne") : `${years} ${years === 1 ? t("investment.year") : t("investment.yearsPlural")}`;
-    valueOutput.textContent = currency.format(estimatedValue);
+    valueOutput.textContent = compactCurrency(estimatedValue);
+    valueOutput.title = currency.format(estimatedValue);
     dividendOutput.textContent = minimumAnnualCashFlow === 0
       ? currency.format(0)
-      : `${currency.format(minimumAnnualCashFlow)}–${currency.format(maximumAnnualCashFlow)}`;
+      : `${compactCurrency(minimumAnnualCashFlow)}–${compactCurrency(maximumAnnualCashFlow)}`;
+    dividendOutput.title = `${currency.format(minimumAnnualCashFlow)}–${currency.format(maximumAnnualCashFlow)}`;
     annualizedReturnOutput.textContent = Math.abs(maximumAnnualizedReturn - minimumAnnualizedReturn) < 0.0005
       ? percentage.format(minimumAnnualizedReturn)
       : `${percentage.format(minimumAnnualizedReturn)}–${percentage.format(maximumAnnualizedReturn)}`;
@@ -890,6 +892,9 @@ function enableInvestmentPreview() {
 
   amountInput.addEventListener("input", updatePreview);
   yearsInput.addEventListener("input", updatePreview);
+  document.querySelector("#investment-chart-details")?.addEventListener("toggle", (event) => {
+    if (event.currentTarget.open) updateGrowthChart(Number(amountInput.value), Number(yearsInput.value));
+  });
   chart?.addEventListener("pointermove", (event) => {
     if (event.pointerType === "mouse") showChartTooltip(yearsFromPointer(event));
   });
