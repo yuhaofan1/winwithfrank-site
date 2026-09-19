@@ -1940,6 +1940,7 @@ footer { border-top: 1px solid #222; background: #000; }
 .site-refined .investment-story { display: block; padding: 48px max(20px,calc((100vw - 1260px)/2)); }
 .site-refined .investment-story-sticky { position: static; top: auto; min-height: 0; padding: 0; border: 0; background: none; box-shadow: none; }
 .site-refined .investment-story h2 { max-width: none; margin: 0; font-size: var(--section-heading); line-height: 1.15; }
+.site-refined .investment-story-sticky > .story-summary { min-height: 0; max-width: none; margin: 10px 0 0; color: #5a6267; font-size: .875rem; line-height: 1.5; }
 .site-refined .story-kicker { margin: 0 0 12px; }
 .site-refined .story-index { margin: 0 0 10px; }
 .site-refined .investment-story-steps { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 16px; margin: 24px 0 0; padding: 0; overflow: visible; }
