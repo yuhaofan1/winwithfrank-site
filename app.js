@@ -1,3 +1,6 @@
+const i18n = window.siteI18n;
+const t = (key, values) => i18n?.t(key, values) ?? key;
+
 const trades = [
   {
     id: "field-lead", icon: "🏗️", category: "build",
@@ -95,8 +98,6 @@ trades.forEach((trade) => {
 
 const grid = document.querySelector("#trade-grid");
 const tradeSlider = document.querySelector("#trade-slider");
-const tradeSliderPrev = document.querySelector("#trade-slider-prev");
-const tradeSliderNext = document.querySelector("#trade-slider-next");
 const dialog = document.querySelector("#trade-dialog");
 const dialogContent = document.querySelector("#dialog-content");
 const dealDialog = document.querySelector("#deal-dialog");
@@ -140,9 +141,9 @@ agentEmailCopies.forEach((button) => button.addEventListener("click", copyAgentE
 function renderTrades() {
   grid.innerHTML = trades.map((trade) => `
     <article class="trade-card">
-      <button class="trade-open" data-trade="${trade.id}" aria-label="View ${trade.title} opportunity details">
+      <button class="trade-open" data-trade="${trade.id}" aria-label="${t("tradeDialog.view", { title: localizedTrade(trade).title })}">
         <div class="trade-compact-icon ${trade.category}"><span>${trade.icon}</span></div>
-        <div class="trade-compact-copy"><h3>${trade.title}</h3></div>
+        <div class="trade-compact-copy"><h3>${localizedTrade(trade).title}</h3></div>
         <span class="trade-compact-arrow" aria-hidden="true">→</span>
       </button>
     </article>`).join("");
@@ -172,34 +173,43 @@ function startTradeSliderAutoplay() {
   tradeSliderTimer = window.setInterval(() => moveTradeSlider(1), 2000);
 }
 
-tradeSliderPrev?.addEventListener("click", () => { moveTradeSlider(-1); startTradeSliderAutoplay(); });
-tradeSliderNext?.addEventListener("click", () => { moveTradeSlider(1); startTradeSliderAutoplay(); });
 tradeSlider?.addEventListener("mouseenter", () => window.clearInterval(tradeSliderTimer));
 tradeSlider?.addEventListener("mouseleave", startTradeSliderAutoplay);
 tradeSlider?.addEventListener("focusin", () => window.clearInterval(tradeSliderTimer));
 tradeSlider?.addEventListener("focusout", startTradeSliderAutoplay);
 
+function localizedTrade(trade) {
+  if (i18n?.language !== "zh") return trade;
+  const translation = i18n.get(`trades.${trade.id}`);
+  return typeof translation === "object" ? { ...trade, ...translation, demand: t("tradeDialog.active") } : trade;
+}
+
+let activeTradeId = null;
+
 function openTrade(id) {
   const trade = trades.find((item) => item.id === id);
   if (!trade) return;
+  activeTradeId = id;
+  const content = localizedTrade(trade);
   dialogContent.innerHTML = `
-    <div class="dialog-hero ${trade.category}">
-      <span class="dialog-icon">${trade.icon}</span><p>${trade.demand}</p>
-      <h2 id="dialog-title">${trade.title}</h2><span class="dialog-xp">PROJECT OPPORTUNITY</span>
+    <div class="dialog-hero ${content.category}">
+      <span class="dialog-icon">${content.icon}</span><p>${content.demand}</p>
+      <h2 id="dialog-title">${content.title}</h2><span class="dialog-xp">${t("tradeDialog.opportunity")}</span>
     </div>
     <div class="dialog-body">
-      <section><span class="step-label">YOUR ROLE</span><h3>How we work together</h3><p>${trade.work}</p></section>
-      <section><span class="step-label">LOADOUT</span><h3>What you’ll need</h3><ul class="check-list">${trade.requirements.map((item) => `<li>${item}</li>`).join("")}</ul></section>
-      <section><span class="step-label">JOBS COMPLETED</span><h3>Long-Term Partnership</h3><div class="bonus-grid"><span><b>1st Job</b>First call on the second job</span><span><b>3+ Jobs</b>Bonus reward package</span><span><b>5 Jobs</b>Project lead</span></div></section>
-      <a href="#trades" class="dialog-cta" id="dialog-cta">Back to trade opportunities <span>→</span></a>
+      <section><span class="step-label">${t("tradeDialog.role")}</span><h3>${t("tradeDialog.workTogether")}</h3><p>${content.work}</p></section>
+      <section><span class="step-label">${t("tradeDialog.loadout")}</span><h3>${t("tradeDialog.need")}</h3><ul class="check-list">${content.requirements.map((item) => `<li>${item}</li>`).join("")}</ul></section>
+      <section><span class="step-label">${t("tradeDialog.completed")}</span><h3>${t("tradeDialog.partnership")}</h3><div class="bonus-grid"><span><b>${t("tradeDialog.firstJob")}</b>${t("tradeDialog.firstJobText")}</span><span><b>${t("tradeDialog.threeJobs")}</b>${t("tradeDialog.threeJobsText")}</span><span><b>${t("tradeDialog.fiveJobs")}</b>${t("tradeDialog.fiveJobsText")}</span></div></section>
+      <a href="#trades" class="dialog-cta" id="dialog-cta">${t("tradeDialog.back")} <span>→</span></a>
     </div>`;
-  dialog.showModal();
+  if (!dialog.open) dialog.showModal();
   document.body.classList.add("dialog-open");
   document.querySelector("#dialog-cta").addEventListener("click", closeDialog);
 }
 
 function closeDialog() {
   dialog.close();
+  activeTradeId = null;
   document.body.classList.remove("dialog-open");
 }
 
@@ -225,26 +235,27 @@ function dealValue(formData, name) {
 
 function buildDealEmail(formData) {
   const propertyAddress = dealValue(formData, "propertyAddress");
+  const notProvided = t("deal.notProvided");
   const lines = [
-    "New agent deal submission",
+    i18n?.language === "zh" ? "新的经纪项目提交" : "New agent deal submission",
     "",
-    "AGENT",
-    `Name: ${dealValue(formData, "agentName")}`,
-    `Email: ${dealValue(formData, "agentEmail")}`,
-    `Phone: ${dealValue(formData, "agentPhone") || "Not provided"}`,
+    i18n?.language === "zh" ? "经纪人" : "AGENT",
+    `${t("deal.fullName")}: ${dealValue(formData, "agentName")}`,
+    `${t("deal.email")}: ${dealValue(formData, "agentEmail")}`,
+    `${t("deal.phone")}: ${dealValue(formData, "agentPhone") || notProvided}`,
     "",
-    "PROPERTY",
-    `Address: ${propertyAddress}`,
-    `Market status: ${dealValue(formData, "marketStatus")}`,
-    `Asking price: ${dealValue(formData, "askingPrice")}`,
-    `Units: ${dealValue(formData, "units") || "Not provided"}`,
-    `Listing / OM: ${dealValue(formData, "dealLink") || "Not provided"}`,
+    i18n?.language === "zh" ? "物业" : "PROPERTY",
+    `${t("deal.address")}: ${propertyAddress}`,
+    `${t("deal.marketStatus")}: ${dealValue(formData, "marketStatus")}`,
+    `${t("deal.askingPrice")}: ${dealValue(formData, "askingPrice")}`,
+    `${t("deal.units")}: ${dealValue(formData, "units") || notProvided}`,
+    `${t("deal.deckUrl")}: ${dealValue(formData, "dealLink") || notProvided}`,
     "",
-    "NOTES",
-    dealValue(formData, "notes") || "No additional notes."
+    i18n?.language === "zh" ? "备注" : "NOTES",
+    dealValue(formData, "notes") || t("deal.noNotes")
   ];
   return {
-    subject: `Agent deal: ${propertyAddress}`,
+    subject: i18n?.language === "zh" ? `经纪项目：${propertyAddress}` : `Agent deal: ${propertyAddress}`,
     body: lines.join("\n")
   };
 }
@@ -254,7 +265,7 @@ function submitDealForm(event) {
   const requiredTextFields = ["deal-agent-name", "deal-agent-email", "deal-address", "deal-price", "deal-link"];
   requiredTextFields.forEach((id) => {
     const field = document.querySelector(`#${id}`);
-    field.setCustomValidity(field.value.trim() ? "" : "Please complete this field.");
+    field.setCustomValidity(field.value.trim() ? "" : t("deal.required"));
   });
   if (!dealForm.checkValidity()) {
     dealForm.reportValidity();
@@ -268,9 +279,9 @@ function submitDealForm(event) {
   const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(message.subject)}&body=${encodeURIComponent(message.body)}`;
 
   dealEmailFallback.href = mailtoUrl;
-  dealEmailFallback.textContent = `Email ${recipient} directly`;
+  dealEmailFallback.textContent = i18n?.language === "zh" ? `直接发送至 ${recipient}` : `Email ${recipient} directly`;
   dealEmailFallback.hidden = false;
-  dealFormStatus.textContent = "Your email app is opening. Review the message and press Send to finish.";
+  dealFormStatus.textContent = t("deal.emailOpening");
   dealFormSubmit.disabled = true;
   window.location.href = mailtoUrl;
   window.setTimeout(() => { dealFormSubmit.disabled = false; }, 1200);
@@ -286,11 +297,60 @@ dealDialog?.addEventListener("close", () => {
 dealForm?.addEventListener("input", (event) => event.target.setCustomValidity?.(""));
 dealForm?.addEventListener("submit", submitDealForm);
 
+function enableJobApplication() {
+  const form = document.querySelector("#job-application-form");
+  const status = document.querySelector("#job-form-status");
+  const fallback = document.querySelector("#job-email-fallback");
+  const submitButton = form?.querySelector('button[type="submit"]');
+  if (!form) return;
+
+  const value = (formData, name) => String(formData.get(name) || "").trim();
+
+  form.addEventListener("input", (event) => event.target.setCustomValidity?.(""));
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      form.querySelector(":invalid")?.focus();
+      return;
+    }
+
+    const formData = new FormData(form);
+    const name = value(formData, "name");
+    const role = value(formData, "role");
+    const isChinese = i18n?.language === "zh";
+    const lines = isChinese ? [
+      "建筑职位申请",
+      "",
+      `姓名：${name}`,
+      `电话：${value(formData, "phone")}`,
+      `申请职位：${role}`
+    ] : [
+      "Construction job application",
+      "",
+      `Name: ${name}`,
+      `Phone: ${value(formData, "phone")}`,
+      `Role / trade: ${role}`
+    ];
+    const subject = isChinese ? `建筑职位申请：${role} — ${name}` : `Construction application: ${role} — ${name}`;
+    const mailtoUrl = `mailto:${form.dataset.recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
+    if (fallback) {
+      fallback.href = mailtoUrl;
+      fallback.hidden = false;
+    }
+    if (status) status.textContent = t("hiring.emailOpening");
+    if (submitButton) submitButton.disabled = true;
+    window.location.href = mailtoUrl;
+    window.setTimeout(() => { if (submitButton) submitButton.disabled = false; }, 1200);
+  });
+}
+
 const partnerCarousel = document.querySelector("#partner-carousel");
 const partnerSlides = [...document.querySelectorAll(".partner-slide")];
 const progressDots = [...document.querySelectorAll(".carousel-progress span")];
 
 function updateCarouselProgress() {
+  if (!partnerCarousel || !partnerSlides.length) return;
   const activeIndex = partnerSlides.reduce((closest, slide, index) => {
     const distance = Math.abs(slide.offsetLeft - partnerCarousel.scrollLeft);
     return distance < closest.distance
@@ -301,13 +361,14 @@ function updateCarouselProgress() {
 }
 
 function moveCarousel(direction) {
+  if (!partnerCarousel || !partnerSlides.length) return;
   const distance = partnerSlides[0].offsetWidth + 18;
   partnerCarousel.scrollBy({ left: direction * distance, behavior: "smooth" });
 }
 
-document.querySelector("#carousel-prev").addEventListener("click", () => moveCarousel(-1));
-document.querySelector("#carousel-next").addEventListener("click", () => moveCarousel(1));
-partnerCarousel.addEventListener("scroll", updateCarouselProgress, { passive: true });
+document.querySelector("#carousel-prev")?.addEventListener("click", () => moveCarousel(-1));
+document.querySelector("#carousel-next")?.addEventListener("click", () => moveCarousel(1));
+partnerCarousel?.addEventListener("scroll", updateCarouselProgress, { passive: true });
 window.addEventListener("resize", updateCarouselProgress);
 
 function enableAchievementSlideshow() {
@@ -441,10 +502,10 @@ function enableSectionNavigation() {
   function updateActiveLink() {
     const marker = window.scrollY + window.innerHeight * 0.34;
     const isAtPageEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4;
-    const activeItem = isAtPageEnd ? sectionLinks.at(-1) : sectionLinks.find(({ section }) => {
-      const top = section.offsetTop;
-      return marker >= top && marker < top + section.offsetHeight;
-    });
+    const linksByPagePosition = [...sectionLinks].sort((a, b) => a.section.offsetTop - b.section.offsetTop);
+    const activeItem = isAtPageEnd
+      ? linksByPagePosition.at(-1)
+      : [...linksByPagePosition].reverse().find(({ section }) => marker >= section.offsetTop);
     sectionLinks.forEach(({ link }) => {
       const isActive = link === activeItem?.link;
       link.classList.toggle("is-active", isActive);
@@ -471,6 +532,70 @@ function enableSectionNavigation() {
   window.addEventListener("resize", scheduleUpdate);
   if ("ResizeObserver" in window) new ResizeObserver(scheduleUpdate).observe(document.body);
   updateActiveLink();
+}
+
+function enableInvestorStory() {
+  const story = document.querySelector("#investment-story");
+  const investmentSection = document.querySelector("#rewards");
+  const progressBar = document.querySelector("#page-progress-bar");
+  const storyIndex = document.querySelector("#story-index");
+  const storyMeter = document.querySelector("#story-meter-fill");
+  const steps = [...document.querySelectorAll(".story-step")];
+  const revealItems = [...document.querySelectorAll("[data-reveal]")];
+  let activeStep = steps[0] || null;
+  let frameRequested = false;
+
+  if (story && investmentSection) story.after(investmentSection);
+
+  function updateProgress() {
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+    progressBar?.style.setProperty("transform", `scaleX(${progress})`);
+    frameRequested = false;
+  }
+
+  function scheduleProgress() {
+    if (frameRequested) return;
+    frameRequested = true;
+    window.requestAnimationFrame(updateProgress);
+  }
+
+  function renderActiveStep(step) {
+    if (!step) return;
+    activeStep = step;
+    steps.forEach((item) => item.classList.toggle("is-active", item === step));
+    const labelKey = step.dataset.storyLabelKey;
+    const label = labelKey ? t(labelKey) : step.dataset.storyLabel;
+    if (storyIndex) storyIndex.textContent = `${step.dataset.storyStep} — ${label}`;
+    if (storyMeter) storyMeter.style.width = `${((steps.indexOf(step) + 1) / steps.length) * 100}%`;
+  }
+
+  if ("IntersectionObserver" in window) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-revealed");
+        revealObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.14, rootMargin: "0px 0px -8%" });
+    revealItems.forEach((item) => revealObserver.observe(item));
+
+    const stepObserver = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) renderActiveStep(visible.target);
+    }, { threshold: [0.35, 0.55, 0.75], rootMargin: "-18% 0px -28%" });
+    steps.forEach((step) => stepObserver.observe(step));
+  } else {
+    revealItems.forEach((item) => item.classList.add("is-revealed"));
+  }
+
+  window.addEventListener("scroll", scheduleProgress, { passive: true });
+  window.addEventListener("resize", scheduleProgress);
+  i18n?.onChange(() => renderActiveStep(activeStep));
+  renderActiveStep(activeStep);
+  updateProgress();
 }
 
 function enableInvestmentPreview() {
@@ -538,6 +663,7 @@ function enableInvestmentPreview() {
   }
 
   const chart = document.querySelector("#investment-growth-chart");
+  let chartInteractionState = null;
 
   function compactCurrency(value) {
     if (value >= 1000000) return `$${Number((value / 1000000).toFixed(1))}M`;
@@ -548,8 +674,11 @@ function enableInvestmentPreview() {
   function updateGrowthChart(investment, selectedYears) {
     if (!chart) return;
     const width = Math.max(280, Math.round(chart.getBoundingClientRect().width));
-    const height = width < 500 ? 330 : 360;
-    const margin = { top: 32, right: width < 500 ? 54 : 72, bottom: 42, left: width < 500 ? 54 : 68 };
+    const isCompact = width < 500;
+    const height = isCompact ? 190 : 280;
+    const margin = isCompact
+      ? { top: 12, right: 12, bottom: 28, left: 12 }
+      : { top: 32, right: 72, bottom: 42, left: 68 };
     const plotWidth = width - margin.left - margin.right;
     const plotHeight = height - margin.top - margin.bottom;
     const samples = Array.from({ length: 31 }, (_, index) => {
@@ -561,48 +690,131 @@ function enableInvestmentPreview() {
     const x = (years) => margin.left + ((years / 15) * plotWidth);
     const equityY = (value) => margin.top + plotHeight - ((value / maximumEquity) * plotHeight);
     const distributionY = (value) => margin.top + plotHeight - ((value / maximumDistribution) * plotHeight);
-    const stepPath = (key, scale) => samples.reduce((path, sample, index) => {
-      const pointX = x(sample.years);
-      const pointY = scale(sample[key]);
-      if (index === 0) return `M ${pointX} ${pointY}`;
-      const previousY = scale(samples[index - 1][key]);
-      return `${path} L ${pointX} ${previousY} L ${pointX} ${pointY}`;
+    const chartPoints = (key, scale) => samples.map((sample) => [x(sample.years), scale(sample[key])]);
+    const smoothPath = (points, moveToStart = true) => points.reduce((path, point, index) => {
+      if (index === 0) return `${moveToStart ? "M" : "L"} ${point[0]} ${point[1]}`;
+      const previous = points[index - 1];
+      const controlOffset = (point[0] - previous[0]) * 0.5;
+      return `${path} C ${previous[0] + controlOffset} ${previous[1]}, ${point[0] - controlOffset} ${point[1]}, ${point[0]} ${point[1]}`;
     }, "");
-    const bandEdge = (key, scale) => samples.flatMap((sample, index) => {
-      const point = [x(sample.years), scale(sample[key])];
-      if (index === 0) return [point];
-      return [[point[0], scale(samples[index - 1][key])], point];
-    });
-    const upperBand = bandEdge("maximumAnnualCashFlow", distributionY);
-    const lowerBand = bandEdge("minimumAnnualCashFlow", distributionY).reverse();
-    const bandPath = [...upperBand, ...lowerBand].map((point, index) => `${index === 0 ? "M" : "L"} ${point[0]} ${point[1]}`).join(" ") + " Z";
-    const horizontalTicks = [0, 0.25, 0.5, 0.75, 1];
-    const yearTicks = width < 500 ? [0, 5, 10, 15] : [0, 2.5, 5, 7.5, 10, 12.5, 15];
+    const upperBand = chartPoints("maximumAnnualCashFlow", distributionY);
+    const lowerBand = chartPoints("minimumAnnualCashFlow", distributionY).reverse();
+    const bandPath = `${smoothPath(upperBand)} ${smoothPath(lowerBand, false)} Z`;
+    const horizontalTicks = isCompact ? [0, 0.5, 1] : [0, 0.25, 0.5, 0.75, 1];
+    const yearTicks = isCompact ? [0, 5, 10, 15] : [0, 2.5, 5, 7.5, 10, 12.5, 15];
     const selected = calculateProjection(investment, selectedYears);
     const selectedX = x(selectedYears);
     const selectedDistributionMidpoint = (selected.minimumAnnualCashFlow + selected.maximumAnnualCashFlow) / 2;
+    chartInteractionState = {
+      width,
+      height,
+      margin,
+      plotWidth,
+      plotHeight,
+      samples,
+      x,
+      equityY,
+      distributionY,
+      isCompact
+    };
     chart.setAttribute("viewBox", `0 0 ${width} ${height}`);
     chart.innerHTML = `
-      <title id="investment-chart-title">Investment growth over time</title>
-      <desc id="investment-chart-description">Earned equity and annual cash distribution ranges from Day 1 through 15 years.</desc>
+      <title id="investment-chart-title">${t("investment.chartTitle")}</title>
+      <desc id="investment-chart-description">${t("investment.chartDescription")}</desc>
       <rect class="chart-frame" x="${margin.left}" y="${margin.top}" width="${plotWidth}" height="${plotHeight}" />
       ${horizontalTicks.map((tick) => {
         const tickY = margin.top + plotHeight - (tick * plotHeight);
         return `<line class="chart-grid" x1="${margin.left}" y1="${tickY}" x2="${width - margin.right}" y2="${tickY}" />
-          <text class="chart-tick" x="${margin.left - 8}" y="${tickY + 4}" text-anchor="end">${compactCurrency(maximumEquity * tick)}</text>
-          <text class="chart-tick" x="${width - margin.right + 8}" y="${tickY + 4}" text-anchor="start">${compactCurrency(maximumDistribution * tick)}</text>`;
+          ${isCompact ? "" : `<text class="chart-tick" x="${margin.left - 8}" y="${tickY + 4}" text-anchor="end">${compactCurrency(maximumEquity * tick)}</text>
+          <text class="chart-tick" x="${width - margin.right + 8}" y="${tickY + 4}" text-anchor="start">${compactCurrency(maximumDistribution * tick)}</text>`}`;
       }).join("")}
       ${yearTicks.map((tick) => `<text class="chart-tick" x="${x(tick)}" y="${height - 15}" text-anchor="middle">${tick}</text>`).join("")}
-      <text class="chart-axis-label" x="${margin.left}" y="16">EQUITY</text>
-      <text class="chart-axis-label" x="${width - margin.right}" y="16" text-anchor="end">ANNUAL DISTRIBUTION</text>
-      <text class="chart-axis-label" x="${margin.left + (plotWidth / 2)}" y="${height - 1}" text-anchor="middle">YEARS</text>
+      ${isCompact ? "" : `<text class="chart-axis-label" x="${margin.left}" y="16">${t("investment.equityAxis")}</text>
+      <text class="chart-axis-label" x="${width - margin.right}" y="16" text-anchor="end">${t("investment.distributionAxis")}</text>
+      <text class="chart-axis-label" x="${margin.left + (plotWidth / 2)}" y="${height - 1}" text-anchor="middle">${t("investment.yearsAxis")}</text>`}
       <path class="chart-distribution-band" d="${bandPath}" />
-      <path class="chart-distribution-line" d="${stepPath("maximumAnnualCashFlow", distributionY)}" />
-      <path class="chart-distribution-line" d="${stepPath("minimumAnnualCashFlow", distributionY)}" />
-      <path class="chart-equity-line" d="${stepPath("estimatedValue", equityY)}" />
+      <path class="chart-distribution-line" d="${smoothPath(upperBand)}" />
+      <path class="chart-distribution-line" d="${smoothPath([...lowerBand].reverse())}" />
+      <path class="chart-equity-line" d="${smoothPath(chartPoints("estimatedValue", equityY))}" />
       <line class="chart-selected-line" x1="${selectedX}" y1="${margin.top}" x2="${selectedX}" y2="${margin.top + plotHeight}" />
       <circle class="chart-equity-point" cx="${selectedX}" cy="${equityY(selected.estimatedValue)}" r="5" />
-      <circle class="chart-distribution-point" cx="${selectedX}" cy="${distributionY(selectedDistributionMidpoint)}" r="5" />`;
+      <circle class="chart-distribution-point" cx="${selectedX}" cy="${distributionY(selectedDistributionMidpoint)}" r="5" />
+      <rect class="chart-hit-area" x="${margin.left}" y="${margin.top}" width="${plotWidth}" height="${plotHeight}" />
+      <g class="chart-hover-group" visibility="hidden" aria-hidden="true">
+        <line class="chart-hover-line" />
+        <circle class="chart-hover-equity-point" r="6" />
+        <circle class="chart-hover-cash-point" r="6" />
+        <g class="chart-tooltip">
+          <rect rx="8" />
+          <text class="chart-tooltip-year" x="12" y="19"></text>
+          <text class="chart-tooltip-equity" x="12" y="40"></text>
+          <text class="chart-tooltip-cash" x="12" y="60"></text>
+        </g>
+      </g>`;
+  }
+
+  function showChartTooltip(years) {
+    if (!chart || !chartInteractionState) return;
+    const state = chartInteractionState;
+    const sampleIndex = Math.max(0, Math.min(state.samples.length - 1, Math.round(years * 2)));
+    const sample = state.samples[sampleIndex];
+    const sampleX = state.x(sample.years);
+    const distributionMidpoint = (sample.minimumAnnualCashFlow + sample.maximumAnnualCashFlow) / 2;
+    const equityPointY = state.equityY(sample.estimatedValue);
+    const cashPointY = state.distributionY(distributionMidpoint);
+    const tooltipWidth = state.isCompact ? 166 : 202;
+    const tooltipHeight = 72;
+    const tooltipX = sampleX + tooltipWidth + 14 > state.width - state.margin.right
+      ? sampleX - tooltipWidth - 14
+      : sampleX + 14;
+    const tooltipY = Math.max(
+      state.margin.top + 8,
+      Math.min(Math.min(equityPointY, cashPointY) - tooltipHeight - 10, state.margin.top + state.plotHeight - tooltipHeight - 8)
+    );
+    const yearLabel = sample.years === 0
+      ? t("investment.dayOne")
+      : `${sample.years} ${sample.years === 1 ? t("investment.year") : t("investment.yearsPlural")}`;
+    const cashLabel = sample.maximumAnnualCashFlow === 0
+      ? compactCurrency(0)
+      : `${compactCurrency(sample.minimumAnnualCashFlow)}–${compactCurrency(sample.maximumAnnualCashFlow)}`;
+    const group = chart.querySelector(".chart-hover-group");
+    if (!group) return;
+    group.setAttribute("visibility", "visible");
+    const line = group.querySelector(".chart-hover-line");
+    line?.setAttribute("x1", sampleX);
+    line?.setAttribute("x2", sampleX);
+    line?.setAttribute("y1", state.margin.top);
+    line?.setAttribute("y2", state.margin.top + state.plotHeight);
+    const equityPoint = group.querySelector(".chart-hover-equity-point");
+    equityPoint?.setAttribute("cx", sampleX);
+    equityPoint?.setAttribute("cy", equityPointY);
+    const cashPoint = group.querySelector(".chart-hover-cash-point");
+    cashPoint?.setAttribute("cx", sampleX);
+    cashPoint?.setAttribute("cy", cashPointY);
+    const tooltip = group.querySelector(".chart-tooltip");
+    tooltip?.setAttribute("transform", `translate(${tooltipX} ${tooltipY})`);
+    const tooltipBox = tooltip?.querySelector("rect");
+    tooltipBox?.setAttribute("width", tooltipWidth);
+    tooltipBox?.setAttribute("height", tooltipHeight);
+    const yearText = tooltip?.querySelector(".chart-tooltip-year");
+    const equityText = tooltip?.querySelector(".chart-tooltip-equity");
+    const cashText = tooltip?.querySelector(".chart-tooltip-cash");
+    if (yearText) yearText.textContent = yearLabel;
+    if (equityText) equityText.textContent = `${t("investment.legendEquity")}: ${compactCurrency(sample.estimatedValue)}`;
+    if (cashText) cashText.textContent = `${t("investment.legendCash")}: ${cashLabel}`;
+    chart.setAttribute("aria-label", `${yearLabel}. ${t("investment.legendEquity")}: ${currency.format(sample.estimatedValue)}. ${t("investment.legendCash")}: ${cashLabel}.`);
+  }
+
+  function yearsFromPointer(event) {
+    if (!chartInteractionState || !chart) return 0;
+    const bounds = chart.getBoundingClientRect();
+    const pointerX = ((event.clientX - bounds.left) / bounds.width) * chartInteractionState.width;
+    const plotProgress = Math.max(0, Math.min(1, (pointerX - chartInteractionState.margin.left) / chartInteractionState.plotWidth));
+    return Math.round(plotProgress * 30) / 2;
+  }
+
+  function hideChartTooltip() {
+    chart?.querySelector(".chart-hover-group")?.setAttribute("visibility", "hidden");
   }
 
   function updatePreview() {
@@ -616,7 +828,7 @@ function enableInvestmentPreview() {
       maximumAnnualizedReturn
     } = calculateProjection(investment, years);
     amountOutput.value = currency.format(investment);
-    yearsOutput.value = years === 0 ? "Day 1" : `${years} ${years === 1 ? "year" : "years"}`;
+    yearsOutput.value = years === 0 ? t("investment.dayOne") : `${years} ${years === 1 ? t("investment.year") : t("investment.yearsPlural")}`;
     valueOutput.textContent = currency.format(estimatedValue);
     dividendOutput.textContent = minimumAnnualCashFlow === 0
       ? currency.format(0)
@@ -631,7 +843,29 @@ function enableInvestmentPreview() {
 
   amountInput.addEventListener("input", updatePreview);
   yearsInput.addEventListener("input", updatePreview);
+  chart?.addEventListener("pointermove", (event) => {
+    if (event.pointerType === "mouse") showChartTooltip(yearsFromPointer(event));
+  });
+  chart?.addEventListener("click", (event) => {
+    const years = yearsFromPointer(event);
+    yearsInput.value = String(years);
+    updatePreview();
+    showChartTooltip(years);
+  });
+  chart?.addEventListener("pointerleave", hideChartTooltip);
+  chart?.addEventListener("focus", () => showChartTooltip(Number(yearsInput.value)));
+  chart?.addEventListener("blur", hideChartTooltip);
+  chart?.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    event.preventDefault();
+    const direction = event.key === "ArrowRight" ? 0.5 : -0.5;
+    const years = Math.max(Number(yearsInput.min), Math.min(Number(yearsInput.max), Number(yearsInput.value) + direction));
+    yearsInput.value = String(years);
+    updatePreview();
+    showChartTooltip(years);
+  });
   if (chart && "ResizeObserver" in window) new ResizeObserver(() => updateGrowthChart(Number(amountInput.value), Number(yearsInput.value))).observe(chart);
+  i18n?.onChange(updatePreview);
   updatePreview();
 }
 
@@ -661,7 +895,7 @@ function enableFeaturedVideo() {
     [],
     [],
   ];
-  const lifestyleMessages = ["Modern Design", "Newly Constructed", "Fully Furnished", "High-Class Living"];
+  const lifestyleMessageKeys = ["video.modern", "video.new", "video.furnished", "video.living"];
   let playlistIndex = 0;
   let activeProjectKey = "";
   let activeLifestyleKey = "";
@@ -686,7 +920,7 @@ function enableFeaturedVideo() {
   function updateEditPauseButton() {
     if (!editPauseButton) return;
     const isPaused = video.paused;
-    editPauseButton.textContent = isPaused ? "Resume video" : "Pause video";
+    editPauseButton.textContent = isPaused ? t("video.resume") : t("video.pause");
     editPauseButton.setAttribute("aria-pressed", String(isPaused));
   }
 
@@ -714,7 +948,7 @@ function enableFeaturedVideo() {
       const messageIndex = Math.min(Math.floor(video.currentTime / 5), lifestyleMessages.length - 1);
       const lifestyleKey = `${playlistIndex}-${messageIndex}`;
       if (lifestyleOverlay && lifestyleKey !== activeLifestyleKey) {
-        lifestyleOverlay.querySelector("strong").textContent = lifestyleMessages[messageIndex];
+        lifestyleOverlay.querySelector("strong").textContent = t(lifestyleMessageKeys[messageIndex]);
         lifestyleOverlay.classList.remove("has-updated");
         void lifestyleOverlay.offsetWidth;
         lifestyleOverlay.classList.add("has-updated");
@@ -730,7 +964,8 @@ function enableFeaturedVideo() {
     const details = cueOverride || detailsForReel[detailIndex];
     const projectKey = cueOverride ? `${playlistIndex}-cue-${cueOverride.start}` : `${playlistIndex}-${detailIndex}`;
     if (projectKey !== activeProjectKey) {
-      projectOverlay.querySelector(":scope > div:first-child > strong").textContent = details.project;
+      const projectNumber = details.project.split("#").at(-1);
+      projectOverlay.querySelector(":scope > div:first-child > strong").textContent = t("video.projectName", { number: projectNumber });
       projectOverlay.querySelector(":scope > div:nth-child(2) > strong").textContent = details.marketValue;
       const builtYearGroup = projectOverlay.querySelector("[data-built-year]");
       if (builtYearGroup) {
@@ -760,6 +995,12 @@ function enableFeaturedVideo() {
   });
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden && video.paused) playMuted();
+  });
+  i18n?.onChange(() => {
+    activeProjectKey = "";
+    activeLifestyleKey = "";
+    updateProjectOverlay();
+    updateEditPauseButton();
   });
   updateProjectOverlay();
   updateEditPauseButton();
@@ -807,7 +1048,13 @@ if (grid) {
 updateCarouselProgress();
 enableAchievementSlideshow();
 enableLocalLiveReload();
+enableInvestorStory();
+enableJobApplication();
 enableSectionNavigation();
 enableInvestmentPreview();
 enableFeaturedVideo();
 enableThanksGallery();
+i18n?.onChange(() => {
+  if (grid) renderTrades();
+  if (dialog?.open && activeTradeId) openTrade(activeTradeId);
+});
