@@ -166,10 +166,18 @@ function moveTradeSlider(direction) {
 }
 
 let tradeSliderTimer;
+let tradesPaused = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const tradesPauseButton = document.querySelector("#trade-autoplay");
+
+function updateTradePauseLabel() {
+  if (!tradesPauseButton) return;
+  tradesPauseButton.textContent = t(tradesPaused ? "compact.playTrades" : "compact.pauseTrades");
+  tradesPauseButton.setAttribute("aria-pressed", String(tradesPaused));
+}
 
 function startTradeSliderAutoplay() {
   window.clearInterval(tradeSliderTimer);
-  if (!tradeSlider || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (!tradeSlider || tradesPaused || document.hidden) return;
   tradeSliderTimer = window.setInterval(() => moveTradeSlider(1), 2000);
 }
 
@@ -177,6 +185,14 @@ tradeSlider?.addEventListener("mouseenter", () => window.clearInterval(tradeSlid
 tradeSlider?.addEventListener("mouseleave", startTradeSliderAutoplay);
 tradeSlider?.addEventListener("focusin", () => window.clearInterval(tradeSliderTimer));
 tradeSlider?.addEventListener("focusout", startTradeSliderAutoplay);
+tradesPauseButton?.addEventListener("click", () => {
+  tradesPaused = !tradesPaused;
+  updateTradePauseLabel();
+  startTradeSliderAutoplay();
+});
+document.querySelector("#trade-prev")?.addEventListener("click", () => { tradesPaused = true; updateTradePauseLabel(); startTradeSliderAutoplay(); moveTradeSlider(-1); });
+document.querySelector("#trade-next")?.addEventListener("click", () => { tradesPaused = true; updateTradePauseLabel(); startTradeSliderAutoplay(); moveTradeSlider(1); });
+document.addEventListener("visibilitychange", startTradeSliderAutoplay);
 
 function localizedTrade(trade) {
   if (i18n?.language !== "zh") return trade;
@@ -200,11 +216,16 @@ function openTrade(id) {
       <section><span class="step-label">${t("tradeDialog.role")}</span><h3>${t("tradeDialog.workTogether")}</h3><p>${content.work}</p></section>
       <section><span class="step-label">${t("tradeDialog.loadout")}</span><h3>${t("tradeDialog.need")}</h3><ul class="check-list">${content.requirements.map((item) => `<li>${item}</li>`).join("")}</ul></section>
       <section><span class="step-label">${t("tradeDialog.completed")}</span><h3>${t("tradeDialog.partnership")}</h3><div class="bonus-grid"><span><b>${t("tradeDialog.firstJob")}</b>${t("tradeDialog.firstJobText")}</span><span><b>${t("tradeDialog.threeJobs")}</b>${t("tradeDialog.threeJobsText")}</span><span><b>${t("tradeDialog.fiveJobs")}</b>${t("tradeDialog.fiveJobsText")}</span></div></section>
-      <a href="#trades" class="dialog-cta" id="dialog-cta">${t("tradeDialog.back")} <span>→</span></a>
+      <a href="#job-application" class="dialog-cta" id="dialog-cta">${t("common.apply")} <span>→</span></a>
     </div>`;
   if (!dialog.open) dialog.showModal();
   document.body.classList.add("dialog-open");
-  document.querySelector("#dialog-cta").addEventListener("click", closeDialog);
+  document.querySelector("#dialog-cta").addEventListener("click", () => {
+    const roles = { "field-lead": "Field Lead", electricians: "Electrician", plumbers: "Plumber", hvac: "HVAC", solar: "Solar", carpenters: "Carpenter / Framer", painters: "Tape / Paint / Finish", roofers: "Roofer", stucco: "Stucco", "trash-clean": "Labor / Cleanup" };
+    const roleSelect = document.querySelector("#job-role");
+    if (roleSelect) roleSelect.value = roles[id] || "Other";
+    closeDialog();
+  });
 }
 
 function closeDialog() {
@@ -381,6 +402,8 @@ function enableAchievementSlideshow() {
   const address = document.querySelector("#achievement-project-address");
   const value = document.querySelector("#achievement-project-value");
   if (!image || !controls || !dots || !card || !address || !value) return;
+  if (card.closest("[hidden]")) return;
+  if (!image.getAttribute("src") && image.dataset.src) image.src = image.dataset.src;
 
   const randomMarketValue = () => `$${((Math.floor(Math.random() * 41) + 50) / 10).toFixed(1)}M`;
   const projectLabel = (project) => {
@@ -1184,7 +1207,16 @@ enableSectionNavigation();
 enableInvestmentPreview();
 enableFeaturedVideo();
 enableThanksGallery();
+updateTradePauseLabel();
+const tiktokSection = document.querySelector("#frank-builds");
+if (tiktokSection && !tiktokSection.hidden) {
+  const embedScript = document.createElement("script");
+  embedScript.async = true;
+  embedScript.src = "https://www.tiktok.com/embed.js";
+  document.body.append(embedScript);
+}
 i18n?.onChange(() => {
+  updateTradePauseLabel();
   if (grid) renderTrades();
   if (dialog?.open && activeTradeId) openTrade(activeTradeId);
 });

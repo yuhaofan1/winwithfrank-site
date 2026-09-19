@@ -1922,3 +1922,105 @@ footer { border-top: 1px solid #222; background: #000; }
     #investment-model .investment-story-steps .story-step { transition: none; }
   }
 }
+
+/* Consolidated, compact page layout. Keep phone gestures; shorten the journey. */
+.site-refined { --section-heading: clamp(1.8rem,3.3vw,2.8rem); }
+.site-refined .investor-hero { min-height: 0; padding: 48px max(20px,calc((100vw - 1260px)/2)) 28px; }
+.site-refined .investor-hero-grid { min-height: 0; grid-template-columns: minmax(0,1fr) auto; gap: 28px; }
+.site-refined .hero-eyebrow { margin: 0 0 14px; color: #ffd36a; font-size: .6875rem; font-weight: 700; line-height: 1.5; letter-spacing: .12em; }
+.site-refined .investor-hero h1 { display: block; max-width: 790px; margin: 0; font-size: clamp(2.2rem,5vw,4.5rem); line-height: 1.1; letter-spacing: -.055em; }
+.site-refined .investor-irr { display: flex; align-items: baseline; gap: 10px; padding: 0; }
+.site-refined .investor-irr::before { display: none; }
+.site-refined .investor-irr-value { font-size: clamp(2rem,4vw,3.5rem); }
+.site-refined .investor-irr-label { margin: 0; font-size: 1rem; }
+.hero-metrics { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 20px; margin-top: 32px; padding-top: 24px; border-top: 1px solid #353027; }
+.hero-metrics > div { display: grid; gap: 7px; }
+.hero-metrics strong { color: #fff; font: 600 clamp(1.4rem,2.6vw,2rem)/1.15 var(--display); letter-spacing: -.04em; }
+.hero-metrics span { color: #b8b8b8; font-size: .8125rem; line-height: 1.45; }
+.site-refined .investment-story { display: block; padding: 48px max(20px,calc((100vw - 1260px)/2)); }
+.site-refined .investment-story-sticky { position: static; top: auto; min-height: 0; padding: 0; border: 0; background: none; box-shadow: none; }
+.site-refined .investment-story h2 { max-width: none; margin: 0; font-size: var(--section-heading); line-height: 1.15; }
+.site-refined .story-kicker { margin: 0 0 12px; }
+.site-refined .story-index { margin: 0 0 10px; }
+.site-refined .investment-story-steps { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 16px; margin: 24px 0 0; padding: 0; overflow: visible; }
+.site-refined #investment-model .story-step { display: block; align-content: start; min-width: 0; width: auto; min-height: 250px; padding: 24px; border: 1px solid #d5d5d0; border-top: 2px solid #ffb627; background: #fff; box-shadow: none; opacity: 1; transform: none; }
+.site-refined .story-step > span { display: block; margin-bottom: 18px; font-size: .8125rem; }
+.site-refined .story-step > div > p:first-child { margin-bottom: 10px; }
+.site-refined #investment-model .story-step h3 { margin-bottom: 14px; font-size: clamp(1.35rem,2vw,1.65rem); line-height: 1.15; }
+.site-refined #investment-model .story-step > div > p:last-child { font-size: .9375rem; line-height: 1.55; }
+.site-refined .story-meter { margin: 16px 0 0; }
+.site-refined .standalone-investments,
+.site-refined .employee-share,
+.site-refined .partnerships { padding-top: 48px; padding-bottom: 48px; }
+.site-refined .investment-preview { max-width: 1060px; margin: 0 auto; }
+.site-refined .investment-preview-heading h2,
+.site-refined .employee-share-heading h2,
+.site-refined .partnerships-heading h2,
+.site-refined .compact-thanks h2 { margin: 0; color: #fff; font: 500 var(--section-heading)/1.15 var(--display); letter-spacing: -.045em; }
+.investment-contact-link { display: inline-flex; align-items: center; min-height: 44px; color: #ffd36a; font-size: .875rem; }
+.site-refined .employee-share-heading { margin-bottom: 20px; }
+.site-refined .hiring-location { margin-top: 10px; }
+.site-refined .trade-slider { max-width: 1060px; margin: 0 auto; padding: 0; }
+.trade-controls { display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 8px; }
+.trade-controls button { min-width: 44px; min-height: 44px; padding: 0 12px; border: 1px solid #3c3c3c; border-radius: 7px; background: #111; color: #ffd36a; font-size: .8125rem; cursor: pointer; }
+.trade-controls button:focus-visible { outline: 2px solid #ffb627; outline-offset: 3px; }
+.site-refined .trade-slider .trade-card,
+.site-refined .trade-slider .trade-open { min-height: 82px; }
+.site-refined .job-application-compact { max-width: 1060px; margin-top: 16px; padding: 22px; }
+.job-email-note { margin: 14px 0 0; font-size: .75rem; line-height: 1.5; color: #a6a6a6; }
+.site-refined .job-application-compact .job-form-submit { margin-top: 12px; }
+.site-refined .partnerships-heading { margin-bottom: 22px; }
+.site-refined .partnerships-heading > .partnership-tagline { margin-top: 12px; font-size: .9375rem; }
+.site-refined .partnership-acquisition { max-width: 1060px; margin: 0 auto; padding: 24px; }
+.site-refined .partnership-acquisition > p { margin: 0 0 14px; }
+.site-refined .partnership-acquisition h3 { margin: 0 0 22px; gap: 18px; }
+.site-refined .partnership-acquisition h3 > strong { font-size: clamp(2rem,4vw,3rem); }
+.site-refined .partnership-acquisition h3 > span { font-size: clamp(1.2rem,2vw,1.5rem); }
+.site-refined .partnership-acquisition > a { margin-top: 0; padding: 14px 18px; min-height: 52px; }
+.site-refined .compact-thanks { padding: 36px max(20px,calc((100vw - 1060px)/2)); background: #0c0c0c; border-color: #292929; text-align: center; }
+.site-refined .compact-thanks::before { display: none; }
+.compact-thanks p { max-width: 650px; margin: 16px auto 12px; color: #bfbfbf; font-size: .9375rem; line-height: 1.6; }
+.compact-thanks > span { color: #ffd36a; font-size: .8125rem; }
+.site-refined .contact-footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; padding-top: 26px; padding-bottom: 82px; }
+.footer-contact { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; font-size: .875rem; color: #bfbfbf; }
+.footer-contact a { display: inline-flex; align-items: center; min-height: 44px; color: #ffd36a; overflow-wrap: anywhere; }
+@media (min-width: 701px) {
+  .site-refined .story-index,.site-refined .story-meter { display: none; }
+}
+@media (min-width: 701px) and (max-width: 1100px) {
+  .site-refined .investment-story-steps { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 700px) {
+  .site-refined { --section-heading: 1.8rem; }
+  .site-refined .investor-hero { padding: 30px 18px 20px; }
+  .site-refined .investor-hero-grid { grid-template-columns: 1fr; gap: 18px; }
+  .site-refined .investor-hero h1 { max-width: 340px; font-size: clamp(2rem,9vw,2.6rem); }
+  .site-refined .hero-eyebrow { font-size: .6rem; margin-bottom: 10px; }
+  .site-refined .investor-irr { justify-content: flex-start; }
+  .site-refined .investor-irr-value { font-size: 1.6rem; }
+  .site-refined .investor-irr-label { font-size: .875rem; }
+  .hero-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); margin-top: 22px; padding-top: 20px; gap: 18px; }
+  .hero-metrics strong { font-size: 1.4rem; }
+  .hero-metrics span { font-size: .75rem; }
+  .site-refined .investment-story { padding: 0; }
+  .site-refined .investment-story .story-pin { padding-bottom: 20px; }
+  .site-refined .investment-story-sticky { padding: 22px 18px 0; }
+  .site-refined .story-kicker { display: none; }
+  .site-refined .investment-story-steps { grid-template-columns: minmax(0,1fr); gap: 0; overflow: hidden; margin: 18px 18px 0; }
+  .site-refined #investment-model .story-step { width: 100%; min-height: 230px; padding: 22px; transform: translateX(var(--story-slide-x,0px)); }
+  .site-refined #investment-model .story-step > div > p:last-child { font-size: .875rem; }
+  .site-refined .story-scroll-stages span { height: 120px; }
+  .site-refined .standalone-investments,
+  .site-refined .employee-share,
+  .site-refined .partnerships { padding: 32px 18px; }
+  .site-refined .investment-preview { padding: 16px; }
+  .site-refined .investment-preview-heading h2 { font-size: 1.55rem; }
+  .site-refined .job-application-compact { padding: 16px; margin-top: 8px; }
+  .site-refined .job-fields { gap: 12px; }
+  .site-refined .partnership-acquisition { padding: 20px 16px; }
+  .site-refined .partnership-acquisition h3 { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+  .site-refined .partnership-acquisition > a { display: flex; flex-wrap: wrap; gap: 10px; padding: 12px; }
+  .site-refined .partnership-acquisition > a strong { font-size: .8125rem; overflow-wrap: anywhere; }
+  .site-refined .contact-footer { padding-right: 18px; padding-left: 18px; }
+  .footer-contact { gap: 6px; flex-direction: column; align-items: flex-start; }
+}

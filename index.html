@@ -8,35 +8,38 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260918-video-caption" />
-  <script src="i18n.js?v=20260918-rounded-results" defer></script>
-  <script src="app.js?v=20260918-adjusted-model" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20260918-compact-site" />
+  <script src="i18n.js?v=20260918-compact-site" defer></script>
+  <script src="app.js?v=20260918-compact-site" defer></script>
 </head>
-<body>
+<body class="site-refined">
   <div class="page-progress" aria-hidden="true"><span id="page-progress-bar"></span></div>
   <header class="store-header">
     <a class="brand" href="#top" aria-label="winwithfrank home" data-i18n-aria="aria.home"><span class="brand-icon">W</span><span><strong>winwithfrank</strong></span></a>
-    <nav class="site-nav" aria-label="Primary navigation" data-i18n-aria="aria.primaryNav"><a class="nav-thesis" href="#thesis" data-i18n="nav.thesis">Thesis</a><a class="nav-track-record" href="#track-record" data-i18n="nav.trackRecord">Track Record</a><a class="nav-investment" href="#investment-model" data-i18n="nav.model">Model</a><a class="nav-careers" href="#employee-profit-share" data-i18n="nav.careers">Construction Jobs</a><a class="nav-partnership" href="#partnerships" data-i18n="nav.network">Network</a><a class="nav-contact" href="#contact" data-i18n="nav.contact">Contact</a></nav>
+    <nav class="site-nav" aria-label="Primary navigation" data-i18n-aria="aria.primaryNav"><a href="#projects" data-i18n="nav.projects">Projects</a><a href="#investment-model" data-i18n="nav.model">Our Model</a><a href="#rewards" data-i18n="nav.investment">Invest</a><a href="#employee-profit-share" data-i18n="nav.careers">Careers</a><a href="#partnerships" data-i18n="nav.network">Partners</a><a href="#contact" data-i18n="nav.contact">Contact</a></nav>
   </header>
   <button class="language-toggle language-floating" id="language-toggle" type="button" aria-label="Switch to Chinese" aria-pressed="false"><span aria-hidden="true">中</span><strong>中文</strong></button>
 
   <main id="top">
     <section class="investor-hero" id="thesis" aria-labelledby="investor-hero-title">
       <div class="investor-hero-grid">
-        <div class="investor-hero-copy" data-reveal>
-          <h1 id="investor-hero-title"><span data-i18n="story.heroLineOne">10 years</span><span data-i18n="story.heroUnits">1200 Units</span><em data-i18n="story.heroLineTwo">$300M in Market Cap</em></h1>
+        <div class="investor-hero-copy">
+          <p class="hero-eyebrow" data-i18n="compact.eyebrow">REAL ESTATE DEVELOPMENT & MANAGEMENT</p>
+          <h1 id="investor-hero-title" data-i18n="compact.heroTitle">10 years of building value.</h1>
         </div>
-        <aside class="investor-irr" data-reveal aria-label="21% IRR*">
-          <span class="investor-irr-value">21%</span>
-          <span class="investor-irr-label">IRR<sup>*</sup></span>
-        </aside>
+        <aside class="investor-irr" aria-label="21% IRR*"><span class="investor-irr-value">21%</span><span class="investor-irr-label">IRR<sup>*</sup></span></aside>
       </div>
-      <a class="scroll-cue" href="#projects" aria-label="Scroll to projects"><span aria-hidden="true">↓</span></a>
+      <div class="hero-metrics" id="track-record" aria-label="Track record highlights" data-i18n-aria="aria.trackHighlights">
+        <div><strong>$300M</strong><span data-i18n="portfolio.marketValue">Total Market Value</span></div>
+        <div><strong>45</strong><span data-i18n="portfolio.completed">Projects Completed</span></div>
+        <div><strong>1,200+</strong><span data-i18n="portfolio.units">Total Units</span></div>
+        <div><strong>$100M</strong><span data-i18n="portfolio.investorValue">Investor Value Created</span></div>
+      </div>
     </section>
 
     <section class="video-hero" id="projects" aria-label="Project portfolio" data-i18n-aria="aria.projectPortfolio">
       <div class="video-hero-frame">
-        <video id="featured-video" autoplay muted playsinline preload="auto" data-highlight-count="5" data-seconds-per-highlight="8" data-interior-duration="20" aria-label="Building highlight reel with completed projects, under-construction footage, and furnished interiors" data-i18n-aria="aria.videoReel">
+        <video id="featured-video" autoplay muted playsinline preload="metadata" data-highlight-count="5" data-seconds-per-highlight="8" data-interior-duration="20" aria-label="Building highlight reel with completed projects, under-construction footage, and furnished interiors" data-i18n-aria="aria.videoReel">
           <source src="assets/building-highlights-original.mp4?v=four-buildings-five-seconds" type="video/mp4" />
           <source src="assets/building-highlights.m4v" type="video/mp4" />
         </video>
@@ -57,7 +60,7 @@
       </div>
       <div class="mission-card achievement-card" aria-label="Frank's achievements">
         <div class="achievement-hero">
-          <img id="achievement-slide" src="https://images.ctfassets.net/zkvnng49bjf3/OFHp28dduZKE4Jqsrjikf/aa9c9319c4692eeeb0614005fb984f68/1530-W-37th-St----Housing-near-USCKtown__1_.jpg" alt="Project #30" />
+          <img id="achievement-slide" loading="lazy" data-src="https://images.ctfassets.net/zkvnng49bjf3/OFHp28dduZKE4Jqsrjikf/aa9c9319c4692eeeb0614005fb984f68/1530-W-37th-St----Housing-near-USCKtown__1_.jpg" alt="Project #30" />
           <div class="achievement-project-meta">
             <div><small>PROJECT</small><h2 id="achievement-project-address">Project #30</h2></div>
             <div><small>MARKET VALUE</small><strong id="achievement-project-value">$7.0M</strong></div>
@@ -71,7 +74,7 @@
       </div>
     </section>
 
-    <section class="track-record" id="track-record" aria-label="Track record">
+    <section class="track-record" id="archived-track-record" data-status="merged-into-hero" aria-label="Track record" hidden>
       <div class="track-record-copy">
         <h3 class="track-record-return" data-i18n="portfolio.return">10 years, 19% + IRR*</h3>
       </div>
@@ -88,7 +91,7 @@
       <div class="investment-story-sticky">
         <p class="story-kicker" data-i18n="story.modelKicker">THE OPERATING MODEL</p>
         <span class="story-index" id="story-index">01 — ACQUIRE</span>
-        <h2 id="investment-story-title" data-i18n="story.modelTitle">Proven model, Repeated</h2>
+        <h2 id="investment-story-title" data-i18n="story.modelTitle">Our Proven Model</h2>
         <div class="story-meter" aria-hidden="true"><span id="story-meter-fill"></span></div>
       </div>
       <div class="investment-story-steps">
@@ -111,11 +114,10 @@
       </div>
     </section>
 
-    <section class="rewards lending standalone-investments" id="rewards" aria-labelledby="investment-opportunities-title">
-      <div class="rewards-heading"><h2 class="partnership-section-title" id="investment-opportunities-title" data-i18n="investment.title">Investment</h2></div>
+    <section class="rewards lending standalone-investments" id="rewards" aria-labelledby="investment-preview-title">
       <section class="investment-preview" aria-labelledby="investment-preview-title">
         <header class="investment-preview-heading">
-          <h3 id="investment-preview-title" data-i18n="investment.growth">Investment Calculator</h3>
+          <h2 id="investment-preview-title" data-i18n="investment.growth">Investment Calculator</h2>
         </header>
         <div class="investment-preview-grid">
           <div class="investment-slider-controls">
@@ -158,6 +160,7 @@
           </svg>
         </div>
         </details>
+        <a class="investment-contact-link" href="mailto:frank.fan@moohousing.com?subject=Investment%20Inquiry" data-i18n="compact.investCta">Discuss an investment →</a>
         <p class="investment-preview-note" id="investment-preview-note" data-i18n="investment.disclaimer">Illustrative estimates. Returns aren’t guaranteed.</p>
       </section>
     </section>
@@ -184,22 +187,21 @@
         <p class="hiring-location" data-i18n="hiring.subtitle">All trades in Northern California</p>
       </div>
       <section class="trade-slider" aria-label="Available trades" data-i18n-aria="aria.availableTrades">
+        <div class="trade-controls"><button id="trade-prev" type="button" aria-label="Previous trade" data-i18n-aria="compact.previousTrade">←</button><button id="trade-autoplay" type="button" aria-pressed="false" data-i18n="compact.pauseTrades">Pause trades</button><button id="trade-next" type="button" aria-label="Next trade" data-i18n-aria="compact.nextTrade">→</button></div>
         <div class="trade-slider-viewport" id="trade-slider" tabindex="0">
           <div class="trade-grid" id="trade-grid" aria-live="polite"></div>
         </div>
       </section>
-      <section class="job-application job-application-compact" id="job-application" aria-labelledby="job-application-title">
-        <div class="job-application-copy">
-          <h3 id="job-application-title" data-i18n="quickApply.title">Join our crew.</h3>
-        </div>
+      <section class="job-application job-application-compact" id="job-application" aria-label="Job application" data-i18n-aria="compact.jobApplication">
         <form class="job-application-form" id="job-application-form" data-recipient="frank.fan@moohousing.com">
           <div class="job-fields">
             <label for="job-name"><span data-i18n="hiring.fullName">Full name</span> <b>*</b><input id="job-name" name="name" autocomplete="name" maxlength="80" required /></label>
             <label for="job-phone"><span data-i18n="hiring.phone">Phone</span> <b>*</b><input id="job-phone" type="tel" name="phone" autocomplete="tel" maxlength="30" required /></label>
             <label class="wide" for="job-role"><span data-i18n="hiring.desiredRole">Construction role or trade</span> <b>*</b><select id="job-role" name="role" required><option value="" data-i18n="hiring.selectRole">Select a role</option><option value="Field Lead" data-i18n="hiring.roleFieldLead">Field Lead</option><option value="Electrician" data-i18n="hiring.roleElectrician">Electrician</option><option value="Plumber" data-i18n="hiring.rolePlumber">Plumber</option><option value="HVAC" data-i18n="hiring.roleHvac">HVAC Specialist</option><option value="Solar" data-i18n="hiring.roleSolar">Solar Installer</option><option value="Carpenter / Framer" data-i18n="hiring.roleCarpenter">Carpenter / Framer</option><option value="Tape / Paint / Finish" data-i18n="hiring.roleFinish">Tape / Paint / Finish</option><option value="Roofer" data-i18n="hiring.roleRoofer">Roofer</option><option value="Stucco" data-i18n="hiring.roleStucco">Stucco</option><option value="Labor / Cleanup" data-i18n="hiring.roleLabor">Labor / Cleanup</option><option value="Other" data-i18n="hiring.roleOther">Other construction role</option></select></label>
           </div>
+          <p class="job-email-note" data-i18n="compact.emailNote">Opens your email app to review and send.</p>
           <p class="job-form-status" id="job-form-status" role="status" aria-live="polite"></p>
-          <div class="job-form-submit"><button type="submit"><span data-i18n="quickApply.submit">Start Work tomorrow</span><span aria-hidden="true">→</span></button></div>
+          <div class="job-form-submit"><button type="submit"><span data-i18n="quickApply.submit">Apply by Email</span><span aria-hidden="true">→</span></button></div>
           <a class="job-email-fallback" id="job-email-fallback" href="mailto:frank.fan@moohousing.com" hidden data-i18n="hiring.emailDirect">Email your application directly</a>
         </form>
       </section>
@@ -208,7 +210,7 @@
     <section class="partnerships" id="partnerships" aria-labelledby="partnerships-title">
       <header class="partnerships-heading">
         <h2 id="partnerships-title" data-i18n="partners.title">Agent Partnerships</h2>
-        <span class="partnership-tagline" data-i18n="partners.tagline">Share development opportunities directly with Frank.</span>
+        <span class="partnership-tagline" data-i18n="partners.tagline">Send development and off-market deals directly to Frank.</span>
       </header>
       <div class="partnership-acquisition">
         <p data-i18n="partners.acquisitionKicker">THIS YEAR, FRANK IS ACQUIRING</p>
@@ -222,17 +224,20 @@
       <div class="tokenized-preview" aria-label="Tokenized investment section coming soon" data-i18n-aria="aria.tokenized"><b>◈</b><div><small data-i18n="tokenized.comingSoon">COMING SOON</small><strong data-i18n="tokenized.promise">More access. More transparency.</strong></div></div>
     </section>
 
-    <section class="improve-reward" id="contact" aria-label="Frank contact information" data-i18n-aria="aria.contact">
-      <div class="improve-reward-copy">
-        <p class="improve-reward-contact"><a href="mailto:frank.fan@moohousing.com">frank.fan@moohousing.com</a><span data-i18n="contact.wechat">WeChat: Bestusc</span></p>
-      </div>
+    <section class="special-thanks compact-thanks" id="special-thanks" aria-labelledby="thanks-title">
+      <h2 id="thanks-title" data-i18n="thanks.title">Special Thanks</h2>
+      <p data-i18n="thanks.message">To everyone who shared their time, knowledge, trust, and hard work—thank you.</p>
+      <span data-i18n="thanks.signature">With gratitude, Frank</span>
     </section>
 
   </main>
 
   <div class="copy-toast" id="copy-toast" role="status" aria-live="polite" hidden data-i18n="common.emailCopied">Email address copied</div>
 
-  <footer><a class="brand" href="#top"><span class="brand-icon">W</span><span><strong>winwithfrank</strong></span></a></footer>
+  <footer class="contact-footer" id="contact" aria-label="Frank contact information" data-i18n-aria="aria.contact">
+    <a class="brand" href="#top"><span class="brand-icon">W</span><span><strong>winwithfrank</strong></span></a>
+    <div class="footer-contact"><a href="mailto:frank.fan@moohousing.com">frank.fan@moohousing.com</a><span data-i18n="contact.wechat">WeChat: Bestusc</span></div>
+  </footer>
 
   <dialog class="trade-dialog" id="trade-dialog" aria-labelledby="dialog-title"><button class="dialog-close" id="dialog-close" aria-label="Close trade details" data-i18n-aria="aria.closeTrade">×</button><div id="dialog-content"></div></dialog>
 
@@ -274,6 +279,6 @@
       <footer class="deal-form-actions"><small data-i18n="deal.opensEmail">Opens your email app so you can review and send.</small><button type="submit" id="deal-form-submit"><span data-i18n="deal.reviewSend">Review &amp; Send Deal</span> <span aria-hidden="true">→</span></button></footer>
     </form>
   </dialog>
-  <script async src="https://www.tiktok.com/embed.js"></script>
+  <!-- Load the TikTok embed script only if its saved section is made visible. -->
 </body>
 </html>
