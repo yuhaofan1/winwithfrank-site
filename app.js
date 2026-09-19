@@ -732,8 +732,8 @@ function enableInvestmentPreview() {
   });
   const percentage = new Intl.NumberFormat("en-US", {
     style: "percent",
-    minimumFractionDigits: 1,
-    maximumFractionDigits: 1
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
   });
 
   function updateRangeFill(input) {
@@ -952,9 +952,11 @@ function enableInvestmentPreview() {
       ? currency.format(0)
       : `${compactCurrency(minimumAnnualCashFlow)}–${compactCurrency(maximumAnnualCashFlow)}`;
     dividendOutput.title = `${currency.format(minimumAnnualCashFlow)}–${currency.format(maximumAnnualCashFlow)}`;
-    annualizedReturnOutput.textContent = Math.abs(maximumAnnualizedReturn - minimumAnnualizedReturn) < 0.0005
-      ? percentage.format(minimumAnnualizedReturn)
-      : `${percentage.format(minimumAnnualizedReturn)}–${percentage.format(maximumAnnualizedReturn)}`;
+    const minimumReturnLabel = percentage.format(minimumAnnualizedReturn);
+    const maximumReturnLabel = percentage.format(maximumAnnualizedReturn);
+    annualizedReturnOutput.textContent = minimumReturnLabel === maximumReturnLabel
+      ? minimumReturnLabel
+      : `${minimumReturnLabel}–${maximumReturnLabel}`;
     updateGrowthChart(investment, years);
     updateRangeFill(amountInput);
     updateRangeFill(yearsInput);
