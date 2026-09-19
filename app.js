@@ -742,14 +742,20 @@ function enableInvestmentPreview() {
   }
 
   function calculateProjection(investment, years) {
+    // Illustrative assumptions, not historical performance or promised returns.
+    // Gain 80% of active capital per 2.5-year period; reinvest every five years.
+    const equityGainPerPeriod = 0.8;
+    const fiveYearMultiplier = 1 + (2 * equityGainPerPeriod);
+    const minimumCashIncrement = 0.03;
+    const maximumCashIncrement = 0.05;
     const completedFiveYearCycles = Math.floor(years / 5);
-    const activeCapital = investment * Math.pow(3, completedFiveYearCycles);
+    const activeCapital = investment * Math.pow(fiveYearMultiplier, completedFiveYearCycles);
     const completedPeriodsInCurrentCycle = Math.floor((years - (completedFiveYearCycles * 5)) / 2.5);
-    const estimatedValue = activeCapital * (1 + completedPeriodsInCurrentCycle);
+    const estimatedValue = activeCapital * (1 + (completedPeriodsInCurrentCycle * equityGainPerPeriod));
     const capitalCohorts = [{ amount: investment, startYear: 0 }];
     for (let cycle = 1; cycle <= completedFiveYearCycles; cycle += 1) {
       capitalCohorts.push({
-        amount: investment * 2 * Math.pow(3, cycle - 1),
+        amount: investment * (fiveYearMultiplier - 1) * Math.pow(fiveYearMultiplier, cycle - 1),
         startYear: cycle * 5
       });
     }
@@ -759,13 +765,13 @@ function enableInvestmentPreview() {
     let maximumCumulativeCashFlow = 0;
     for (const cohort of capitalCohorts) {
       const completedCohortPeriods = Math.floor((years - cohort.startYear) / 2.5);
-      minimumAnnualCashFlow += cohort.amount * completedCohortPeriods * 0.04;
-      maximumAnnualCashFlow += cohort.amount * completedCohortPeriods * 0.06;
+      minimumAnnualCashFlow += cohort.amount * completedCohortPeriods * minimumCashIncrement;
+      maximumAnnualCashFlow += cohort.amount * completedCohortPeriods * maximumCashIncrement;
       for (let period = 1; period <= completedCohortPeriods; period += 1) {
         const periodStart = cohort.startYear + (period * 2.5);
         const yearsAtThisRate = Math.max(0, Math.min(years, periodStart + 2.5) - periodStart);
-        minimumCumulativeCashFlow += cohort.amount * period * 0.04 * yearsAtThisRate;
-        maximumCumulativeCashFlow += cohort.amount * period * 0.06 * yearsAtThisRate;
+        minimumCumulativeCashFlow += cohort.amount * period * minimumCashIncrement * yearsAtThisRate;
+        maximumCumulativeCashFlow += cohort.amount * period * maximumCashIncrement * yearsAtThisRate;
       }
     }
     const minimumAnnualizedReturn = years === 0 ? 0 : Math.pow((estimatedValue + minimumCumulativeCashFlow) / investment, 1 / years) - 1;
