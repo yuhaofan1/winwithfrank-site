@@ -997,7 +997,7 @@ function enableFeaturedVideo() {
       projectOverlay.classList.remove("has-updated");
     }
     if (isInteriorReel) {
-      const messageIndex = Math.min(Math.floor(video.currentTime / 5), lifestyleMessages.length - 1);
+      const messageIndex = Math.min(Math.floor(video.currentTime / 5), lifestyleMessageKeys.length - 1);
       const lifestyleKey = `${playlistIndex}-${messageIndex}`;
       if (lifestyleOverlay && lifestyleKey !== activeLifestyleKey) {
         lifestyleOverlay.querySelector("strong").textContent = t(lifestyleMessageKeys[messageIndex]);
