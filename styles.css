@@ -1477,6 +1477,7 @@ html { scroll-padding-top: 78px; }
 
 /* Phone scrollytelling: vertical gestures advance the pinned cards horizontally. */
 .story-scroll-stages { display: none; }
+.story-pin { display: contents; }
 
 @media (max-width: 700px) {
   .investment-story {
@@ -1489,12 +1490,12 @@ html { scroll-padding-top: 78px; }
 
   .story-scroll-stages {
     display: grid;
-    margin-top: -1px;
+    margin: 0;
   }
 
   .story-scroll-stages span {
     display: block;
-    min-height: 68svh;
+    height: 440px;
   }
 }
 
@@ -1831,27 +1832,57 @@ footer { border-top: 1px solid #222; background: #000; }
 }
 
 @media (max-width: 700px) {
-  .investment-story-steps {
+  .investment-story .story-pin {
     position: sticky;
     z-index: 4;
-    top: clamp(222px,31svh,270px);
-    display: flex;
-    height: min(48svh,420px);
-    gap: 16px;
+    top: var(--story-top,60px);
+    display: block;
+    background: #f3f3ef;
+    padding-bottom: 24px;
+  }
+
+  .investment-story .investment-story-sticky {
+    position: static;
+    min-height: 0;
+    padding: 18px 18px 16px;
+    box-shadow: none;
+  }
+
+  .investment-story .investment-story-steps {
+    position: relative;
+    top: auto;
+    display: grid;
+    grid-template-columns: minmax(0,1fr);
+    height: auto;
+    gap: 0;
     overflow: hidden;
-    padding: 0 18px;
-    scroll-behavior: smooth;
-    scroll-padding-inline: 18px;
-    scroll-snap-type: x mandatory;
+    margin: 18px 18px 0;
+    padding: 0;
+    scroll-behavior: auto;
+    scroll-snap-type: none;
     scrollbar-width: none;
     touch-action: pan-y;
   }
 
-  .investment-story-steps .story-step {
+  #investment-model .investment-story-steps .story-step {
+    grid-area: 1 / 1;
     width: 100%;
-    min-width: 100%;
-    height: 100%;
-    min-height: 0;
-    flex: 0 0 100%;
+    min-width: 0;
+    height: auto;
+    min-height: clamp(280px,42svh,360px);
+    padding: 26px 20px;
+    opacity: 1;
+    transform: translateX(var(--story-slide-x,0px));
+    transition: transform .32s ease-out;
+    background: #fff;
+    box-shadow: none;
+    scroll-snap-align: none;
+  }
+
+  .investment-story .story-step h3 { font-size: clamp(1.65rem,7.5vw,2.2rem); }
+  .investment-story .story-step > div > p:last-child { font-size: .88rem; line-height: 1.55; }
+
+  @media (prefers-reduced-motion: reduce) {
+    #investment-model .investment-story-steps .story-step { transition: none; }
   }
 }

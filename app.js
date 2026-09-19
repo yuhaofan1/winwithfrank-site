@@ -542,6 +542,9 @@ function enableInvestorStory() {
   const storyMeter = document.querySelector("#story-meter-fill");
   const steps = [...document.querySelectorAll(".story-step")];
   const stepsTrack = document.querySelector(".investment-story-steps");
+  const storyPin = story?.querySelector(".story-pin");
+  const storyStages = story?.querySelector(".story-scroll-stages");
+  const pageHeader = document.querySelector(".store-header");
   const revealItems = [...document.querySelectorAll("[data-reveal]")];
   const mobileStoryQuery = window.matchMedia("(max-width: 700px)");
   let activeStep = steps[0] || null;
@@ -566,19 +569,20 @@ function enableInvestorStory() {
 
   function updateMobileStory() {
     mobileStoryFrameRequested = false;
-    if (!story || !stepsTrack || !steps.length || !mobileStoryQuery.matches) return;
+    if (!story || !storyPin || !storyStages || !stepsTrack || !steps.length || !mobileStoryQuery.matches) return;
     const rect = story.getBoundingClientRect();
-    if (rect.top >= window.innerHeight || rect.bottom <= 0) return;
-    const sectionTop = window.scrollY + rect.top;
-    const scrollRange = Math.max(1, story.offsetHeight - window.innerHeight);
-    const progress = Math.max(0, Math.min(1, (window.scrollY - sectionTop) / scrollRange));
+    const headerHeight = pageHeader?.getBoundingClientRect().height || 60;
+    story.style.setProperty("--story-top", `${headerHeight}px`);
+    // The spacer supplies a stable distance independent of Safari's toolbar height.
+    const scrollRange = Math.max(1, storyStages.offsetHeight);
+    const progress = Math.max(0, Math.min(1, (headerHeight - rect.top) / scrollRange));
     const nextIndex = Math.min(steps.length - 1, Math.floor(progress * steps.length));
     if (nextIndex === mobileStoryIndex) return;
     mobileStoryIndex = nextIndex;
-    const targetLeft = steps[nextIndex].offsetLeft - steps[0].offsetLeft;
-    stepsTrack.scrollTo({
-      left: targetLeft,
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"
+    steps.forEach((step, index) => {
+      const distance = index - nextIndex;
+      step.style.setProperty("--story-slide-x", `calc(${distance * 100}% + ${distance * 16}px)`);
+      step.setAttribute("aria-hidden", String(index !== nextIndex));
     });
     renderActiveStep(steps[nextIndex]);
   }
@@ -627,9 +631,14 @@ function enableInvestorStory() {
   window.addEventListener("resize", scheduleMobileStory);
   mobileStoryQuery.addEventListener?.("change", () => {
     mobileStoryIndex = -1;
-    if (!mobileStoryQuery.matches && stepsTrack) stepsTrack.scrollLeft = 0;
+    if (stepsTrack) stepsTrack.scrollLeft = 0;
+    steps.forEach((step) => {
+      step.style.removeProperty("--story-slide-x");
+      step.removeAttribute("aria-hidden");
+    });
     scheduleMobileStory();
   });
+  if (pageHeader && "ResizeObserver" in window) new ResizeObserver(scheduleMobileStory).observe(pageHeader);
   i18n?.onChange(() => renderActiveStep(activeStep));
   renderActiveStep(activeStep);
   updateProgress();
