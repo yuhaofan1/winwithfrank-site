@@ -1967,6 +1967,8 @@ footer { border-top: 1px solid #222; background: #000; }
 .trade-controls button:focus-visible { outline: 2px solid #ffb627; outline-offset: 3px; }
 .site-refined .trade-slider .trade-card,
 .site-refined .trade-slider .trade-open { min-height: 82px; }
+.site-refined .trade-slider .trade-card:hover { transform: none; border-color: #2c4055; box-shadow: 0 12px 28px rgba(0,0,0,.24); }
+.site-refined .trade-slider .trade-open { cursor: default; }
 .site-refined .job-application-compact { max-width: 1060px; margin-top: 16px; padding: 22px; }
 .job-email-note { margin: 14px 0 0; font-size: .75rem; line-height: 1.5; color: #a6a6a6; }
 .site-refined .job-application-compact .job-form-submit { margin-top: 12px; }

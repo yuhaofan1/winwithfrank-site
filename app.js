@@ -98,8 +98,6 @@ trades.forEach((trade) => {
 
 const grid = document.querySelector("#trade-grid");
 const tradeSlider = document.querySelector("#trade-slider");
-const dialog = document.querySelector("#trade-dialog");
-const dialogContent = document.querySelector("#dialog-content");
 const dealDialog = document.querySelector("#deal-dialog");
 const dealForm = document.querySelector("#deal-form");
 const dealFormTrigger = document.querySelector("#deal-form-trigger");
@@ -141,16 +139,12 @@ agentEmailCopies.forEach((button) => button.addEventListener("click", copyAgentE
 function renderTrades() {
   grid.innerHTML = trades.map((trade) => `
     <article class="trade-card">
-      <button class="trade-open" data-trade="${trade.id}" aria-label="${t("tradeDialog.view", { title: localizedTrade(trade).title })}">
+      <div class="trade-open">
         <div class="trade-compact-icon ${trade.category}"><span>${trade.icon}</span></div>
         <div class="trade-compact-copy"><h3>${localizedTrade(trade).title}</h3></div>
-        <span class="trade-compact-arrow" aria-hidden="true">→</span>
-      </button>
+      </div>
     </article>`).join("");
 
-  document.querySelectorAll(".trade-open").forEach((button) => {
-    button.addEventListener("click", () => openTrade(button.dataset.trade));
-  });
 }
 
 function moveTradeSlider(direction) {
@@ -199,44 +193,6 @@ function localizedTrade(trade) {
   const translation = i18n.get(`trades.${trade.id}`);
   return typeof translation === "object" ? { ...trade, ...translation, demand: t("tradeDialog.active") } : trade;
 }
-
-let activeTradeId = null;
-
-function openTrade(id) {
-  const trade = trades.find((item) => item.id === id);
-  if (!trade) return;
-  activeTradeId = id;
-  const content = localizedTrade(trade);
-  dialogContent.innerHTML = `
-    <div class="dialog-hero ${content.category}">
-      <span class="dialog-icon">${content.icon}</span><p>${content.demand}</p>
-      <h2 id="dialog-title">${content.title}</h2><span class="dialog-xp">${t("tradeDialog.opportunity")}</span>
-    </div>
-    <div class="dialog-body">
-      <section><span class="step-label">${t("tradeDialog.role")}</span><h3>${t("tradeDialog.workTogether")}</h3><p>${content.work}</p></section>
-      <section><span class="step-label">${t("tradeDialog.loadout")}</span><h3>${t("tradeDialog.need")}</h3><ul class="check-list">${content.requirements.map((item) => `<li>${item}</li>`).join("")}</ul></section>
-      <section><span class="step-label">${t("tradeDialog.completed")}</span><h3>${t("tradeDialog.partnership")}</h3><div class="bonus-grid"><span><b>${t("tradeDialog.firstJob")}</b>${t("tradeDialog.firstJobText")}</span><span><b>${t("tradeDialog.threeJobs")}</b>${t("tradeDialog.threeJobsText")}</span><span><b>${t("tradeDialog.fiveJobs")}</b>${t("tradeDialog.fiveJobsText")}</span></div></section>
-      <a href="#job-application" class="dialog-cta" id="dialog-cta">${t("common.apply")} <span>→</span></a>
-    </div>`;
-  if (!dialog.open) dialog.showModal();
-  document.body.classList.add("dialog-open");
-  document.querySelector("#dialog-cta").addEventListener("click", () => {
-    const roles = { "field-lead": "Field Lead", electricians: "Electrician", plumbers: "Plumber", hvac: "HVAC", solar: "Solar", carpenters: "Carpenter / Framer", painters: "Tape / Paint / Finish", roofers: "Roofer", stucco: "Stucco", "trash-clean": "Labor / Cleanup" };
-    const roleSelect = document.querySelector("#job-role");
-    if (roleSelect) roleSelect.value = roles[id] || "Other";
-    closeDialog();
-  });
-}
-
-function closeDialog() {
-  dialog.close();
-  activeTradeId = null;
-  document.body.classList.remove("dialog-open");
-}
-
-document.querySelector("#dialog-close").addEventListener("click", closeDialog);
-dialog.addEventListener("click", (event) => { if (event.target === dialog) closeDialog(); });
-dialog.addEventListener("close", () => document.body.classList.remove("dialog-open"));
 
 function openDealDialog() {
   dealFormStatus.textContent = "";
@@ -1218,5 +1174,4 @@ if (tiktokSection && !tiktokSection.hidden) {
 i18n?.onChange(() => {
   updateTradePauseLabel();
   if (grid) renderTrades();
-  if (dialog?.open && activeTradeId) openTrade(activeTradeId);
 });
