@@ -834,8 +834,8 @@ footer { border-top: 1px solid #1e3043; background: #08111c; }
 .investor-hero::after { position: absolute; z-index: -1; inset: 0; opacity: .18; background-image: linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px); background-size: 72px 72px; content: ""; mask-image: linear-gradient(90deg,#000,transparent 75%); }
 .investor-hero-grid { display: grid; max-width: 1260px; min-height: min(690px,72svh); grid-template-columns: minmax(0,1.35fr) minmax(320px,.65fr); align-items: center; gap: clamp(50px,8vw,116px); margin: 0 auto; }
 .story-kicker { margin: 0 0 24px; color: var(--investor-gold); font-size: .68rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; }
-.investor-hero h1 { max-width: 880px; margin: 0 0 28px; font-size: clamp(3.5rem,6.6vw,7.2rem); font-weight: 600; line-height: .91; letter-spacing: -.068em; }
-.investor-hero h1 em { display: block; margin-top: .12em; color: #a7c9d7; font-style: normal; }
+.investor-hero h1 { display: grid; row-gap: clamp(20px,2.6vw,36px); max-width: 880px; margin: 0 0 28px; font-size: clamp(3.5rem,6.6vw,7.2rem); font-weight: 600; line-height: 1.08; letter-spacing: -.068em; }
+.investor-hero h1 em { display: block; margin: 0; color: #a7c9d7; font-size: .6em; font-style: normal; line-height: 1.25; letter-spacing: -.035em; }
 .investor-hero-lede { max-width: 690px; margin: 0; color: #a9b7c4; font-size: clamp(1rem,1.5vw,1.25rem); line-height: 1.7; }
 .investor-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 38px; }
 .investor-hero-copy > .investor-hero-actions { margin-top: 0; }
