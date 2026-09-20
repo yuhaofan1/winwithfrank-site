@@ -1,6 +1,7 @@
 (() => {
   const messages = {
     en: {
+      slogan: { invitation: "Help me win,", promise: "you win!" },
       meta: { title: "winwithfrank | Real Estate Investment & Operations", description: "Explore winwithfrank's vertically integrated real estate platform, operating track record, and investor model." },
       aria: { home: "winwithfrank home", primaryNav: "Primary navigation", investmentApproach: "Investment approach", projectPortfolio: "Project portfolio", videoReel: "Building highlight reel with completed projects, under-construction footage, and furnished interiors", trackHighlights: "Track record highlights", hiringMilestones: "Employee loyalty bonus milestones", availableTrades: "Available trades", chartLegend: "Chart legend", tokenized: "Tokenized investment section coming soon", thanksGallery: "Special thanks photo gallery", contact: "Frank contact information", previousTrades: "Previous trades", nextTrades: "Next trades", previousOpportunity: "Previous agent opportunity", nextOpportunity: "Next agent opportunity", previousThanks: "Previous thank-you photo", nextThanks: "Next thank-you photo", closeTrade: "Close trade details", closeDeal: "Close deal form", switchLanguage: "Switch to Chinese" },
       alt: { builders: "Completed housing project representing the builders who helped Frank", partners: "Completed housing project representing trusted project partners", behindScenes: "Aerial project view representing everyone working behind the scenes" },
@@ -26,6 +27,7 @@ story: { eyebrow: "VERTICALLY INTEGRATED REAL ESTATE Development & Management", 
       trades: {}
     },
     zh: {
+      slogan: { invitation: "助我者，", promise: "必有报！" },
       meta: { title: "winwithfrank | 房地产投资与运营", description: "了解 winwithfrank 的垂直整合房地产平台、运营业绩与投资模式。" },
       aria: { home: "winwithfrank 首页", primaryNav: "主导航", investmentApproach: "投资策略", projectPortfolio: "项目集", videoReel: "已完工项目、施工现场及精装室内的视频集锦", trackHighlights: "项目业绩亮点", hiringMilestones: "员工成长与奖励阶段", availableTrades: "招聘工种", chartLegend: "图表图例", tokenized: "即将推出的代币化房地产投资", thanksGallery: "特别鸣谢照片集", contact: "Frank 联系方式", previousTrades: "上一个工种", nextTrades: "下一个工种", previousOpportunity: "上一个经纪合作机会", nextOpportunity: "下一个经纪合作机会", previousThanks: "上一张致谢照片", nextThanks: "下一张致谢照片", closeTrade: "关闭工种详情", closeDeal: "关闭项目表单", switchLanguage: "切换到英文" },
       alt: { builders: "代表帮助 Frank 的建设者的已完工住宅项目", partners: "代表可信赖合作伙伴的已完工住宅项目", behindScenes: "代表所有幕后支持者的项目航拍图" },
