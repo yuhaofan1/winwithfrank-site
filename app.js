@@ -525,7 +525,7 @@ function enableInvestorStory() {
   const storyStages = story?.querySelector(".story-scroll-stages");
   const pageHeader = document.querySelector(".store-header");
   const revealItems = [...document.querySelectorAll("[data-reveal]")];
-  const mobileStoryQuery = window.matchMedia("(max-width: 700px)");
+  const mobileStoryQuery = window.matchMedia("(min-width: 0px)");
   let activeStep = steps[0] || null;
   let frameRequested = false;
   let mobileStoryFrameRequested = false;
@@ -640,6 +640,52 @@ function enableInvestorStory() {
   const endStoryGesture = () => { storyGesture = null; };
   document.addEventListener("touchend", endStoryGesture, { passive: true });
   document.addEventListener("touchcancel", endStoryGesture, { passive: true });
+
+  // Treat a trackpad/mouse-wheel burst as one gesture, including its momentum tail.
+  let wheelGesture = null;
+  document.addEventListener("wheel", (event) => {
+    const bounds = storyScrollBounds();
+    if (!bounds || event.ctrlKey || !event.cancelable || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+    if (event.target.closest?.("a, button, input, select, textarea, summary, [contenteditable]")) return;
+    const now = event.timeStamp;
+    if (!wheelGesture || now - wheelGesture.last > 220) wheelGesture = { total: 0, consumed: false, released: false };
+    wheelGesture.last = now;
+    if (wheelGesture.released) return;
+    const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1);
+    if (!delta) return;
+    const forward = window.scrollY < bounds.start && window.scrollY + delta >= bounds.start;
+    const backward = window.scrollY > bounds.end && window.scrollY + delta <= bounds.end;
+    const inside = window.scrollY >= bounds.start - 1 && window.scrollY <= bounds.end + 1;
+    if (!inside && !forward && !backward) return;
+    updateMobileStory();
+    if (wheelGesture.consumed) { event.preventDefault(); return; }
+    const index = forward ? 0 : backward ? steps.length - 1 : mobileStoryIndex;
+    if (inside && ((index === 0 && delta < 0) || (index === steps.length - 1 && delta > 0))) {
+      scrollStoryTo(delta > 0 ? bounds.end : bounds.start);
+      wheelGesture.released = true;
+      return;
+    }
+    event.preventDefault();
+    wheelGesture.total += delta;
+    if (!forward && !backward && Math.abs(wheelGesture.total) < 40) return;
+    const next = forward || backward ? index : Math.max(0, Math.min(steps.length - 1, index + Math.sign(wheelGesture.total)));
+    wheelGesture.consumed = true;
+    scrollStoryTo(bounds.start + (next + 0.5) * bounds.stage);
+  }, { passive: false });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.target.closest?.("a, button, input, select, textarea, summary, [contenteditable]") || event.ctrlKey || event.metaKey || event.altKey) return;
+    const direction = { ArrowDown: 1, PageDown: 1, ArrowUp: -1, PageUp: -1 }[event.key];
+    const bounds = storyScrollBounds();
+    if (!direction || !bounds || window.scrollY < bounds.start || window.scrollY > bounds.end) return;
+    updateMobileStory();
+    if ((mobileStoryIndex === 0 && direction < 0) || (mobileStoryIndex === steps.length - 1 && direction > 0)) {
+      scrollStoryTo(direction > 0 ? bounds.end : bounds.start);
+      return;
+    }
+    event.preventDefault();
+    if (!event.repeat) scrollStoryTo(bounds.start + (mobileStoryIndex + direction + 0.5) * bounds.stage);
+  });
 
   function renderActiveStep(step) {
     if (!step) return;
