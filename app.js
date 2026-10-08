@@ -852,6 +852,8 @@ function enableInvestmentPreview() {
   }
 
   const chart = document.querySelector("#investment-growth-chart");
+  const chartDetails = document.querySelector("#investment-chart-details");
+  const chartReadout = document.querySelector("#investment-chart-readout");
   let chartInteractionState = null;
 
   function compactCurrency(value) {
@@ -861,8 +863,9 @@ function enableInvestmentPreview() {
   }
 
   function updateGrowthChart(investment, selectedYears) {
-    if (!chart) return;
-    const width = Math.max(280, Math.round(chart.getBoundingClientRect().width));
+    // The optional chart should do no layout or SVG work until it is opened.
+    if (!chart || (chartDetails && !chartDetails.open)) return;
+    const width = Math.max(220, Math.round(chart.getBoundingClientRect().width));
     const isCompact = width < 500;
     const height = isCompact ? 190 : 280;
     const margin = isCompact
@@ -942,7 +945,20 @@ function enableInvestmentPreview() {
       </g>`;
   }
 
-  function showChartTooltip(years) {
+  function chartTooltipBounds(state, sampleX, pointY) {
+    const width = Math.min(state.isCompact ? 210 : 224, state.plotWidth - 8);
+    const height = 72;
+    const preferredX = sampleX + width + 14 > state.width - state.margin.right
+      ? sampleX - width - 14
+      : sampleX + 14;
+    // On a phone, neither side of a midpoint may fit. Clamp to the plot instead
+    // of letting a left-positioned tooltip escape the viewport.
+    const x = Math.max(state.margin.left + 4, Math.min(preferredX, state.width - state.margin.right - width - 4));
+    const y = Math.max(state.margin.top + 4, Math.min(pointY - height - 10, state.margin.top + state.plotHeight - height - 4));
+    return { x, y, width, height };
+  }
+
+  function showChartTooltip(years, announce = false) {
     if (!chart || !chartInteractionState) return;
     const state = chartInteractionState;
     const sampleIndex = Math.max(0, Math.min(state.samples.length - 1, Math.round(years * 2)));
@@ -951,15 +967,7 @@ function enableInvestmentPreview() {
     const distributionMidpoint = (sample.minimumAnnualCashFlow + sample.maximumAnnualCashFlow) / 2;
     const equityPointY = state.equityY(sample.estimatedValue);
     const cashPointY = state.distributionY(distributionMidpoint);
-    const tooltipWidth = state.isCompact ? 166 : 202;
-    const tooltipHeight = 72;
-    const tooltipX = sampleX + tooltipWidth + 14 > state.width - state.margin.right
-      ? sampleX - tooltipWidth - 14
-      : sampleX + 14;
-    const tooltipY = Math.max(
-      state.margin.top + 8,
-      Math.min(Math.min(equityPointY, cashPointY) - tooltipHeight - 10, state.margin.top + state.plotHeight - tooltipHeight - 8)
-    );
+    const tooltipBounds = chartTooltipBounds(state, sampleX, Math.min(equityPointY, cashPointY));
     const yearLabel = sample.years === 0
       ? t("investment.dayOne")
       : `${sample.years} ${sample.years === 1 ? t("investment.year") : t("investment.yearsPlural")}`;
@@ -981,17 +989,17 @@ function enableInvestmentPreview() {
     cashPoint?.setAttribute("cx", sampleX);
     cashPoint?.setAttribute("cy", cashPointY);
     const tooltip = group.querySelector(".chart-tooltip");
-    tooltip?.setAttribute("transform", `translate(${tooltipX} ${tooltipY})`);
+    tooltip?.setAttribute("transform", `translate(${tooltipBounds.x} ${tooltipBounds.y})`);
     const tooltipBox = tooltip?.querySelector("rect");
-    tooltipBox?.setAttribute("width", tooltipWidth);
-    tooltipBox?.setAttribute("height", tooltipHeight);
+    tooltipBox?.setAttribute("width", tooltipBounds.width);
+    tooltipBox?.setAttribute("height", tooltipBounds.height);
     const yearText = tooltip?.querySelector(".chart-tooltip-year");
     const equityText = tooltip?.querySelector(".chart-tooltip-equity");
     const cashText = tooltip?.querySelector(".chart-tooltip-cash");
     if (yearText) yearText.textContent = yearLabel;
     if (equityText) equityText.textContent = `${t("investment.legendEquity")}: ${compactCurrency(sample.estimatedValue)}`;
     if (cashText) cashText.textContent = `${t("investment.legendCash")}: ${cashLabel}`;
-    chart.setAttribute("aria-label", `${yearLabel}. ${t("investment.legendEquity")}: ${currency.format(sample.estimatedValue)}. ${t("investment.legendCash")}: ${cashLabel}.`);
+    if (announce && chartReadout) chartReadout.textContent = `${yearLabel}. ${t("investment.legendEquity")}: ${currency.format(sample.estimatedValue)}. ${t("investment.legendCash")}: ${cashLabel}.`;
   }
 
   function yearsFromPointer(event) {
@@ -1036,7 +1044,7 @@ function enableInvestmentPreview() {
 
   amountInput.addEventListener("input", updatePreview);
   yearsInput.addEventListener("input", updatePreview);
-  document.querySelector("#investment-chart-details")?.addEventListener("toggle", (event) => {
+  chartDetails?.addEventListener("toggle", (event) => {
     if (event.currentTarget.open) updateGrowthChart(Number(amountInput.value), Number(yearsInput.value));
   });
   chart?.addEventListener("pointermove", (event) => {
@@ -1046,10 +1054,10 @@ function enableInvestmentPreview() {
     const years = yearsFromPointer(event);
     yearsInput.value = String(years);
     updatePreview();
-    showChartTooltip(years);
+    showChartTooltip(years, true);
   });
   chart?.addEventListener("pointerleave", hideChartTooltip);
-  chart?.addEventListener("focus", () => showChartTooltip(Number(yearsInput.value)));
+  chart?.addEventListener("focus", () => showChartTooltip(Number(yearsInput.value), true));
   chart?.addEventListener("blur", hideChartTooltip);
   chart?.addEventListener("keydown", (event) => {
     if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
@@ -1058,7 +1066,7 @@ function enableInvestmentPreview() {
     const years = Math.max(Number(yearsInput.min), Math.min(Number(yearsInput.max), Number(yearsInput.value) + direction));
     yearsInput.value = String(years);
     updatePreview();
-    showChartTooltip(years);
+    showChartTooltip(years, true);
   });
   if (chart && "ResizeObserver" in window) new ResizeObserver(() => updateGrowthChart(Number(amountInput.value), Number(yearsInput.value))).observe(chart);
   i18n?.onChange(updatePreview);

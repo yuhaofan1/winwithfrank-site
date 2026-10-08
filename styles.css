@@ -1249,6 +1249,7 @@ html { scroll-padding-top: 78px; }
 #investment-growth-chart .chart-tooltip text { fill: #f7fbff; font: 700 11px Inter,sans-serif; }
 #investment-growth-chart .chart-tooltip-year { fill: var(--gold); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; }
 #investment-growth-chart .chart-tooltip-cash { fill: #a9edf4; }
+.investment-chart-help { margin: 12px 0 0; color: #aaa; font-size: .75rem; line-height: 1.65; }
 .investment-preview-note { margin: 14px 0 0; color: #718498; font-size: .6rem; line-height: 1.45; }
 
 @media (max-width: 700px) {
@@ -2210,6 +2211,14 @@ html[lang="zh"] .hero-slogan { letter-spacing: .04em; }
 .signup-handoff > a { display: inline-flex; align-items: center; min-height: 44px; color: #485c32; text-decoration: underline; text-underline-offset: 4px; overflow-wrap: anywhere; }
 .signup-handoff > a + p { margin-top: 16px; font-size: .75rem; }
 .site-refined .contact-footer { padding-top: 36px; padding-bottom: 68px; }
+/* Distinct color and line style keep the chart's two different scales legible. */
+.investment-chart-legend .distribution-series::before { background: repeating-linear-gradient(90deg,#9ecad8 0 5px,transparent 5px 8px); box-shadow: none; }
+#investment-growth-chart .chart-distribution-line { stroke: #9ecad8; }
+#investment-growth-chart .chart-distribution-band { fill: #9ecad81c; }
+#investment-growth-chart .chart-distribution-point,
+#investment-growth-chart .chart-hover-cash-point { fill: #9ecad8; }
+#investment-growth-chart .chart-tooltip-cash { fill: #b8dce7; }
+#investment-growth-chart .chart-tooltip text { font-family: var(--body); font-weight: 500; }
 @media (max-width: 1000px) {
   .site-refined .investor-signup { gap: 40px; padding-top: 80px; padding-bottom: 80px; }
   .investor-signup-form { padding: 28px; }
