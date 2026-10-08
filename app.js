@@ -161,6 +161,7 @@ function moveTradeSlider(direction) {
 
 let tradeSliderTimer;
 let tradesPaused = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let tradesVisible = false;
 const tradesPauseButton = document.querySelector("#trade-autoplay");
 
 function updateTradePauseLabel() {
@@ -171,7 +172,7 @@ function updateTradePauseLabel() {
 
 function startTradeSliderAutoplay() {
   window.clearInterval(tradeSliderTimer);
-  if (!tradeSlider || tradesPaused || document.hidden) return;
+  if (!tradeSlider || tradesPaused || document.hidden || !tradesVisible) return;
   tradeSliderTimer = window.setInterval(() => moveTradeSlider(1), 2000);
 }
 
@@ -187,6 +188,12 @@ tradesPauseButton?.addEventListener("click", () => {
 document.querySelector("#trade-prev")?.addEventListener("click", () => { tradesPaused = true; updateTradePauseLabel(); startTradeSliderAutoplay(); moveTradeSlider(-1); });
 document.querySelector("#trade-next")?.addEventListener("click", () => { tradesPaused = true; updateTradePauseLabel(); startTradeSliderAutoplay(); moveTradeSlider(1); });
 document.addEventListener("visibilitychange", startTradeSliderAutoplay);
+if (tradeSlider && 'IntersectionObserver' in window) {
+  new IntersectionObserver(entries => { tradesVisible = entries[0].isIntersecting; startTradeSliderAutoplay(); }).observe(tradeSlider);
+}
+window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener?.('change', event => {
+  if (event.matches) { tradesPaused = true; updateTradePauseLabel(); startTradeSliderAutoplay(); }
+});
 
 function localizedTrade(trade) {
   if (i18n?.language !== "zh") return trade;
@@ -361,7 +368,6 @@ function enableAchievementSlideshow() {
   if (card.closest("[hidden]")) return;
   if (!image.getAttribute("src") && image.dataset.src) image.src = image.dataset.src;
 
-  const randomMarketValue = () => `$${((Math.floor(Math.random() * 41) + 50) / 10).toFixed(1)}M`;
   const projectLabel = (project) => {
     const streetNumber = project.address.match(/^\d+/)?.[0] || "00";
     return `Project #${streetNumber.slice(-2).padStart(2, "0")}`;
@@ -398,7 +404,7 @@ function enableAchievementSlideshow() {
     { address: "1438 W 37th Dr", image: "https://images.ctfassets.net/zkvnng49bjf3/goOcxshxlQY8bJ049eiSo/769a42fec183267c86ef5fa71aa639d2/%C3%A6_%C2%AA%C3%A5__2026-03-21_%C3%A4__%C3%A5__5.18.02.png" },
     { address: "1587 W 37th St", image: "https://images.ctfassets.net/zkvnng49bjf3/5UFTzpDYJ9OzcxNLuEkEeJ/01038e08f380203733666d2a868b08bf/Screenshot_2025-08-28_at_4.50.07%C3%A2__PM.png" },
     { address: "1606 W 11th Pl", image: "https://images.ctfassets.net/zkvnng49bjf3/53wCypzy7hf4PyxBe9IqA0/d26d1dd08ca99b11e37e9d3eef867bf3/Screenshot_2025-08-28_at_2.10.47%C3%A2__PM.png" }
-  ].map((project) => ({ ...project, marketValue: randomMarketValue() }));
+  ].map((project) => ({ ...project, marketValue: "Available upon request" }));
   let activeIndex = 0;
   let timer;
 
@@ -442,7 +448,7 @@ function enableAchievementSlideshow() {
 
 function enableLocalLiveReload() {
   if (!["127.0.0.1", "localhost"].includes(window.location.hostname)) return;
-  const assets = ["index.html", "styles.css", "app.js", "assets/achievements/"];
+  const assets = ["index.html", "styles.css", "app.js", "i18n.js", "media.js", "signup.js"];
   const versions = new Map();
 
   async function checkForUpdates() {
@@ -471,6 +477,22 @@ function enableLocalLiveReload() {
 
 function enableSectionNavigation() {
   const navigation = document.querySelector(".site-nav");
+  const header = document.querySelector('.store-header');
+  const menu = document.querySelector('#menu-toggle');
+  function closeMenu() { header?.classList.remove('is-menu-open'); menu?.setAttribute('aria-expanded', 'false'); }
+  if (menu && header) {
+    menu.hidden = false;
+    header.classList.add('has-mobile-menu');
+    menu.addEventListener('click', () => {
+      const open = menu.getAttribute('aria-expanded') !== 'true';
+      header.classList.toggle('is-menu-open', open);
+      menu.setAttribute('aria-expanded', String(open));
+    });
+    navigation?.addEventListener('click', event => { if (event.target.closest('a')) closeMenu(); });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape' && menu.getAttribute('aria-expanded') === 'true') { closeMenu(); menu.focus(); } });
+    document.addEventListener('click', event => { if (!header.contains(event.target)) closeMenu(); });
+    window.matchMedia('(max-width: 700px)').addEventListener?.('change', closeMenu);
+  }
   const sectionLinks = [...document.querySelectorAll('.site-nav a[href^="#"]')].map((link) => ({
     link,
     section: document.querySelector(link.getAttribute("href"))
@@ -525,7 +547,9 @@ function enableInvestorStory() {
   const storyStages = story?.querySelector(".story-scroll-stages");
   const pageHeader = document.querySelector(".store-header");
   const revealItems = [...document.querySelectorAll("[data-reveal]")];
-  const mobileStoryQuery = window.matchMedia("(min-width: 0px)");
+  const mobileStoryQuery = window.matchMedia("(min-height: 620px) and (prefers-reduced-motion: no-preference)");
+  const storyPrevious = document.querySelector('#story-prev');
+  const storyNext = document.querySelector('#story-next');
   let activeStep = steps[0] || null;
   let frameRequested = false;
   let mobileStoryFrameRequested = false;
@@ -549,7 +573,12 @@ function enableInvestorStory() {
 
   function updateMobileStory() {
     mobileStoryFrameRequested = false;
-    if (!story || !storyPin || !storyStages || !stepsTrack || !steps.length || !mobileStoryQuery.matches) return;
+    if (!story || !storyPin || !storyStages || !stepsTrack || !steps.length) return;
+    story.classList.toggle('story-static', !mobileStoryQuery.matches);
+    if (!mobileStoryQuery.matches) {
+      steps.forEach(step => { step.style.removeProperty('--story-slide-x'); step.removeAttribute('aria-hidden'); });
+      return;
+    }
     const rect = story.getBoundingClientRect();
     const headerHeight = pageHeader?.getBoundingClientRect().height || 60;
     story.style.setProperty("--story-top", `${headerHeight}px`);
@@ -695,16 +724,28 @@ function enableInvestorStory() {
     const label = labelKey ? t(labelKey) : step.dataset.storyLabel;
     if (storyIndex) storyIndex.textContent = `${step.dataset.storyStep} — ${label}`;
     if (storyMeter) storyMeter.style.width = `${((steps.indexOf(step) + 1) / steps.length) * 100}%`;
+    if (storyPrevious) storyPrevious.disabled = steps.indexOf(step) === 0;
+    if (storyNext) storyNext.disabled = steps.indexOf(step) === steps.length - 1;
   }
 
+  function chooseStep(direction) {
+    const bounds = storyScrollBounds();
+    if (!bounds) return;
+    const next = Math.max(0, Math.min(steps.length - 1, steps.indexOf(activeStep) + direction));
+    scrollStoryTo(bounds.start + (next + .5) * bounds.stage);
+  }
+  storyPrevious?.addEventListener('click', () => chooseStep(-1));
+  storyNext?.addEventListener('click', () => chooseStep(1));
+
   if ("IntersectionObserver" in window) {
+    document.body.classList.add('motion-ready');
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         entry.target.classList.add("is-revealed");
         revealObserver.unobserve(entry.target);
       });
-    }, { threshold: 0.14, rootMargin: "0px 0px -8%" });
+    }, { threshold: 0.12, rootMargin: "0px 0px -4%" });
     revealItems.forEach((item) => revealObserver.observe(item));
 
     const stepObserver = new IntersectionObserver((entries) => {
@@ -1024,142 +1065,7 @@ function enableInvestmentPreview() {
   updatePreview();
 }
 
-function enableFeaturedVideo() {
-  const video = document.querySelector("#featured-video");
-  const projectOverlay = document.querySelector("#video-project-overlay");
-  const lifestyleOverlay = document.querySelector("#video-lifestyle-overlay");
-  const editPauseButton = document.querySelector("#video-edit-pause");
-  if (!video) return;
-  const playlist = [
-    { src: "assets/building-highlights-original.mp4?v=four-buildings-five-seconds", playbackRate: 0.625, type: "projects" },
-    { src: "assets/building-construction-highlight.m4v?v=construction-1", playbackRate: 0.625, type: "construction" },
-    { src: "assets/building-interior-highlight.m4v?v=interiors-1", playbackRate: 1, type: "interiors" },
-  ];
-  const projectDetails = [
-    [
-      { project: "Project #86", marketValue: "$12,500,000", builtYear: "2023" },
-      { project: "Project #546", marketValue: "$6,500,000", builtYear: "2023" },
-      { project: "Project #14", marketValue: "$7,050,000", builtYear: "2024" },
-      { project: "Project #01", marketValue: "$7,200,000", builtYear: "2023" },
-    ],
-    [{ project: "Project #77", marketValue: "$6,500,000", builtYear: "2024" }],
-    [],
-  ];
-  const projectCueOverrides = [
-    [{ start: 3, end: 4, project: "Project #48", marketValue: "$5,500,000", builtYear: "2025" }],
-    [],
-    [],
-  ];
-  const lifestyleMessageKeys = ["video.modern", "video.new", "video.furnished", "video.living"];
-  let playlistIndex = 0;
-  let activeProjectKey = "";
-  let activeLifestyleKey = "";
-  video.defaultMuted = true;
-  video.muted = true;
-
-  function applyCurrentPlaybackRate() {
-    const playbackRate = playlist[playlistIndex].playbackRate;
-    video.defaultPlaybackRate = playbackRate;
-    video.playbackRate = playbackRate;
-  }
-
-  applyCurrentPlaybackRate();
-
-  function playMuted() {
-    video.muted = true;
-    video.play().catch(() => {
-      // The autoplay attributes remain in place if the browser delays playback.
-    });
-  }
-
-  function updateEditPauseButton() {
-    if (!editPauseButton) return;
-    const isPaused = video.paused;
-    editPauseButton.textContent = isPaused ? t("video.resume") : t("video.pause");
-    editPauseButton.setAttribute("aria-pressed", String(isPaused));
-  }
-
-  editPauseButton?.addEventListener("click", () => {
-    if (video.paused) playMuted();
-    else video.pause();
-    updateEditPauseButton();
-  });
-  video.addEventListener("play", updateEditPauseButton);
-  video.addEventListener("pause", updateEditPauseButton);
-
-  function updateProjectOverlay() {
-    if (!projectOverlay) return;
-    const isInteriorReel = playlist[playlistIndex].type === "interiors";
-    const isStairShot = playlistIndex === 0 && video.currentTime >= 18;
-    const isExteriorShot = playlist[playlistIndex].type === "projects" && !isStairShot;
-    projectOverlay.classList.toggle("is-visible", isExteriorShot);
-    projectOverlay.setAttribute("aria-hidden", String(!isExteriorShot));
-    lifestyleOverlay?.classList.toggle("is-visible", isInteriorReel);
-    lifestyleOverlay?.setAttribute("aria-hidden", String(!isInteriorReel));
-    if (!isExteriorShot) {
-      projectOverlay.classList.remove("has-updated");
-    }
-    if (isInteriorReel) {
-      const messageIndex = Math.min(Math.floor(video.currentTime / 5), lifestyleMessageKeys.length - 1);
-      const lifestyleKey = `${playlistIndex}-${messageIndex}`;
-      if (lifestyleOverlay && lifestyleKey !== activeLifestyleKey) {
-        lifestyleOverlay.querySelector("strong").textContent = t(lifestyleMessageKeys[messageIndex]);
-        lifestyleOverlay.classList.remove("has-updated");
-        void lifestyleOverlay.offsetWidth;
-        lifestyleOverlay.classList.add("has-updated");
-        activeLifestyleKey = lifestyleKey;
-      }
-      return;
-    }
-    lifestyleOverlay?.classList.remove("has-updated");
-    if (!isExteriorShot) return;
-    const detailsForReel = projectDetails[playlistIndex];
-    const detailIndex = Math.min(Math.floor(video.currentTime / 5), detailsForReel.length - 1);
-    const cueOverride = projectCueOverrides[playlistIndex].find(({ start, end }) => video.currentTime >= start && video.currentTime < end);
-    const details = cueOverride || detailsForReel[detailIndex];
-    const projectKey = cueOverride ? `${playlistIndex}-cue-${cueOverride.start}` : `${playlistIndex}-${detailIndex}`;
-    if (projectKey !== activeProjectKey) {
-      const projectNumber = details.project.split("#").at(-1);
-      projectOverlay.querySelector(":scope > div:first-child > strong").textContent = t("video.projectName", { number: projectNumber });
-      projectOverlay.querySelector(":scope > div:nth-child(2) > strong").textContent = details.marketValue;
-      const builtYearGroup = projectOverlay.querySelector("[data-built-year]");
-      if (builtYearGroup) {
-        builtYearGroup.hidden = !details.builtYear;
-        builtYearGroup.querySelector("strong").textContent = details.builtYear || "";
-        projectOverlay.classList.toggle("has-built-year", Boolean(details.builtYear));
-      }
-      projectOverlay.classList.remove("has-updated");
-      void projectOverlay.offsetWidth;
-      projectOverlay.classList.add("has-updated");
-      activeProjectKey = projectKey;
-    }
-  }
-
-  if (video.readyState >= 2) playMuted();
-  else video.addEventListener("canplay", playMuted, { once: true });
-  video.addEventListener("loadedmetadata", applyCurrentPlaybackRate);
-  video.addEventListener("timeupdate", updateProjectOverlay);
-  video.addEventListener("loadeddata", updateProjectOverlay);
-  video.addEventListener("ended", () => {
-    playlistIndex = (playlistIndex + 1) % playlist.length;
-    video.src = playlist[playlistIndex].src;
-    video.load();
-    applyCurrentPlaybackRate();
-    updateProjectOverlay();
-    playMuted();
-  });
-  document.addEventListener("visibilitychange", () => {
-    if (!document.hidden && video.paused) playMuted();
-  });
-  i18n?.onChange(() => {
-    activeProjectKey = "";
-    activeLifestyleKey = "";
-    updateProjectOverlay();
-    updateEditPauseButton();
-  });
-  updateProjectOverlay();
-  updateEditPauseButton();
-}
+function enableFeaturedVideo() { window.FrankMedia?.init(); }
 
 function enableThanksGallery() {
   const track = document.querySelector("#thanks-gallery-track");

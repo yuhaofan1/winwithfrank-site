@@ -5,28 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Explore winwithfrank's vertically integrated real estate platform, operating track record, and investor model." />
   <title>winwithfrank | Real Estate Investment &amp; Operations</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260920-editorial-spacing" />
-  <script src="i18n.js?v=20260919-slogan" defer></script>
-  <script src="app.js?v=20260920-story-scroll" defer></script>
+  <link rel="canonical" href="https://winwithfrank.com/" />
+  <meta name="theme-color" content="#090909" />
+  <meta property="og:title" content="Win With Frank — A decade of building value" />
+  <meta property="og:description" content="Explore completed real estate developments, the operating model, and opportunities to partner with Frank." />
+  <meta property="og:image" content="https://winwithfrank.com/assets/media/project-86-1280.webp" />
+  <meta property="og:url" content="https://winwithfrank.com/" />
+  <link rel="preload" href="assets/fonts/plus-jakarta-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="styles.css?v=20261008-storytelling-r2" />
+  <script src="i18n.js?v=20261008-storytelling-r2" defer></script>
+  <script src="media.js?v=20261008-storytelling-r2" defer></script>
+  <script src="signup.js?v=20261008-storytelling-r2" defer></script>
+  <script src="app.js?v=20261008-storytelling-r2" defer></script>
+  <noscript><style>.reel-tabs,.film-controls,.story-controls,.story-scroll-stages{display:none!important}.site-refined .investment-story .story-pin{position:static;display:block;min-height:0}.site-refined .investment-story-steps{display:block;overflow:visible}.site-refined #investment-model .story-step{transform:none;margin-top:20px;opacity:1}</style></noscript>
 </head>
 <body class="site-refined">
+  <a class="skip-link" href="#top" data-i18n="proof.skip">Skip to content</a>
   <div class="page-progress" aria-hidden="true"><span id="page-progress-bar"></span></div>
   <header class="store-header">
     <a class="brand" href="#top" aria-label="winwithfrank home" data-i18n-aria="aria.home"><span class="brand-icon">W</span><span><strong>winwithfrank</strong></span></a>
-    <nav class="site-nav" aria-label="Primary navigation" data-i18n-aria="aria.primaryNav"><a href="#projects" data-i18n="nav.projects">Projects</a><a href="#investment-model" data-i18n="nav.model">Our Model</a><a href="#rewards" data-i18n="nav.investment">Invest</a><a href="#employee-profit-share" data-i18n="nav.careers">Careers</a><a href="#partnerships" data-i18n="nav.network">Partners</a><a href="#contact" data-i18n="nav.contact">Contact</a></nav>
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation" data-i18n="proof.menu" hidden>Menu</button>
+    <nav class="site-nav" id="site-navigation" aria-label="Primary navigation" data-i18n-aria="aria.primaryNav"><a href="#projects" data-i18n="nav.projects">Projects</a><a href="#investment-model" data-i18n="nav.model">Our Model</a><a href="#rewards" data-i18n="nav.investment">Invest</a><a href="#partnerships" data-i18n="nav.network">Partners</a><a href="#employee-profit-share" data-i18n="nav.careers">Careers</a><a href="#investor-signup" class="nav-investor-cta" data-i18n="journey.getDeals">Get Deals ↗</a></nav>
   </header>
   <button class="language-toggle language-floating" id="language-toggle" type="button" aria-label="Switch to Chinese" aria-pressed="false"><span aria-hidden="true">中</span><strong>中文</strong></button>
 
-  <main id="top">
+  <main id="top" tabindex="-1">
     <section class="investor-hero" id="thesis" aria-labelledby="investor-hero-title">
       <div class="investor-hero-grid">
         <div class="investor-hero-copy">
           <p class="hero-eyebrow" data-i18n="compact.eyebrow">REAL ESTATE DEVELOPMENT & MANAGEMENT</p>
           <h1 id="investor-hero-title" data-i18n="compact.heroTitle">10 years of building value.</h1>
           <p class="hero-slogan"><span data-i18n="slogan.invitation">Help me win,</span> <strong data-i18n="slogan.promise">you win!</strong></p>
+          <div class="hero-investor-actions"><a class="investor-primary-link" href="#projects" data-i18n="journey.seeProjects">See our projects ↓</a><a href="#investor-signup" data-i18n="journey.receiveDeals">Get investment opportunities ↗</a></div>
         </div>
         <aside class="investor-irr" aria-label="21% IRR*"><span class="investor-irr-value">21%</span><span class="investor-irr-label">IRR<sup>*</sup></span></aside>
       </div>
@@ -36,21 +46,35 @@
         <div><strong>1,200+</strong><span data-i18n="portfolio.units">Total Units</span></div>
         <div><strong>$100M</strong><span data-i18n="portfolio.investorValue">Investor Value Created</span></div>
       </div>
+      <details class="track-basis"><summary data-i18n="proof.trackBasis">Track-record details</summary><p data-i18n="proof.trackCopy">Portfolio figures and historical return are supplied by Frank. Request the calculation basis, reporting period and project-level records before making an investment decision.</p></details>
     </section>
 
-    <section class="video-hero" id="projects" aria-label="Project portfolio" data-i18n-aria="aria.projectPortfolio">
-      <div class="video-hero-frame">
-        <video id="featured-video" autoplay muted playsinline preload="metadata" data-highlight-count="5" data-seconds-per-highlight="8" data-interior-duration="20" aria-label="Building highlight reel with completed projects, under-construction footage, and furnished interiors" data-i18n-aria="aria.videoReel">
-          <source src="assets/building-highlights-original.mp4?v=four-buildings-five-seconds" type="video/mp4" />
-          <source src="assets/building-highlights.m4v" type="video/mp4" />
-        </video>
-        <div class="video-lifestyle-overlay" id="video-lifestyle-overlay" aria-hidden="true"><strong>Modern Design</strong></div>
-        <button class="video-edit-pause" id="video-edit-pause" type="button" aria-pressed="false">Pause video</button>
+    <section class="video-hero project-proof" id="projects" aria-labelledby="projects-title">
+      <header class="proof-heading" data-reveal><div><p class="proof-eyebrow" data-i18n="journey.proofChapter">01 / THE TRACK RECORD</p><h2 id="projects-title" data-i18n="proof.title">See the work behind the numbers.</h2></div><p data-i18n="proof.intro">From construction to finished homes. Explore a selection of our completed developments.</p></header>
+      <div class="reel-tabs" role="group" aria-label="Choose video chapter" data-i18n-aria="proof.chapters"><button type="button" data-reel="0" aria-pressed="true" data-i18n="proof.completed">Completed projects</button><button type="button" data-reel="1" aria-pressed="false" data-i18n="proof.construction">Under construction</button><button type="button" data-reel="2" aria-pressed="false" data-i18n="proof.interiors">Interiors</button></div>
+      <div class="video-hero-frame" id="project-film">
+        <video id="featured-video" muted playsinline preload="none" width="1280" height="720" poster="assets/media/project-86-1280.webp" aria-label="Building highlight reel with completed projects, under-construction footage, and furnished interiors" data-i18n-aria="aria.videoReel"></video>
       </div>
-      <div class="video-project-overlay has-built-year is-visible" id="video-project-overlay">
-        <div><span data-i18n="video.project">PROJECT</span><strong>Project #86</strong></div>
-        <div><span data-i18n="video.marketValue">MARKET VALUE</span><strong>$12,500,000</strong></div>
-        <div data-built-year><span data-i18n="video.builtYear">BUILT YEAR</span><strong>2023</strong></div>
+      <div class="film-controls"><button id="video-edit-pause" type="button" aria-pressed="true" data-i18n="video.resume">Play video</button><span class="film-muted" data-i18n="proof.muted">Muted · Original footage</span><label><span class="sr-only" data-i18n="proof.quality">Video quality</span><select id="video-quality" aria-label="Video quality" data-i18n-aria="proof.quality"><option value="auto" data-i18n="proof.auto">Auto quality</option><option value="hd">HD · 720p</option><option value="mobile" data-i18n="proof.saver">Data saver · 540p</option></select></label></div>
+      <div class="film-caption">
+        <div class="video-project-overlay has-built-year is-visible" id="video-project-overlay">
+          <div><span data-i18n="video.project">PROJECT</span><strong>Project #86</strong></div>
+          <div><span data-i18n="proof.reportedValue">REPORTED MARKET VALUE</span><strong>$12,500,000</strong></div>
+          <div data-built-year><span data-i18n="video.builtYear">BUILT YEAR</span><strong>2023</strong></div>
+        </div>
+        <p id="video-scene-caption" hidden></p>
+      </div>
+      <p id="video-status" role="status" hidden></p>
+      <noscript><p><a href="assets/media/projects-hd.mp4">Watch the completed-project film (720p)</a></p></noscript>
+      <div class="completed-projects" id="completed-projects" aria-labelledby="completed-title">
+        <div class="project-collection-heading"><h3 id="completed-title" data-i18n="proof.selected">Selected completed projects</h3><span data-i18n="proof.builtYears">Built 2023–2024</span></div>
+        <div class="project-cards">
+          <article class="project-card"><img src="assets/media/project-86-640.webp" srcset="assets/media/project-86-640.webp 640w, assets/media/project-86-1280.webp 1280w" sizes="(max-width: 700px) 82vw, (max-width: 1000px) 45vw, 280px" width="1280" height="720" loading="lazy" decoding="async" alt="Exterior of Project #86" data-i18n-alt="proof.alt86" /><div><span class="project-year">2023</span><h4>Project #86</h4><p><span data-i18n="proof.value">Reported market value</span><strong>$12.5M</strong></p><a href="#project-film" data-project-seek="1.8" data-i18n="proof.watch">Watch this project ↗</a></div></article>
+          <article class="project-card"><img src="assets/media/project-546-640.webp" srcset="assets/media/project-546-640.webp 640w, assets/media/project-546-1280.webp 1280w" sizes="(max-width: 700px) 82vw, (max-width: 1000px) 45vw, 280px" width="1280" height="720" loading="lazy" decoding="async" alt="Exterior of Project #546" data-i18n-alt="proof.alt546" /><div><span class="project-year">2023</span><h4>Project #546</h4><p><span data-i18n="proof.value">Reported market value</span><strong>$6.5M</strong></p><a href="#project-film" data-project-seek="6.8" data-i18n="proof.watch">Watch this project ↗</a></div></article>
+          <article class="project-card"><img src="assets/media/project-14-640.webp" srcset="assets/media/project-14-640.webp 640w, assets/media/project-14-1280.webp 1280w" sizes="(max-width: 700px) 82vw, (max-width: 1000px) 45vw, 280px" width="1280" height="720" loading="lazy" decoding="async" alt="Exterior of Project #14" data-i18n-alt="proof.alt14" /><div><span class="project-year">2024</span><h4>Project #14</h4><p><span data-i18n="proof.value">Reported market value</span><strong>$7.05M</strong></p><a href="#project-film" data-project-seek="12" data-i18n="proof.watch">Watch this project ↗</a></div></article>
+          <article class="project-card"><img src="assets/media/project-01-640.webp" srcset="assets/media/project-01-640.webp 640w, assets/media/project-01-1280.webp 1280w" sizes="(max-width: 700px) 82vw, (max-width: 1000px) 45vw, 280px" width="1280" height="720" loading="lazy" decoding="async" alt="Exterior of Project #01" data-i18n-alt="proof.alt01" /><div><span class="project-year">2023</span><h4>Project #01</h4><p><span data-i18n="proof.value">Reported market value</span><strong>$7.2M</strong></p><a href="#project-film" data-project-seek="16.6" data-i18n="proof.watch">Watch this project ↗</a></div></article>
+        </div>
+        <div class="project-evidence-note"><p data-i18n="proof.valuesNote">Project years and market values are supplied by Frank. Market values are not sale proceeds or investor distributions.</p><a href="mailto:frank.fan@moohousing.com?subject=Completed%20Project%20Details" data-i18n="proof.request">Request project details</a></div>
       </div>
     </section>
 
@@ -90,11 +114,13 @@
     <section class="investment-story" id="investment-model" aria-labelledby="investment-story-title">
       <div class="story-pin">
       <div class="investment-story-sticky">
-        <p class="story-kicker" data-i18n="story.modelKicker">THE OPERATING MODEL</p>
+        <p class="story-kicker" data-i18n="journey.modelChapter">02 / THE PROCESS</p>
         <span class="story-index" id="story-index">01 — ACQUIRE</span>
         <h2 id="investment-story-title" data-i18n="story.modelTitle">Our Proven Model</h2>
         <p class="story-summary" data-i18n="story.modelSummary">Over 45 completed developments</p>
+        <p class="story-scroll-hint"><span aria-hidden="true">↕</span><span data-i18n="journey.scrollHint">Scroll to explore. One step at a time.</span></p>
         <div class="story-meter" aria-hidden="true"><span id="story-meter-fill"></span></div>
+        <div class="story-controls"><button type="button" id="story-prev" aria-label="Previous step" data-i18n-aria="proof.storyPrevious">←</button><button type="button" id="story-next" aria-label="Next step" data-i18n-aria="proof.storyNext">→</button><a href="#rewards" data-i18n="proof.storySkip">Continue to investment</a></div>
       </div>
       <div class="investment-story-steps">
         <article class="story-step is-active" data-story-step="01" data-story-label="ACQUIRE" data-story-label-key="story.acquireLabel" data-story-copy-key="story.acquireCopy" data-reveal>
@@ -118,7 +144,8 @@
 
     <section class="rewards lending standalone-investments" id="rewards" aria-labelledby="investment-preview-title">
       <section class="investment-preview" aria-labelledby="investment-preview-title">
-        <header class="investment-preview-heading">
+        <header class="investment-preview-heading" data-reveal>
+          <p class="journey-eyebrow" data-i18n="journey.investChapter">03 / EXPLORE THE POSSIBILITIES</p>
           <h2 id="investment-preview-title" data-i18n="investment.growth">Investment Calculator</h2>
         </header>
         <div class="investment-preview-grid">
@@ -143,7 +170,7 @@
             <strong id="investment-dividend-output">$30K–$50K</strong>
           </div>
           <div class="investment-preview-result return-result" aria-live="polite">
-            <small data-i18n="investment.annualizedReturn">Annual Return</small>
+            <small data-i18n="investment.annualizedReturn">Modeled annualized return</small>
             <strong id="investment-return-output">22%</strong>
           </div>
         </div>
@@ -162,8 +189,9 @@
           </svg>
         </div>
         </details>
-        <a class="investment-contact-link" href="mailto:frank.fan@moohousing.com?subject=Investment%20Inquiry" data-i18n="compact.investCta">Discuss an investment →</a>
+        <a class="investment-contact-link" href="#investor-signup" data-i18n="journey.calculatorCta">Ready to explore a real project? Get deal updates →</a>
         <p class="investment-preview-note" id="investment-preview-note" data-i18n="investment.disclaimer">Illustrative estimates. Returns aren’t guaranteed.</p>
+        <details class="model-assumptions"><summary data-i18n="proof.assumptions">Model assumptions</summary><p data-i18n="proof.assumptionsCopy">Illustration based on 80% equity growth every 2.5 years, reinvestment of eligible equity after five years, and 3%–5% annual cash increments. Annualized return combines ending equity and accumulated cash; it is not a dated cash-flow IRR. Taxes, fees, losses and delays are not modeled.</p></details>
       </section>
     </section>
 
@@ -183,8 +211,21 @@
       </div>
     </section>
 
+    <section class="partnerships" id="partnerships" aria-labelledby="partnerships-title">
+      <header class="partnerships-heading" data-reveal>
+        <p class="journey-eyebrow" data-i18n="journey.networkChapter">04 / BUILD WITH US</p>
+        <h2 id="partnerships-title" data-i18n="partners.title">Agent Partnerships</h2>
+        <span class="partnership-tagline" data-i18n="partners.tagline">Send development and off-market deals directly to Frank.</span>
+      </header>
+      <div class="partnership-acquisition" data-reveal>
+        <p data-i18n="partners.acquisitionKicker">THIS YEAR, FRANK IS ACQUIRING</p>
+        <h3><strong>$30M</strong><span data-i18n="partners.buying">in development properties.</span></h3>
+        <a href="mailto:frank.fan@moohousing.com?subject=Send%20Me%20Your%20Listings"><span data-i18n="partners.emailList">Send me your Listings</span><strong>frank.fan@moohousing.com</strong><b aria-hidden="true">↗</b></a>
+      </div>
+    </section>
+
     <section class="employee-share" id="employee-profit-share" aria-labelledby="employee-share-title">
-      <div class="employee-share-heading">
+      <div class="employee-share-heading" data-reveal>
         <h2 id="employee-share-title" data-i18n="hiring.title">Hiring Workers.</h2>
         <p class="hiring-location" data-i18n="hiring.subtitle">All trades in Northern California</p>
       </div>
@@ -209,27 +250,40 @@
       </section>
     </section>
 
-    <section class="partnerships" id="partnerships" aria-labelledby="partnerships-title">
-      <header class="partnerships-heading">
-        <h2 id="partnerships-title" data-i18n="partners.title">Agent Partnerships</h2>
-        <span class="partnership-tagline" data-i18n="partners.tagline">Send development and off-market deals directly to Frank.</span>
-      </header>
-      <div class="partnership-acquisition">
-        <p data-i18n="partners.acquisitionKicker">THIS YEAR, FRANK IS ACQUIRING</p>
-        <h3><strong>$30M</strong><span data-i18n="partners.buying">in development properties.</span></h3>
-        <a href="mailto:frank.fan@moohousing.com?subject=Send%20Me%20Your%20Listings"><span data-i18n="partners.emailList">Send me your Listings</span><strong>frank.fan@moohousing.com</strong><b aria-hidden="true">↗</b></a>
-      </div>
-    </section>
-
     <section class="tokenized-investment" id="tokenized-investment" aria-labelledby="tokenized-title" hidden>
       <div class="tokenized-copy"><p data-i18n="tokenized.development">IN DEVELOPMENT</p><h2 id="tokenized-title" data-i18n="tokenized.title">Tokenized Real Estate Investment</h2><span data-i18n="tokenized.detail">A new investment experience is being developed. Program details will be added here.</span></div>
       <div class="tokenized-preview" aria-label="Tokenized investment section coming soon" data-i18n-aria="aria.tokenized"><b>◈</b><div><small data-i18n="tokenized.comingSoon">COMING SOON</small><strong data-i18n="tokenized.promise">More access. More transparency.</strong></div></div>
     </section>
 
-    <section class="special-thanks compact-thanks" id="special-thanks" aria-labelledby="thanks-title">
+    <section class="special-thanks compact-thanks" id="special-thanks" aria-labelledby="thanks-title" data-reveal>
       <h2 id="thanks-title" data-i18n="thanks.title">Special Thanks</h2>
       <p data-i18n="thanks.message">To everyone who shared their time, knowledge, trust, and hard work—thank you.</p>
       <span data-i18n="thanks.signature">With gratitude, Frank</span>
+    </section>
+
+    <section class="investor-signup" id="investor-signup" aria-labelledby="signup-title">
+      <div class="signup-copy" data-reveal>
+        <p class="journey-eyebrow" data-i18n="journey.finalChapter">YOUR NEXT CHAPTER</p>
+        <h2 id="signup-title" data-i18n="signup.title">Let’s build what’s next.</h2>
+        <p class="signup-intro" data-i18n="signup.intro">Get investment opportunities and project updates from Frank, directly in your inbox.</p>
+        <ul class="signup-benefits"><li data-i18n="signup.benefitOne">New deals to review</li><li data-i18n="signup.benefitTwo">Project details and updates</li><li data-i18n="signup.benefitThree">A direct connection with Frank</li></ul>
+        <p class="signup-no-commitment" data-i18n="signup.noCommitment">Stay informed. No investment commitment.</p>
+      </div>
+      <form class="investor-signup-form" id="investor-signup-form" aria-labelledby="signup-form-title">
+        <h3 id="signup-form-title" data-i18n="signup.formTitle">Get investment opportunities</h3>
+        <label for="investor-name"><span data-i18n="signup.name">Name (optional)</span><input id="investor-name" name="name" autocomplete="name" maxlength="80" /></label>
+        <label for="investor-email"><span data-i18n="signup.email">Email address</span><input id="investor-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" required aria-describedby="signup-privacy" /></label>
+        <label class="signup-consent"><input id="investor-consent" name="consent" type="checkbox" required /><span data-i18n="signup.consent">I agree to receive investment opportunities and project updates from Frank. I can ask to stop emails at any time.</span></label>
+        <button class="signup-submit" type="submit" data-i18n="signup.prepare">Prepare signup email →</button>
+        <p class="signup-privacy" id="signup-privacy" data-i18n="signup.privacy">Email signup: review and send your request to frank.fan@moohousing.com. This website does not save your contact details.</p>
+        <div class="signup-handoff" id="signup-handoff" hidden>
+          <p id="signup-status" role="status" aria-live="polite"></p>
+          <a id="signup-email-link" href="mailto:frank.fan@moohousing.com" data-i18n="signup.send">Open email to send request ↗</a>
+          <p data-i18n="signup.fallback">No email app? Email Frank directly and ask to receive investment opportunities.</p>
+          <a href="mailto:frank.fan@moohousing.com">frank.fan@moohousing.com</a>
+        </div>
+        <noscript><p>Email <a href="mailto:frank.fan@moohousing.com?subject=Investor%20Deal%20Updates">frank.fan@moohousing.com</a> to request investment updates.</p><style>.investor-signup-form>label,.signup-submit{display:none}</style></noscript>
+      </form>
     </section>
 
   </main>
