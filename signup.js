@@ -1,51 +1,59 @@
-/* Static-host fallback: prepare a consented request, never claim it was delivered. */
+/* Public write-only intake; contact records are private to Frank's SiteFlow workspace. */
 (function (root, factory) {
   const api = factory();
   if (typeof module === 'object' && module.exports) module.exports = api;
   else { root.FrankSignup = api; api.init(document, root); }
 })(typeof window === 'undefined' ? globalThis : window, function () {
-  function createMailto({ name = '', email = '', consent = false, language = 'en' }) {
-    email = String(email).trim();
-    name = String(name).trim();
-    if (!consent || !email || /[\r\n]/.test(email) || !/^[^\s@]+@[^\s@]+$/.test(email)) return null;
-    const body = [
-      'Hi Frank,', '',
-      'Please send me investment opportunities and project updates.', '',
-      `Name: ${name.replace(/[\r\n]+/g, ' ').slice(0, 80) || 'Not provided'}`,
-      `Email: ${email}`,
-      `Preferred language: ${language === 'zh' ? 'Chinese' : 'English'}`, '',
-      'I agree to receive investment opportunities and project updates from Frank.',
-      'I understand I can ask to stop these emails at any time.', '',
-      'Source: winwithfrank.com investor signup'
-    ].join('\n');
-    return `mailto:frank.fan@moohousing.com?subject=${encodeURIComponent('Investor deal updates — signup request')}&body=${encodeURIComponent(body)}`;
+  const ENDPOINT = 'https://siteflow.moo-siteflow.workers.dev/api/investor-signups/public';
+  function createPayload({ name = '', email = '', consent = false, language = 'en', website = '' }) {
+    name = String(name).trim(); email = String(email).trim();
+    if (consent !== true || name.length > 80 || email.length > 254 || /[\x00-\x1f\x7f]/.test(name + email) || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return null;
+    return { name, email, consent: true, language: language === 'zh' ? 'zh' : 'en', website: String(website) };
+  }
+  async function submitSignup(payload, fetcher, signal) {
+    const response = await fetcher(ENDPOINT, {
+      method: 'POST', mode: 'cors', credentials: 'omit', referrerPolicy: 'no-referrer',
+      headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), signal
+    });
+    const data = await response.json().catch(() => null);
+    if (!response.ok || data?.ok !== true) { const error = new Error('Signup was not confirmed'); error.status = response.status; throw error; }
   }
 
   function init(doc, win) {
     const form = doc.querySelector('#investor-signup-form');
     if (!form) return;
-    const name = form.querySelector('#investor-name');
-    const email = form.querySelector('#investor-email');
-    const consent = form.querySelector('#investor-consent');
-    const handoff = form.querySelector('#signup-handoff');
-    const link = form.querySelector('#signup-email-link');
-    const status = form.querySelector('#signup-status');
-    const prepare = () => {
-      const href = createMailto({ name: name.value, email: email.value, consent: consent.checked, language: win.siteI18n?.language });
-      if (!href) return false;
-      link.href = href;
-      status.textContent = win.siteI18n?.t('signup.ready') || 'Your request is prepared—not sent. Open email, review, and press Send to finish.';
-      handoff.hidden = false;
-      return true;
-    };
-    form.addEventListener('submit', event => {
+    const name = form.querySelector('#investor-name'), email = form.querySelector('#investor-email');
+    const consent = form.querySelector('#investor-consent'), honeypot = form.querySelector('#investor-website');
+    const button = form.querySelector('.signup-submit'), status = form.querySelector('#signup-status');
+    const fallback = form.querySelector('#signup-fallback');
+    let state = '', busy = false;
+    const defaults = { submit: 'Send me investment opportunities →', submitting: 'Saving your signup…', success: 'Thank you! Your request has been received. If you previously opted out, contact Frank to rejoin.', error: 'We couldn’t confirm your signup. Please try again, or email Frank below.', limited: 'Too many attempts. Please try again later, or email Frank below.' };
+    const t = key => win.siteI18n?.t(`signup.${key}`) || defaults[key];
+    function render() {
+      status.textContent = state ? t(state) : '';
+      status.hidden = !state; status.dataset.state = state;
+      fallback.hidden = !['error', 'limited'].includes(state);
+      button.textContent = t(busy ? 'submitting' : 'submit');
+      button.disabled = busy || state === 'success';
+      form.setAttribute('aria-busy', String(busy));
+    }
+    form.addEventListener('submit', async event => {
       event.preventDefault();
+      if (busy || state === 'success') return;
       email.value = email.value.trim();
-      if (form.reportValidity() && prepare()) link.focus();
+      if (!form.reportValidity()) return;
+      const payload = createPayload({ name: name.value, email: email.value, consent: consent.checked, language: win.siteI18n?.language, website: honeypot.value });
+      if (!payload) { state = 'error'; render(); return; }
+      busy = true; state = 'submitting'; render();
+      const fields = [name, email, consent, honeypot]; fields.forEach(field => field.disabled = true);
+      const controller = new AbortController(), timer = setTimeout(() => controller.abort(), 15000);
+      try { await submitSignup(payload, win.fetch.bind(win), controller.signal); state = 'success'; }
+      catch (error) { state = error.status === 429 ? 'limited' : 'error'; }
+      finally { clearTimeout(timer); busy = false; fields.forEach(field => field.disabled = false); render(); }
     });
-    // Editing or revoking consent invalidates the previously prepared request.
-    form.addEventListener('input', () => { handoff.hidden = true; link.removeAttribute('href'); status.textContent = ''; });
-    win.siteI18n?.onChange(() => { if (!handoff.hidden) prepare(); });
+    form.addEventListener('input', () => { if (!busy) { state = ''; render(); } });
+    win.siteI18n?.onChange(render);
+    render();
   }
-  return { createMailto, init };
+  return { createPayload, submitSignup, init };
 });
