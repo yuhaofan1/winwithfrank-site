@@ -550,6 +550,7 @@ function enableInvestorStory() {
   const mobileStoryQuery = window.matchMedia("(min-height: 620px) and (prefers-reduced-motion: no-preference)");
   const storyPrevious = document.querySelector('#story-prev');
   const storyNext = document.querySelector('#story-next');
+  const storyChapters = [...document.querySelectorAll('[data-story-go]')];
   let activeStep = steps[0] || null;
   let frameRequested = false;
   let mobileStoryFrameRequested = false;
@@ -720,9 +721,12 @@ function enableInvestorStory() {
     if (!step) return;
     activeStep = step;
     steps.forEach((item) => item.classList.toggle("is-active", item === step));
-    const labelKey = step.dataset.storyLabelKey;
-    const label = labelKey ? t(labelKey) : step.dataset.storyLabel;
-    if (storyIndex) storyIndex.textContent = `${step.dataset.storyStep} — ${label}`;
+    const activeIndex = steps.indexOf(step);
+    if (storyIndex) storyIndex.textContent = `${step.dataset.storyStep} / ${String(steps.length).padStart(2, '0')}`;
+    storyChapters.forEach((button, index) => {
+      if (index === activeIndex) button.setAttribute('aria-current', 'step');
+      else button.removeAttribute('aria-current');
+    });
     if (storyMeter) storyMeter.style.width = `${((steps.indexOf(step) + 1) / steps.length) * 100}%`;
     if (storyPrevious) storyPrevious.disabled = steps.indexOf(step) === 0;
     if (storyNext) storyNext.disabled = steps.indexOf(step) === steps.length - 1;
@@ -736,6 +740,7 @@ function enableInvestorStory() {
   }
   storyPrevious?.addEventListener('click', () => chooseStep(-1));
   storyNext?.addEventListener('click', () => chooseStep(1));
+  storyChapters.forEach((button, index) => button.addEventListener('click', () => chooseStep(index - steps.indexOf(activeStep))));
 
   if ("IntersectionObserver" in window) {
     document.body.classList.add('motion-ready');

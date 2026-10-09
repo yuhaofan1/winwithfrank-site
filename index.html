@@ -12,12 +12,12 @@
   <meta property="og:image" content="https://winwithfrank.com/assets/media/project-86-1280.webp" />
   <meta property="og:url" content="https://winwithfrank.com/" />
   <link rel="preload" href="assets/fonts/plus-jakarta-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="styles.css?v=20261008-chart-audit-r1" />
-  <script src="i18n.js?v=20261008-chart-audit-r1" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20261008-process-r1" />
+  <script src="i18n.js?v=20261008-process-r1" defer></script>
   <script src="media.js?v=20261008-storytelling-r2" defer></script>
   <script src="signup.js?v=20261008-storytelling-r2" defer></script>
-  <script src="app.js?v=20261008-chart-audit-r1" defer></script>
-  <noscript><style>.reel-tabs,.film-controls,.story-controls,.story-scroll-stages{display:none!important}.site-refined .investment-story .story-pin{position:static;display:block;min-height:0}.site-refined .investment-story-steps{display:block;overflow:visible}.site-refined #investment-model .story-step{transform:none;margin-top:20px;opacity:1}</style></noscript>
+  <script src="app.js?v=20261008-process-r1" defer></script>
+  <noscript><style>.reel-tabs,.film-controls,.story-controls,.story-chapters,.story-scroll-stages{display:none!important}.site-refined .investment-story .story-pin{position:static;display:block;min-height:0}.site-refined .investment-story-steps{display:block;overflow:visible}.site-refined #investment-model .story-step{transform:none;margin-top:20px;opacity:1}</style></noscript>
 </head>
 <body class="site-refined">
   <a class="skip-link" href="#top" data-i18n="proof.skip">Skip to content</a>
@@ -101,7 +101,7 @@
 
     <section class="track-record" id="archived-track-record" data-status="merged-into-hero" aria-label="Track record" hidden>
       <div class="track-record-copy">
-        <h3 class="track-record-return" data-i18n="portfolio.return">10 years, 19% + IRR*</h3>
+        <h3 class="track-record-return" data-i18n="portfolio.return">10 years, 21% IRR*</h3>
       </div>
       <div class="track-record-metrics" aria-label="Track record highlights" data-i18n-aria="aria.trackHighlights">
         <div><span class="track-record-icon">$</span><strong>$300M</strong><small data-i18n="portfolio.marketValue">Total Market Value</small></div>
@@ -114,27 +114,37 @@
     <section class="investment-story" id="investment-model" aria-labelledby="investment-story-title">
       <div class="story-pin">
       <div class="investment-story-sticky">
-        <p class="story-kicker" data-i18n="journey.modelChapter">02 / THE PROCESS</p>
-        <span class="story-index" id="story-index">01 — ACQUIRE</span>
+        <p class="story-kicker" data-i18n="process.kicker">THE PROCESS</p>
         <h2 id="investment-story-title" data-i18n="story.modelTitle">Our Proven Model</h2>
         <p class="story-summary" data-i18n="story.modelSummary">Over 45 completed developments</p>
-        <p class="story-scroll-hint"><span aria-hidden="true">↕</span><span data-i18n="journey.scrollHint">Scroll to explore. One step at a time.</span></p>
-        <div class="story-meter" aria-hidden="true"><span id="story-meter-fill"></span></div>
-        <div class="story-controls"><button type="button" id="story-prev" aria-label="Previous step" data-i18n-aria="proof.storyPrevious">←</button><button type="button" id="story-next" aria-label="Next step" data-i18n-aria="proof.storyNext">→</button><a href="#rewards" data-i18n="proof.storySkip">Continue to investment</a></div>
+        <div class="story-chapters" role="group" aria-label="Explore the four steps" data-i18n-aria="process.steps">
+          <button type="button" data-story-go="0" aria-controls="story-card-01" aria-current="step"><span aria-hidden="true">01</span><strong data-i18n="story.acquireLabel">ACQUIRE</strong><b aria-hidden="true">↗</b></button>
+          <button type="button" data-story-go="1" aria-controls="story-card-02"><span aria-hidden="true">02</span><strong data-i18n="story.designLabel">DESIGN</strong><b aria-hidden="true">↗</b></button>
+          <button type="button" data-story-go="2" aria-controls="story-card-03"><span aria-hidden="true">03</span><strong data-i18n="story.buildLabel">BUILD</strong><b aria-hidden="true">↗</b></button>
+          <button type="button" data-story-go="3" aria-controls="story-card-04"><span aria-hidden="true">04</span><strong data-i18n="story.operateLabel">OPERATE</strong><b aria-hidden="true">↗</b></button>
+        </div>
+        <a class="story-continue" href="#rewards"><span data-i18n="proof.storySkip">Continue to investment</span><span aria-hidden="true">↗</span></a>
       </div>
+      <div class="story-panel">
       <div class="investment-story-steps">
-        <article class="story-step is-active" data-story-step="01" data-story-label="ACQUIRE" data-story-label-key="story.acquireLabel" data-story-copy-key="story.acquireCopy" data-reveal>
-          <span>01</span><div><p data-i18n="story.acquireLabel">ACQUIRE</p><h3 data-i18n="story.acquireTitle">Plan before closing.</h3><p data-i18n="story.acquireCopy">Design and underwrite every acquisition before closing.</p></div>
+        <article class="story-step is-active" id="story-card-01" aria-labelledby="story-title-01" data-story-step="01" data-story-label="ACQUIRE" data-story-label-key="story.acquireLabel" data-story-copy-key="story.acquireCopy" data-reveal>
+          <div class="story-art" aria-hidden="true"><span>01</span><svg viewBox="0 0 300 140" fill="none"><path class="art-guide" d="M20 112 148 38 282 112M48 130 178 55M90 130 214 59"/><path d="m56 84 98-55 102 57-98 55Z"/><path class="art-accent" d="m94 82 61-35 64 36-61 35Z"/><path d="m116 78 39-22 43 24M158 118V99M94 82l20 11M219 83l-20 11"/><path class="art-guide" d="M155 12v12M18 84h27M268 84h19"/><circle class="art-accent" cx="155" cy="12" r="3"/></svg></div>
+          <div class="story-step-copy"><p data-i18n="story.acquireLabel">ACQUIRE</p><h3 id="story-title-01" data-i18n="story.acquireTitle">Plan before closing.</h3><p data-i18n="story.acquireCopy">Design and underwrite every acquisition before closing.</p></div>
         </article>
-        <article class="story-step" data-story-step="02" data-story-label="DESIGN" data-story-label-key="story.designLabel" data-story-copy-key="story.designCopy" data-reveal>
-          <span>02</span><div><p data-i18n="story.designLabel">DESIGN</p><h3 data-i18n="story.designTitle">Design for returns.</h3><p data-i18n="story.designCopy">Maximize density and rentable space through smart, code-driven design.</p></div>
+        <article class="story-step" id="story-card-02" aria-labelledby="story-title-02" data-story-step="02" data-story-label="DESIGN" data-story-label-key="story.designLabel" data-story-copy-key="story.designCopy" data-reveal>
+          <div class="story-art" aria-hidden="true"><span>02</span><svg viewBox="0 0 300 140" fill="none"><path d="M71 21h161v99H71ZM144 21v39m0 23v37M71 72h47m22 0h92M182 21v51m-38 24h88"/><path class="art-accent" d="M118 72V50a22 22 0 0 1 22 22M144 60h23a23 23 0 0 1-23 23"/><path class="art-guide" d="M58 21v99m-5-99h10m-10 99h10M71 8h161M71 3v10m161-10v10M248 21v99m-5-99h10m-10 99h10"/><path d="M84 34h42v23H84Zm76 64h21v12h-21Z"/></svg></div>
+          <div class="story-step-copy"><p data-i18n="story.designLabel">DESIGN</p><h3 id="story-title-02" data-i18n="story.designTitle">Design for returns.</h3><p data-i18n="story.designCopy">Maximize density and rentable space through smart, code-driven design.</p></div>
         </article>
-        <article class="story-step" data-story-step="03" data-story-label="BUILD" data-story-label-key="story.buildLabel" data-story-copy-key="story.buildCopy" data-reveal>
-          <span>03</span><div><p data-i18n="story.buildLabel">BUILD</p><h3 data-i18n="story.buildTitle">Build for less.</h3><p data-i18n="story.buildCopy">Our integrated construction team reduces hard costs by up to 30%.</p></div>
+        <article class="story-step" id="story-card-03" aria-labelledby="story-title-03" data-story-step="03" data-story-label="BUILD" data-story-label-key="story.buildLabel" data-story-copy-key="story.buildCopy" data-reveal>
+          <div class="story-art" aria-hidden="true"><span>03</span><svg viewBox="0 0 300 140" fill="none"><path d="m74 51 85-34 75 36v74l-75-34-85 34ZM159 17v76M74 76l85-34 75 35M74 102l85-34 75 35M116 34v76M195 35v75"/><path class="art-accent" d="M48 127V15h162M48 15l35 20h127M82 35V15M210 35v25m-5 0h10"/><path class="art-guide" d="M29 128h233M39 127l9-16 9 16"/></svg></div>
+          <div class="story-step-copy"><p data-i18n="story.buildLabel">BUILD</p><h3 id="story-title-03" data-i18n="story.buildTitle">Build for less.</h3><p data-i18n="story.buildCopy">Our integrated construction team reduces hard costs by up to 30%.</p></div>
         </article>
-        <article class="story-step" data-story-step="04" data-story-label="OPERATE" data-story-label-key="story.operateLabel" data-story-copy-key="story.operateCopy" data-reveal>
-          <span>04</span><div><p data-i18n="story.operateLabel">OPERATE</p><h3 data-i18n="story.operateTitle">Manage in-house.</h3><p data-i18n="story.operateCopy">98.5% industry-leading occupancy while minimizing operating expenses.</p></div>
+        <article class="story-step" id="story-card-04" aria-labelledby="story-title-04" data-story-step="04" data-story-label="OPERATE" data-story-label-key="story.operateLabel" data-story-copy-key="story.operateCopy" data-reveal>
+          <div class="story-art" aria-hidden="true"><span>04</span><svg viewBox="0 0 300 140" fill="none"><path d="M81 126V24h140v102M75 24h152M69 126h166M140 126V97h22v29"/><path class="art-accent" d="M96 39h18v18H96Zm47 0h18v18h-18Zm46 0h18v18h-18ZM96 73h18v18H96Zm47 0h18v18h-18Zm46 0h18v18h-18Z"/><path class="art-guide" d="M46 126V91m-12 4c0-25 25-25 25 0a13 13 0 0 1-25 0ZM257 126V91m-12 4c0-25 25-25 25 0a13 13 0 0 1-25 0Z"/></svg></div>
+          <div class="story-step-copy"><p data-i18n="story.operateLabel">OPERATE</p><h3 id="story-title-04" data-i18n="story.operateTitle">Manage in-house.</h3><p data-i18n="story.operateCopy">98.5% industry-leading occupancy while minimizing operating expenses.</p></div>
         </article>
+      </div>
+      <div class="story-controls"><span class="story-index" id="story-index" aria-live="polite" aria-atomic="true">01 / 04</span><span class="story-control-hint" data-i18n="process.hint">Scroll to explore</span><button type="button" id="story-prev" aria-label="Previous step" data-i18n-aria="proof.storyPrevious">←</button><button type="button" id="story-next" aria-label="Next step" data-i18n-aria="proof.storyNext">→</button></div>
       </div>
       </div>
       <div class="story-scroll-stages" aria-hidden="true">
