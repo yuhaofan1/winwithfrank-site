@@ -156,7 +156,8 @@ function moveTradeSlider(direction) {
   let nextPosition = tradeSlider.scrollLeft + direction * step;
   if (direction > 0 && nextPosition >= maxScroll - 4) nextPosition = 0;
   if (direction < 0 && nextPosition < 0) nextPosition = maxScroll;
-  tradeSlider.scrollTo({ left: nextPosition, behavior: "smooth" });
+  const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth";
+  tradeSlider.scrollTo({ left: nextPosition, behavior });
 }
 
 let tradeSliderTimer;
@@ -1076,6 +1077,9 @@ function enableInvestmentPreview() {
   if (chart && "ResizeObserver" in window) new ResizeObserver(() => updateGrowthChart(Number(amountInput.value), Number(yearsInput.value))).observe(chart);
   i18n?.onChange(updatePreview);
   updatePreview();
+  // Do not let uninitialized controls change while example results stay frozen.
+  amountInput.disabled = false;
+  yearsInput.disabled = false;
 }
 
 function enableFeaturedVideo() { window.FrankMedia?.init(); }
