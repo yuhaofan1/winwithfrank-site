@@ -23,6 +23,11 @@
   function shouldPlay({ visible, hidden, userPaused, failed }) {
     return visible && !hidden && !userPaused && !failed;
   }
+  function networkPolicy(connection) {
+    const type = connection?.effectiveType;
+    const constrained = Boolean(connection?.saveData) || type === 'slow-2g' || type === '2g';
+    return { manualPlayback: constrained, preferMobile: constrained || type === '3g' };
+  }
 
   function init(doc = document, win = window) {
     const video = doc.querySelector('#featured-video');
@@ -38,16 +43,18 @@
     const t = (key, values) => i18n?.t(key, values) || key;
     const motion = win.matchMedia('(prefers-reduced-motion: reduce)');
     const narrow = win.matchMedia('(max-width: 700px)');
-    const saveData = Boolean(win.navigator.connection?.saveData);
-    let state = { visible: false, hidden: doc.hidden, userPaused: motion.matches || saveData, failed: false };
+    const connection = win.navigator.connection;
+    let network = networkPolicy(connection);
+    let state = { visible: false, hidden: doc.hidden, userPaused: motion.matches || network.manualPlayback, failed: false };
     let reel = 0;
     let pendingSeek = null;
     let lastCaption = '';
     let playPending = false;
+    let playRequest = 0;
     video.defaultMuted = video.muted = true;
 
     function source() {
-      return `assets/media/${reels[reel].name}-${qualityFor(quality.value, narrow.matches, saveData)}.mp4`;
+      return `assets/media/${reels[reel].name}-${qualityFor(quality.value, narrow.matches, network.preferMobile)}.mp4`;
     }
     function updateButton() {
       playButton.textContent = t(video.paused ? 'video.resume' : 'video.pause');
@@ -56,20 +63,31 @@
     function ensureSource() {
       const next = source();
       if (video.getAttribute('src') === next) return;
+      if (pendingSeek === null && video.getAttribute('src')) pendingSeek = video.currentTime;
+      // A source switch can reject an older play() promise after the new clip starts.
+      playRequest++;
+      playPending = false;
       video.poster = reels[reel].poster;
       video.src = next;
       video.load();
     }
     function syncPlayback() {
       state.hidden = doc.hidden;
-      if (!shouldPlay(state)) { video.pause(); updateButton(); return; }
+      if (!shouldPlay(state)) {
+        playRequest++;
+        playPending = false;
+        video.pause(); updateButton(); return;
+      }
       ensureSource();
       if (!video.paused || playPending) return;
       playPending = true;
-      video.play().catch(() => {
+      const request = ++playRequest;
+      video.play().catch(error => {
         // A browser denial must show a usable Play control, not an endless retry loop.
-        if (shouldPlay(state)) state.userPaused = true;
-      }).finally(() => { playPending = false; updateButton(); });
+        if (request === playRequest && error?.name !== 'AbortError' && shouldPlay(state)) state.userPaused = true;
+      }).finally(() => {
+        if (request === playRequest) { playPending = false; updateButton(); }
+      });
     }
     function renderCaption() {
       const project = projectAt(reel, video.currentTime);
@@ -140,6 +158,12 @@
     });
     doc.addEventListener('visibilitychange', syncPlayback);
     motion.addEventListener?.('change', () => { if (motion.matches) state.userPaused = true; syncPlayback(); });
+    connection?.addEventListener?.('change', () => {
+      network = networkPolicy(connection);
+      if (network.manualPlayback) state.userPaused = true;
+      // Apply a lighter source on the next requested play/chapter, not mid-shot.
+      if (network.manualPlayback) syncPlayback();
+    });
     if ('IntersectionObserver' in win) {
       new win.IntersectionObserver(entries => {
         state.visible = entries[0].isIntersecting && entries[0].intersectionRatio >= .15;
@@ -158,7 +182,7 @@
     renderCaption();
     updateButton();
   }
-  const api = { reels, projects, projectAt, qualityFor, shouldPlay, init };
+  const api = { reels, projects, projectAt, qualityFor, shouldPlay, networkPolicy, init };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.FrankMedia = api;
 })(typeof window !== 'undefined' ? window : globalThis);

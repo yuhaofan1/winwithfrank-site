@@ -2137,8 +2137,8 @@ html[lang="zh"] .hero-slogan { letter-spacing: .04em; }
   .film-muted { display: none; }
   .film-caption { min-height: 104px; padding: 20px 0; }
   .site-refined .film-caption .video-project-overlay { gap: 12px; grid-template-columns: .95fr 1.2fr .7fr; }
-  .site-refined .film-caption .video-project-overlay span { font-size: .55rem; letter-spacing: .04em; min-height: 26px; display: block; }
-  .site-refined .film-caption .video-project-overlay strong { font-size: clamp(.8rem,3.4vw,1.1rem); white-space: nowrap; }
+  .site-refined .film-caption .video-project-overlay span { font-size: .6875rem; letter-spacing: .02em; min-height: 3em; display: block; }
+  .site-refined .film-caption .video-project-overlay strong { font-size: clamp(.875rem,4vw,1.0625rem); white-space: nowrap; }
   .completed-projects { margin-top: 32px; }
   .project-collection-heading { display: block; }
   .project-collection-heading > span { display: block; margin-top: 10px; }
