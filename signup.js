@@ -31,6 +31,9 @@
     form.addEventListener('submit', expand);
     // Native required-checkbox validation must have a visible, focusable target.
     form.addEventListener('invalid', expand, true);
+    form.addEventListener('focusout', () => win.requestAnimationFrame(() => {
+      if (!form.contains(doc.activeElement) && form.getAttribute('aria-busy') !== 'true' && form.querySelector('.signup-status').hidden) details.hidden = true;
+    }));
     minimize.addEventListener('click', () => {
       form.hidden = true; reopen.hidden = false; details.hidden = true;
       dock.classList.add('is-minimized'); reopen.focus();
