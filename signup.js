@@ -20,12 +20,33 @@
   }
 
   function init(doc, win) {
-    const form = doc.querySelector('#investor-signup-form');
-    if (!form) return;
-    const name = form.querySelector('#investor-name'), email = form.querySelector('#investor-email');
-    const consent = form.querySelector('#investor-consent'), honeypot = form.querySelector('#investor-website');
-    const button = form.querySelector('.signup-submit'), status = form.querySelector('#signup-status');
-    const fallback = form.querySelector('#signup-fallback');
+    doc.querySelectorAll('[data-investor-signup]').forEach(form => initForm(form, win));
+    const dock = doc.querySelector('#investor-dock');
+    if (!dock) return;
+    const form = dock.querySelector('form'), reopen = dock.querySelector('#dock-reopen');
+    const minimize = dock.querySelector('#dock-minimize'), details = dock.querySelector('#dock-details');
+    const email = form.querySelector('[name="email"]');
+    const expand = () => { details.hidden = false; };
+    form.addEventListener('focusin', event => { if (event.target !== minimize) expand(); });
+    form.addEventListener('submit', expand);
+    // Native required-checkbox validation must have a visible, focusable target.
+    form.addEventListener('invalid', expand, true);
+    minimize.addEventListener('click', () => {
+      form.hidden = true; reopen.hidden = false; details.hidden = true;
+      dock.classList.add('is-minimized'); reopen.focus();
+    });
+    reopen.addEventListener('click', () => {
+      form.hidden = false; reopen.hidden = true; dock.classList.remove('is-minimized');
+      email.focus();
+    });
+  }
+
+  function initForm(form, win) {
+    const name = form.querySelector('[name="name"]'), email = form.querySelector('[name="email"]');
+    const consent = form.querySelector('[name="consent"]'), honeypot = form.querySelector('[name="website"]');
+    const button = form.querySelector('.signup-submit'), status = form.querySelector('.signup-status');
+    const fallback = form.querySelector('[data-signup-fallback]');
+    const submitLabel = button.textContent;
     let state = '', busy = false;
     const defaults = { submit: 'Send me investment opportunities →', submitting: 'Saving your signup…', success: 'Thank you! Your request has been received. If you previously opted out, contact Frank to rejoin.', error: 'We couldn’t confirm your signup. Please try again, or email Frank below.', limited: 'Too many attempts. Please try again later, or email Frank below.' };
     const t = key => win.siteI18n?.t(`signup.${key}`) || defaults[key];
@@ -33,7 +54,7 @@
       status.textContent = state ? t(state) : '';
       status.hidden = !state; status.dataset.state = state;
       fallback.hidden = !['error', 'limited'].includes(state);
-      button.textContent = t(busy ? 'submitting' : 'submit');
+      button.textContent = busy ? t('submitting') : (button.dataset.signupLabel ? win.siteI18n?.t(button.dataset.signupLabel) || submitLabel : t('submit'));
       button.disabled = busy || state === 'success';
       form.setAttribute('aria-busy', String(busy));
     }
@@ -42,10 +63,10 @@
       if (busy || state === 'success') return;
       email.value = email.value.trim();
       if (!form.reportValidity()) return;
-      const payload = createPayload({ name: name.value, email: email.value, consent: consent.checked, language: win.siteI18n?.language, website: honeypot.value });
+      const payload = createPayload({ name: name?.value || '', email: email.value, consent: consent.checked, language: win.siteI18n?.language, website: honeypot.value });
       if (!payload) { state = 'error'; render(); return; }
       busy = true; state = 'submitting'; render();
-      const fields = [name, email, consent, honeypot]; fields.forEach(field => field.disabled = true);
+      const fields = [name, email, consent, honeypot].filter(Boolean); fields.forEach(field => field.disabled = true);
       const controller = new AbortController(), timer = setTimeout(() => controller.abort(), 15000);
       try { await submitSignup(payload, win.fetch.bind(win), controller.signal); state = 'success'; }
       catch (error) { state = error.status === 429 ? 'limited' : 'error'; }
@@ -55,5 +76,5 @@
     win.siteI18n?.onChange(render);
     render();
   }
-  return { createPayload, submitSignup, init };
+  return { createPayload, submitSignup, init, initForm };
 });

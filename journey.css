@@ -76,13 +76,31 @@
 .cinematic-site .signup-submit:hover{background:#355638}
 .cinematic-site .investor-signup-form{border-radius:3px;background:#f7f5ed;box-shadow:0 24px 70px #243b2010}
 .cinematic-site .contact-footer{background:#101511}
-.investor-dock{position:fixed;bottom:22px;left:50%;z-index:85;transform:translateX(-50%);display:grid;grid-template-columns:1fr auto;column-gap:28px;align-items:center;min-width:285px;padding:12px 16px 12px 22px;border:1px solid #cdb78080;border-radius:4px;background:#142018f0;box-shadow:0 10px 40px #0005;backdrop-filter:blur(16px);color:#efe6cb;text-decoration:none}
+.investor-dock{position:fixed;bottom:calc(18px + var(--keyboard-offset,0px));left:50%;z-index:85;transform:translateX(-50%);width:min(580px,calc(100vw - 220px));padding:10px 16px 16px;border:1px solid #cdb78080;border-radius:8px;background:#142018f5;box-shadow:0 12px 46px #0007;backdrop-filter:blur(18px);color:#efe6cb;max-height:calc(100dvh - 100px);overflow:auto}
 .investor-dock[hidden]{display:none}
 .cinematic-site.is-form-editing .language-floating{visibility:hidden}
-.dock-context{font-size:.5rem;letter-spacing:.17em;color:#bbc4ad;margin-bottom:5px}
-.investor-dock strong{font-size:.875rem;font-weight:500;grid-column:1;white-space:nowrap}
-.dock-arrow{grid-column:2;grid-row:1/3;width:40px;height:40px;display:grid;place-items:center;background:var(--journey-gold);color:#1d291b;font-size:1.2rem;border-radius:2px}
-.investor-dock:hover .dock-arrow{background:#f4dfac}
+.dock-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:4px}
+.dock-heading h2{margin:0;font:500 1rem/1.4 var(--body);letter-spacing:-.015em;color:#f3eddb}
+.dock-minimize{width:36px;height:36px;flex:0 0 36px;border:0;border-radius:4px;background:none;color:#d2d9c8;font-size:1.5rem;cursor:pointer}
+.dock-minimize:hover{background:#ffffff12}
+.dock-fields{display:grid;grid-template-columns:minmax(0,1fr) 112px;gap:10px}
+.dock-email{min-width:0}
+.dock-email>span,.dock-signup-form .signup-trap{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.dock-email input{display:block;width:100%;min-width:0;height:48px;border:1px solid #63705f;border-radius:4px;padding:10px 14px;background:#0c140e;color:#fff;font:400 16px/1.5 var(--body)}
+.dock-email input::placeholder{color:#b6c0af;opacity:1}
+.cinematic-site .dock-signup-form .signup-submit{min-height:48px;padding:8px;border:1px solid #e6c57e;border-radius:4px;background:#e6c57e;color:#19251b;font:600 .8125rem/1.4 var(--body);cursor:pointer}
+.cinematic-site .dock-signup-form .signup-submit:hover{background:#f2d798}
+.dock-details .signup-consent{display:flex;align-items:flex-start;gap:10px;margin:14px 0 8px;color:#e0e6d9;font-size:.75rem;line-height:1.6;cursor:pointer}
+.dock-details .signup-consent input{accent-color:#dec080;min-width:20px}
+.dock-privacy{margin:0 0 0 30px;color:#b6c0af;font-size:.6875rem;line-height:1.5}
+.dock-signup-form .signup-status{margin-top:12px;font-size:.8125rem;padding:10px 12px;border-radius:4px}
+.dock-signup-form .signup-handoff{margin-top:10px;color:#efe6cb;font-size:.75rem;line-height:1.6;overflow-wrap:anywhere}
+.dock-signup-form .signup-handoff a{color:#e6c57e}
+.dock-reopen{padding:10px 14px;min-height:44px;border:0;border-radius:4px;background:none;color:#efe6cb;font:500 .8125rem/1.5 var(--body);cursor:pointer}
+.dock-reopen>span:first-child{font-size:1.1rem;margin-right:7px}
+.investor-dock.is-minimized{width:auto;padding:2px}
+.investor-dock :focus-visible{outline:2px solid #f0d69d;outline-offset:3px}
+.investor-dock [hidden]{display:none!important}
 @media(prefers-reduced-motion:no-preference){
   .cinematic-site.journey-ready .hero-project-photo img{transform:translateY(var(--hero-drift,0px)) scale(var(--hero-scale,1));will-change:transform}
   .cinematic-site.journey-ready .hero-project-photo{overflow:hidden}
@@ -159,10 +177,11 @@
   .site-refined.cinematic-site .investment-preview-heading h2{font-size:1.8rem}
   .site-refined.cinematic-site .investor-signup{padding:72px 22px 88px}
   .cinematic-site .signup-copy::before{top:-60px;font-size:200px}
-  .investor-dock{bottom:max(18px,env(safe-area-inset-bottom));left:18px;transform:none;min-width:0;max-width:calc(100vw - 104px);padding:10px 12px 10px 16px;column-gap:16px}
-  .investor-dock strong{font-size:.75rem}
-  .dock-context{font-size:.4375rem;letter-spacing:.08em}
-  .dock-arrow{width:34px;height:34px;font-size:1.1rem}
+  .investor-dock{bottom:calc(max(12px,env(safe-area-inset-bottom)) + var(--keyboard-offset,0px));left:12px;transform:none;width:calc(100vw - 24px);padding:8px 12px 12px}
+  .dock-heading h2{font-size:.9375rem}
+  .dock-fields{grid-template-columns:minmax(0,1fr) 98px;gap:8px}
+  .dock-email input{padding:10px}
+  .cinematic-site.has-signup-dock .language-floating{bottom:calc(var(--signup-dock-height,110px) + 24px + env(safe-area-inset-bottom,0px))}
 }
 @media(prefers-reduced-motion:reduce){
   .hero-project-photo img,.video-hero-frame,.achievement-photos img,.journey-reveal{transform:none!important;transition:none!important;animation:none!important}

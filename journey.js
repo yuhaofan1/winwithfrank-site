@@ -14,10 +14,10 @@
     const progress = clamp((viewportHeight - top) / Math.max(1, viewportHeight * .9));
     return { scale: .94 + .06 * progress, radius: 30 - 22 * progress };
   }
-  function showDock({ heroBottom, signupTop, signupBottom, height, headerHeight, interacting, protectedRects = [] }) {
+  function showDock({ signupTop, signupBottom, height, headerHeight, interacting, dockActive = false, protectedRects = [] }) {
     // Keep the film, snap-story and editable controls free of floating UI.
     const protectedVisible = protectedRects.some(rect => rect.top < height && rect.bottom > headerHeight);
-    return !interacting && !protectedVisible && heroBottom < headerHeight && signupTop > height && signupBottom > height;
+    return dockActive || (!interacting && !protectedVisible && signupTop > height && signupBottom > height);
   }
 
   function init(doc = document, win = window) {
@@ -62,6 +62,7 @@
       const headerHeight = header?.offsetHeight || 65;
       const protectedRects = protectedNodes.map(node => node.getBoundingClientRect());
       const editing = Boolean(doc.activeElement?.closest('input,select,textarea,[contenteditable="true"]'));
+      const dockActive = Boolean(dock.contains(doc.activeElement) && !dock.classList.contains('is-minimized'));
       const interacting = editing || header?.classList.contains('is-menu-open');
       doc.body.classList.toggle('is-form-editing', editing);
       const next = closestFigure(rects, height);
@@ -80,7 +81,12 @@
           film.style.setProperty('--film-radius', `${frame.radius.toFixed(1)}px`);
         }
       }
-      dock.hidden = !showDock({ heroBottom: heroRect.bottom, signupTop: signupRect.top, signupBottom: signupRect.bottom, height, headerHeight, interacting, protectedRects });
+      dock.hidden = !showDock({ signupTop: signupRect.top, signupBottom: signupRect.bottom, height, headerHeight, interacting, dockActive, protectedRects });
+      doc.body.classList.toggle('has-signup-dock', !dock.hidden);
+      const viewport = win.visualViewport;
+      const keyboardOffset = viewport ? Math.max(0, height - viewport.height - viewport.offsetTop) : 0;
+      dock.style.setProperty('--keyboard-offset', `${keyboardOffset}px`);
+      doc.body.style.setProperty('--signup-dock-height', `${dock.offsetHeight}px`);
     }
     function schedule() {
       if (pending || doc.hidden) return;
@@ -89,6 +95,8 @@
     }
     win.addEventListener('scroll', schedule, { passive: true });
     win.addEventListener('resize', schedule);
+    win.visualViewport?.addEventListener('resize', schedule);
+    win.visualViewport?.addEventListener('scroll', schedule);
     doc.addEventListener('visibilitychange', schedule);
     doc.addEventListener('focusin', schedule);
     doc.addEventListener('focusout', schedule);
@@ -98,7 +106,10 @@
       schedule();
     });
     win.siteI18n?.onChange(schedule);
-    if ('ResizeObserver' in win) new win.ResizeObserver(schedule).observe(doc.body);
+    if ('ResizeObserver' in win) {
+      const resize = new win.ResizeObserver(schedule);
+      resize.observe(doc.body); resize.observe(dock);
+    }
     update();
   }
   const api = { clamp, closestFigure, filmFrame, showDock, init };
