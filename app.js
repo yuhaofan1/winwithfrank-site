@@ -449,7 +449,7 @@ function enableAchievementSlideshow() {
 
 function enableLocalLiveReload() {
   if (!["127.0.0.1", "localhost"].includes(window.location.hostname)) return;
-  const assets = ["index.html", "styles.css", "app.js", "i18n.js", "media.js", "signup.js"];
+  const assets = ["index.html", "styles.css", "app.js", "i18n.js", "media.js", "signup.js", "journey.css", "journey.js"];
   const versions = new Map();
 
   async function checkForUpdates() {

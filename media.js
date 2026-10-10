@@ -13,7 +13,7 @@
     { number: '01', value: 7200000, year: '2023' },
   ];
   function projectAt(reel, seconds) {
-    if (reel !== 0 || seconds >= 18 || seconds < 0) return null;
+    if (reel !== 0 || seconds >= 18 || seconds < 0 || (seconds >= 10 && seconds < 11.8)) return null;
     if (seconds >= 3 && seconds < 4) return { number: '48', value: 5500000, year: '2025' };
     return projects[Math.min(3, Math.floor(seconds / 5))];
   }
