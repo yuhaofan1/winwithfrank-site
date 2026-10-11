@@ -1,6 +1,7 @@
 (() => {
   const messages = {
     en: {
+      editorial: { navigation: "Explore the story", contents: "IN THIS EDITION", overview: "Overview", record: "Track record", next: "What’s next" },
       floating: { aria: "Join Frank's investor email list", title: "Get Frank’s next deal.", placeholder: "Email for new deals", submit: "Join list →", consent: "Email me deals and project updates. I can unsubscribe anytime.", privacy: "Saved privately in Frank’s SiteFlow workspace.", minimize: "Minimize email signup", reopen: "Join investor list" },
       cinema: { tenure: "10 years of", impact: "Building value.", heroProject: "From vision to a living community", heroAlt: "A completed apartment building in its surrounding neighborhood", completed: "COMPLETED", historical: "Historical performance · Details ↗", scroll: "SCROLL INTO THE TRACK RECORD", eyebrow: "A DECADE, IN NUMBERS", achievementTitle: "Built one project at a time.", achievementIntro: "The scale of the work. The discipline behind it.", seeEvidence: "Meet the projects behind the numbers", projectsCopy: "Completed developments across our portfolio.", unitsCopy: "From plans on paper to finished living spaces.", marketCopy: "Portfolio market value, as reported by Frank.", valueCopy: "Value created for investors, as reported by Frank.", nextChapter: "YOUR NEXT CHAPTER", getDeals: "Get future deals", workIndex: "01 / THE WORK", scaleIndex: "02 / THE SCALE", portfolioIndex: "03 / THE PORTFOLIO", valueIndex: "04 / THE VALUE" },
       process: { kicker: "THE PROCESS", steps: "Explore the four steps", hint: "Scroll to explore" },
@@ -33,6 +34,7 @@ story: { eyebrow: "VERTICALLY INTEGRATED REAL ESTATE Development & Management", 
       trades: {}
     },
     zh: {
+      editorial: { navigation: "探索项目故事", contents: "内容导览", overview: "概览", record: "项目业绩", next: "下一篇章" },
       floating: { aria: "加入 Frank 的投资邮件名单", title: "第一时间了解新项目。", placeholder: "邮箱 · 获取新项目", submit: "加入名单 →", consent: "我同意接收投资机会和项目动态，可随时退订。", privacy: "信息私密保存至 Frank 的 SiteFlow 工作区。", minimize: "收起邮件订阅", reopen: "订阅投资动态" },
       cinema: { tenure: "十年深耕", impact: "筑就价值。", heroProject: "从项目愿景，到真实生活", heroAlt: "社区中已竣工的公寓楼", completed: "已完工", historical: "历史业绩 · 查看说明 ↗", scroll: "向下探索项目实绩", eyebrow: "用数字，讲述十年", achievementTitle: "一个项目，一步积累。", achievementIntro: "看得见的规模，贯穿始终的执行。", seeEvidence: "了解数字背后的真实项目", projectsCopy: "项目组合中已完成的开发项目。", unitsCopy: "从纸上蓝图，到真实生活空间。", marketCopy: "项目组合市场价值，由 Frank 提供。", valueCopy: "为投资人创造的价值，由 Frank 提供。", nextChapter: "开启下一篇章", getDeals: "获取未来项目机会", workIndex: "01 / 项目实绩", scaleIndex: "02 / 项目规模", portfolioIndex: "03 / 项目组合", valueIndex: "04 / 创造价值" },
       process: { kicker: "运营流程", steps: "了解四个步骤", hint: "滚动探索" },
