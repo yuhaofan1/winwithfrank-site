@@ -496,7 +496,7 @@ function enableSectionNavigation() {
   }
   const sectionLinks = [...document.querySelectorAll('.site-nav a[href^="#"]')].map((link) => ({
     link,
-    section: document.querySelector(link.getAttribute("href"))
+    section: document.querySelector(link.getAttribute("href"))?.closest('section')
   })).filter((item) => item.section);
   let scheduled = false;
   let activeLink = null;

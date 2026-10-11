@@ -27,7 +27,7 @@
     const minimize = dock.querySelector('#dock-minimize'), details = dock.querySelector('#dock-details');
     const email = form.querySelector('[name="email"]');
     const expand = () => { details.hidden = false; };
-    form.addEventListener('focusin', event => { if (event.target !== minimize) expand(); });
+    form.addEventListener('focusin', event => { if (event.target !== minimize && !event.target.closest?.('[data-copy-wechat]')) expand(); });
     form.addEventListener('submit', expand);
     // Native required-checkbox validation must have a visible, focusable target.
     form.addEventListener('invalid', expand, true);

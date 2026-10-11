@@ -167,6 +167,29 @@
 .editorial-site .dock-email input{border-color:#b3c4cc;border-radius:1px}
 .editorial-site .dock-signup-form .signup-submit{background:#173644;border-color:#173644;border-radius:1px}
 .editorial-site .dock-signup-form .signup-submit:hover{background:#245d76}
+.site-refined.editorial-site .wechat-contact{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:46px;padding:10px 16px;border:1px solid #abc7b9;border-radius:2px;background:#e7f0eb;color:#21543c;font:500 .8125rem/1.4 var(--body);cursor:pointer}
+.editorial-site .wechat-contact strong{font-weight:600;letter-spacing:.01em}
+.site-refined.editorial-site .wechat-contact:hover{background:#d7e8dd;border-color:#658f78}
+.editorial-site .hero-wechat>span:last-child{opacity:.65}
+.editorial-site .wechat-alternative{margin-top:28px;padding-top:24px;border-top:1px solid #bbc9c8}
+.editorial-site .wechat-alternative>span{display:block;color:#4a6064;font-size:.75rem;margin-bottom:12px}
+.editorial-site .wechat-alternative .wechat-contact{display:flex;width:100%;justify-content:flex-start;flex-wrap:wrap}
+.editorial-site .wechat-copy-label{margin-left:auto;font-size:.6875rem}
+.editorial-site .wechat-alternative p{font-size:.75rem;line-height:1.65;color:#4a6064;margin:12px 0 0}
+.editorial-site #investor-signup-form{scroll-margin-top:88px}
+.site-refined.editorial-site .footer-wechat{background:transparent;color:#d3e9df;border-color:#466958}
+.editorial-site .investor-dock{width:min(600px,calc(100vw - 24px))}
+.editorial-site .dock-fields{grid-template-columns:minmax(0,1fr) 68px 72px 36px}
+.site-refined.editorial-site .dock-wechat{padding:8px 4px;min-height:44px;font-size:.75rem}
+.editorial-site .investor-dock.is-minimized{width:auto}
+.wechat-feedback{position:fixed;z-index:120;left:50%;top:calc(var(--header-height,72px) + 14px);transform:translateX(-50%);width:min(420px,calc(100vw - 32px));padding:18px 22px;border:1px solid #9eb9ac;border-radius:4px;background:#f1f7f3;color:#1d4833;box-shadow:0 8px 36px #10271d33;font:500 .875rem/1.65 var(--body)}
+.wechat-feedback[hidden]{display:none}
+@media(max-width:700px){
+  .editorial-site .dock-fields{grid-template-columns:minmax(0,1fr) 60px 64px 32px}
+  .site-refined.editorial-site .hero-wechat{padding:10px 12px;font-size:.75rem}
+  .editorial-site .wechat-alternative .wechat-contact{gap:8px;padding:12px}
+  .wechat-feedback{top:80px}
+}
 .editorial-site :focus-visible{outline-color:#287397}
 @media(min-width:1440px){
   .editorial-site main,.editorial-site .contact-footer{margin-left:148px}
