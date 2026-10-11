@@ -15,8 +15,10 @@
   <link rel="stylesheet" href="styles.css?v=20261009-mobile-media-r1" />
   <link rel="stylesheet" href="journey.css?v=20261010-refined-r3" />
   <link rel="stylesheet" href="editorial.css?v=20261010-contact-r1" />
-  <script src="i18n.js?v=20261010-contact-r1" defer></script>
-  <script src="media.js?v=20261010-cinematic-r1" defer></script>
+  <link rel="stylesheet" href="gallery.css?v=20261010-gallery-r1" />
+  <script src="i18n.js?v=20261010-gallery-r1" defer></script>
+  <script src="media.js?v=20261010-gallery-r1" defer></script>
+  <script src="gallery.js?v=20261010-gallery-r1" defer></script>
   <script src="signup.js?v=20261010-contact-r1" defer></script>
   <script src="contact.js?v=20261010-contact-r1" defer></script>
   <script src="app.js?v=20261010-contact-r1" defer></script>
@@ -111,13 +113,60 @@
       <p id="video-status" role="status" hidden></p>
       <noscript><p><a href="assets/media/projects-hd.mp4">Watch the completed-project film (720p)</a></p></noscript>
       <div class="completed-projects" id="completed-projects" aria-labelledby="completed-title">
-        <div class="project-collection-heading"><h3 id="completed-title" data-i18n="proof.selected">Selected completed projects</h3><span data-i18n="proof.builtYears">Built 2023–2024</span></div>
+        <div class="project-collection-heading"><h3 id="completed-title" data-i18n="proof.selected">Selected completed projects</h3><span data-i18n="gallery.collection">14 selected projects</span></div>
         <div class="project-cards">
-          <article class="project-card"><img src="assets/media/project-86-640.webp" srcset="assets/media/project-86-640.webp 640w, assets/media/project-86-1280.webp 1280w" sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1300px) 46vw, 590px" width="1280" height="720" loading="lazy" decoding="async" alt="Exterior of Project #86" data-i18n-alt="proof.alt86" /><div><span class="project-year">2023</span><h4>Project #86</h4><p><span data-i18n="proof.value">Reported market value</span><strong>$12.5M</strong></p><a href="#project-film" data-project-seek="1.8" data-i18n="proof.watch">Watch this project ↗</a></div></article>
-          <article class="project-card"><img src="assets/media/project-546-640.webp" srcset="assets/media/project-546-640.webp 640w, assets/media/project-546-1280.webp 1280w" sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1300px) 46vw, 590px" width="1280" height="720" loading="lazy" decoding="async" alt="Exterior of Project #546" data-i18n-alt="proof.alt546" /><div><span class="project-year">2023</span><h4>Project #546</h4><p><span data-i18n="proof.value">Reported market value</span><strong>$6.5M</strong></p><a href="#project-film" data-project-seek="6.8" data-i18n="proof.watch">Watch this project ↗</a></div></article>
-          <article class="project-card"><img src="assets/media/project-14-640.webp?v=20261010" srcset="assets/media/project-14-640.webp?v=20261010 640w, assets/media/project-14-1280.webp?v=20261010 1280w" sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1300px) 46vw, 590px" width="1280" height="720" loading="lazy" decoding="async" alt="Exterior of Project #14" data-i18n-alt="proof.alt14" /><div><span class="project-year">2024</span><h4>Project #14</h4><p><span data-i18n="proof.value">Reported market value</span><strong>$7.05M</strong></p><a href="#project-film" data-project-seek="13.65" data-i18n="proof.watch">Watch this project ↗</a></div></article>
-          <article class="project-card"><img src="assets/media/project-01-640.webp" srcset="assets/media/project-01-640.webp 640w, assets/media/project-01-1280.webp 1280w" sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1300px) 46vw, 590px" width="1280" height="720" loading="lazy" decoding="async" alt="Exterior of Project #01" data-i18n-alt="proof.alt01" /><div><span class="project-year">2023</span><h4>Project #01</h4><p><span data-i18n="proof.value">Reported market value</span><strong>$7.2M</strong></p><a href="#project-film" data-project-seek="16.6" data-i18n="proof.watch">Watch this project ↗</a></div></article>
+          <article class="project-card"><img src="assets/media/project-86-640.webp" srcset="assets/media/project-86-640.webp 640w, assets/media/project-86-1280.webp 1280w" sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1300px) 46vw, 590px" width="1280" height="720" loading="lazy" decoding="async" alt="Exterior of Project #86" data-i18n-alt="proof.alt86" /><div><span class="project-year">2023</span><h4 data-project-number="86">Project #86</h4><p><span data-i18n="proof.value">Reported market value</span><strong>$12.5M</strong></p><a href="#project-film" data-project-seek="1.8" data-i18n="proof.watch">Watch this project ↗</a></div></article>
+          <article class="project-card"><img src="assets/media/project-546-640.webp" srcset="assets/media/project-546-640.webp 640w, assets/media/project-546-1280.webp 1280w" sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1300px) 46vw, 590px" width="1280" height="720" loading="lazy" decoding="async" alt="Exterior of Project #546" data-i18n-alt="proof.alt546" /><div><span class="project-year">2023</span><h4 data-project-number="546">Project #546</h4><p><span data-i18n="proof.value">Reported market value</span><strong>$6.5M</strong></p><a href="#project-film" data-project-seek="6.8" data-i18n="proof.watch">Watch this project ↗</a></div></article>
+          <article class="project-card"><img src="assets/media/project-14-640.webp?v=20261010" srcset="assets/media/project-14-640.webp?v=20261010 640w, assets/media/project-14-1280.webp?v=20261010 1280w" sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1300px) 46vw, 590px" width="1280" height="720" loading="lazy" decoding="async" alt="Exterior of Project #14" data-i18n-alt="proof.alt14" /><div><span class="project-year">2024</span><h4 data-project-number="14">Project #14</h4><p><span data-i18n="proof.value">Reported market value</span><strong>$7.05M</strong></p><a href="#project-film" data-project-seek="13.65" data-i18n="proof.watch">Watch this project ↗</a></div></article>
+          <article class="project-card"><img src="assets/media/project-01-640.webp" srcset="assets/media/project-01-640.webp 640w, assets/media/project-01-1280.webp 1280w" sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1300px) 46vw, 590px" width="1280" height="720" loading="lazy" decoding="async" alt="Exterior of Project #01" data-i18n-alt="proof.alt01" /><div><span class="project-year">2023</span><h4 data-project-number="01">Project #01</h4><p><span data-i18n="proof.value">Reported market value</span><strong>$7.2M</strong></p><a href="#project-film" data-project-seek="16.6" data-i18n="proof.watch">Watch this project ↗</a></div></article>
         </div>
+        <details class="project-disclosure" id="more-projects">
+          <summary id="project-gallery-toggle"><span class="gallery-open-label" data-i18n="gallery.more">View 10 more projects</span><span class="gallery-close-label" data-i18n="gallery.less">Show fewer projects</span><span class="gallery-toggle-icon" aria-hidden="true">+</span></summary>
+          <div class="project-gallery-heading"><p data-i18n="gallery.from">More completed projects</p><a href="https://www.moocapital.com/portfolio" target="_blank" rel="noopener noreferrer" data-i18n="gallery.source">Moo Capital portfolio ↗</a></div>
+          <div class="project-cards project-cards-more">
+            <article class="project-card portfolio-project">
+              <img src="assets/portfolio/project-71-640.webp" srcset="assets/portfolio/project-71-640.webp 640w, assets/portfolio/project-71-1280.webp 1280w" sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1300px) 46vw, 590px" width="1280" height="849" loading="lazy" decoding="async" alt="Completed apartment building exterior" data-i18n-alt="gallery.exterior" />
+              <div><span class="project-year" data-i18n="cinema.completed">COMPLETED</span><h4 data-project-number="71">Project #71</h4><p class="portfolio-type" data-i18n="gallery.apartment">Apartments</p></div>
+            </article>
+            <article class="project-card portfolio-project">
+              <img src="assets/portfolio/project-34-640.webp" srcset="assets/portfolio/project-34-640.webp 640w, assets/portfolio/project-34-1280.webp 1280w" sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1300px) 46vw, 590px" width="1280" height="960" loading="lazy" decoding="async" alt="Completed apartment building exterior" data-i18n-alt="gallery.exterior" />
+              <div><span class="project-year" data-i18n="cinema.completed">COMPLETED</span><h4 data-project-number="34">Project #34</h4><p class="portfolio-type" data-i18n="gallery.student">Student housing</p></div>
+            </article>
+            <article class="project-card portfolio-project">
+              <img src="assets/portfolio/project-70-640.webp" srcset="assets/portfolio/project-70-640.webp 640w, assets/portfolio/project-70-1280.webp 1280w" sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1300px) 46vw, 590px" width="1280" height="960" loading="lazy" decoding="async" alt="Completed apartment building exterior" data-i18n-alt="gallery.exterior" />
+              <div><span class="project-year" data-i18n="cinema.completed">COMPLETED</span><h4 data-project-number="70">Project #70</h4><p class="portfolio-type" data-i18n="gallery.student">Student housing</p></div>
+            </article>
+            <article class="project-card portfolio-project">
+              <img src="assets/portfolio/project-48-640.webp" srcset="assets/portfolio/project-48-640.webp 640w, assets/portfolio/project-48-1280.webp 1280w" sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1300px) 46vw, 590px" width="1280" height="853" loading="lazy" decoding="async" alt="Completed apartment building exterior" data-i18n-alt="gallery.exterior" />
+              <div><span class="project-year" data-i18n="cinema.completed">COMPLETED</span><h4 data-project-number="48">Project #48</h4><p class="portfolio-type" data-i18n="gallery.student">Student housing</p></div>
+            </article>
+            <article class="project-card portfolio-project">
+              <img src="assets/portfolio/project-87-640.webp" srcset="assets/portfolio/project-87-640.webp 640w, assets/portfolio/project-87-1280.webp 1280w" sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1300px) 46vw, 590px" width="1280" height="837" loading="lazy" decoding="async" alt="Completed apartment building exterior" data-i18n-alt="gallery.exterior" />
+              <div><span class="project-year" data-i18n="cinema.completed">COMPLETED</span><h4 data-project-number="87">Project #87</h4><p class="portfolio-type" data-i18n="gallery.student">Student housing</p></div>
+            </article>
+            <article class="project-card portfolio-project">
+              <img src="assets/portfolio/project-06-640.webp" srcset="assets/portfolio/project-06-640.webp 640w, assets/portfolio/project-06-1280.webp 1280w" sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1300px) 46vw, 590px" width="1280" height="955" loading="lazy" decoding="async" alt="Completed apartment building exterior" data-i18n-alt="gallery.exterior" />
+              <div><span class="project-year" data-i18n="cinema.completed">COMPLETED</span><h4 data-project-number="06">Project #06</h4><p class="portfolio-type" data-i18n="gallery.apartment">Apartments</p></div>
+            </article>
+            <article class="project-card portfolio-project">
+              <img src="assets/portfolio/project-52-640.webp" srcset="assets/portfolio/project-52-640.webp 640w, assets/portfolio/project-52-1280.webp 1280w" sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1300px) 46vw, 590px" width="1280" height="958" loading="lazy" decoding="async" alt="Completed apartment building exterior" data-i18n-alt="gallery.exterior" />
+              <div><span class="project-year" data-i18n="cinema.completed">COMPLETED</span><h4 data-project-number="52">Project #52</h4><p class="portfolio-type" data-i18n="gallery.student">Student housing</p></div>
+            </article>
+            <article class="project-card portfolio-project">
+              <img src="assets/portfolio/project-30-640.webp" srcset="assets/portfolio/project-30-640.webp 640w, assets/portfolio/project-30-1280.webp 800w" sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1300px) 46vw, 590px" width="800" height="600" loading="lazy" decoding="async" alt="Completed apartment building exterior" data-i18n-alt="gallery.exterior" />
+              <div><span class="project-year" data-i18n="cinema.completed">COMPLETED</span><h4 data-project-number="30">Project #30</h4><p class="portfolio-type" data-i18n="gallery.student">Student housing</p></div>
+            </article>
+            <article class="project-card portfolio-project">
+              <img src="assets/portfolio/project-81-640.webp" srcset="assets/portfolio/project-81-640.webp 640w, assets/portfolio/project-81-1280.webp 1280w" sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1300px) 46vw, 590px" width="1280" height="849" loading="lazy" decoding="async" alt="Completed apartment building exterior" data-i18n-alt="gallery.exterior" />
+              <div><span class="project-year" data-i18n="cinema.completed">COMPLETED</span><h4 data-project-number="81">Project #81</h4><p class="portfolio-type" data-i18n="gallery.student">Student housing</p></div>
+            </article>
+            <article class="project-card portfolio-project">
+              <img src="assets/portfolio/project-19-640.webp" srcset="assets/portfolio/project-19-640.webp 640w, assets/portfolio/project-19-1280.webp 1280w" sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1300px) 46vw, 590px" width="1280" height="929" loading="lazy" decoding="async" alt="Completed apartment building exterior" data-i18n-alt="gallery.exterior" />
+              <div><span class="project-year" data-i18n="cinema.completed">COMPLETED</span><h4 data-project-number="19">Project #19</h4><p class="portfolio-type" data-i18n="gallery.student">Student housing</p></div>
+            </article>
+          </div>
+          <button class="gallery-collapse" type="button" data-gallery-collapse hidden><span data-i18n="gallery.less">Show fewer projects</span><span aria-hidden="true">↑</span></button>
+        </details>
         <div class="project-evidence-note"><p data-i18n="proof.valuesNote">Project years and market values are supplied by Frank. Market values are not sale proceeds or investor distributions.</p><a href="mailto:frank.fan@moohousing.com?subject=Completed%20Project%20Details" data-i18n="proof.request">Request project details</a></div>
       </div>
     </section>

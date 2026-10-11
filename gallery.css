@@ -1,0 +1,20 @@
+/* Progressive disclosure: the first four projects remain visible without JavaScript. */
+.editorial-site .project-disclosure{margin-top:56px;border-top:1px solid #ffffff30;border-bottom:1px solid #ffffff30}
+.editorial-site .project-disclosure>summary{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:88px;padding:24px 0;color:#fff;font-size:clamp(1rem,2vw,1.25rem);font-weight:450;cursor:pointer;list-style:none;scroll-margin-top:110px}
+.editorial-site .project-disclosure>summary::-webkit-details-marker{display:none}
+.editorial-site .gallery-toggle-icon{display:grid;place-items:center;flex:none;width:40px;height:40px;border:1px solid #ffffff40;border-radius:50%;color:#a9d3e2;font-size:1.6rem;font-weight:300;transition:transform .2s}
+.editorial-site .project-disclosure[open] .gallery-toggle-icon{transform:rotate(45deg)}
+.editorial-site .gallery-close-label,.editorial-site .project-disclosure[open] .gallery-open-label{display:none}
+.editorial-site .project-disclosure[open] .gallery-close-label{display:inline}
+.editorial-site .project-gallery-heading{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:24px 0 32px}
+.editorial-site .project-gallery-heading p{margin:0;color:#b7c6cd;font-size:.875rem}
+.editorial-site .project-gallery-heading a{color:#a9d3e2;font-size:.875rem;text-underline-offset:5px;padding:12px 0}
+.editorial-site .project-cards-more{gap:48px 32px;padding-bottom:40px}
+.editorial-site .project-cards-more .project-card:nth-child(even){margin-top:0}
+.editorial-site .portfolio-project .portfolio-type{font-size:.875rem;color:#b7c6cd;padding:0;min-height:24px}
+.editorial-site .gallery-collapse{display:flex;align-items:center;justify-content:center;gap:16px;margin:0 auto 28px;min-height:48px;padding:12px 24px;background:none;color:#a9d3e2;border:1px solid #ffffff40;border-radius:2px;font:inherit;font-size:.875rem;cursor:pointer}
+.editorial-site .gallery-collapse[hidden]{display:none}
+.editorial-site .project-disclosure>summary:focus-visible,.editorial-site .gallery-collapse:focus-visible{outline:2px solid #a9d3e2;outline-offset:6px}
+@media(hover:hover){.editorial-site .project-disclosure>summary:hover,.editorial-site .gallery-collapse:hover{color:#fff}.editorial-site .project-disclosure>summary:hover .gallery-toggle-icon,.editorial-site .gallery-collapse:hover{border-color:#a9d3e2}}
+@media(max-width:700px){.editorial-site .project-disclosure{margin-top:32px}.editorial-site .project-disclosure>summary{min-height:80px;padding:20px 0;scroll-margin-top:84px}.editorial-site .project-gallery-heading{padding:12px 0 24px;gap:0 16px}.editorial-site .project-cards-more{gap:36px;padding-bottom:32px}.editorial-site .portfolio-project .project-year{font-size:.6rem}.editorial-site .gallery-collapse{width:100%}}
+@media(prefers-reduced-motion:reduce){.editorial-site .gallery-toggle-icon{transition:none}}

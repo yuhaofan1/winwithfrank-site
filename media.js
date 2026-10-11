@@ -175,7 +175,9 @@
       state.userPaused = true;
     }
     function translateProjectCards() {
-      doc.querySelectorAll('.project-card h4').forEach((title, index) => { title.textContent = t('video.projectName', { number: projects[index].number }); });
+      doc.querySelectorAll('.project-card h4[data-project-number]').forEach(title => {
+        title.textContent = t('video.projectName', { number: title.dataset.projectNumber });
+      });
     }
     i18n?.onChange(() => { lastCaption = ''; renderCaption(); updateButton(); translateProjectCards(); if (state.failed) status.textContent = t('proof.videoError'); });
     translateProjectCards();
