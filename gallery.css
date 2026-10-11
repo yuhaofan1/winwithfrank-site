@@ -1,4 +1,4 @@
-/* Progressive disclosure: the first four projects remain visible without JavaScript. */
+/* Progressive disclosure: only the first two projects are visible by default, even without JavaScript. */
 .editorial-site .project-disclosure{margin-top:56px;border-top:1px solid #ffffff30;border-bottom:1px solid #ffffff30}
 .editorial-site .project-disclosure>summary{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:88px;padding:24px 0;color:#fff;font-size:clamp(1rem,2vw,1.25rem);font-weight:450;cursor:pointer;list-style:none;scroll-margin-top:110px}
 .editorial-site .project-disclosure>summary::-webkit-details-marker{display:none}
