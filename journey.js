@@ -43,7 +43,7 @@
     const header = doc.querySelector('.store-header');
     const film = doc.querySelector('#project-film');
     const protectedNodes = [...doc.querySelectorAll('#project-film,.film-controls,.film-caption,#investment-model,#job-application')];
-    const detailNodes = [...doc.querySelectorAll('main h1,main h2,main h3,main p,main a:not(.journey-scroll),.journey-scroll span,.achievement-figure strong,.hero-ledger,.investor-irr,.hero-invitation,.project-card,.investment-preview,.partnership-acquisition,.trade-slider,footer')];
+    const detailNodes = [...doc.querySelectorAll('main h1,#project-gallery-toggle,[data-gallery-collapse],main h2,main h3,main p,main a:not(.journey-scroll),.journey-scroll span,.achievement-figure strong,.hero-ledger,.investor-irr,.hero-invitation,.project-card,.investment-preview,.partnership-acquisition,.trade-slider,footer')];
     const figures = [...doc.querySelectorAll('[data-achievement]')];
     const photos = [...doc.querySelectorAll('[data-achievement-photo]')];
     const ruler = doc.querySelector('#achievement-ruler-fill');
