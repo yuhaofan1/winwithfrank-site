@@ -605,6 +605,7 @@ function enableInvestorStory() {
   }
 
   function storyScrollBounds() {
+    if (document.querySelector('dialog[open]')) return null;
     if (!mobileStoryQuery.matches || !story || !storyPin || !storyStages) return null;
     const headerHeight = pageHeader?.getBoundingClientRect().height || 60;
     // Let short landscape screens scroll normally so no content becomes trapped.

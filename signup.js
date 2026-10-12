@@ -22,26 +22,42 @@
   function init(doc, win) {
     doc.querySelectorAll('[data-investor-signup]').forEach(form => initForm(form, win));
     const dock = doc.querySelector('#investor-dock');
-    if (!dock) return;
-    const form = dock.querySelector('form'), reopen = dock.querySelector('#dock-reopen');
-    const minimize = dock.querySelector('#dock-minimize'), details = dock.querySelector('#dock-details');
-    const email = form.querySelector('[name="email"]');
-    const expand = () => { details.hidden = false; };
-    form.addEventListener('focusin', event => { if (event.target !== minimize && !event.target.closest?.('[data-copy-wechat]')) expand(); });
-    form.addEventListener('submit', expand);
-    // Native required-checkbox validation must have a visible, focusable target.
-    form.addEventListener('invalid', expand, true);
-    form.addEventListener('focusout', () => win.requestAnimationFrame(() => {
-      if (!form.contains(doc.activeElement) && form.getAttribute('aria-busy') !== 'true' && form.querySelector('.signup-status').hidden) details.hidden = true;
-    }));
-    minimize.addEventListener('click', () => {
-      form.hidden = true; reopen.hidden = false; details.hidden = true;
-      dock.classList.add('is-minimized'); reopen.focus();
+    const dialog = doc.querySelector('#dock-dialog');
+    if (!dock || !dialog || typeof dialog.showModal !== 'function') return;
+    const close = doc.querySelector('#dock-close');
+    let trigger;
+    const open = event => {
+      event.preventDefault(); trigger = event.currentTarget;
+      if (!dialog.open) dialog.showModal();
+      doc.body.classList.add('signup-dialog-open');
+      // Focus the close control first so opening the sheet does not immediately
+      // launch the phone keyboard and obscure the consent and explanation.
+      close.focus({ preventScroll: true });
+    };
+    doc.querySelector('#dock-open').addEventListener('click', open);
+    doc.querySelectorAll('a[href="#investor-signup-form"]').forEach(link => link.addEventListener('click', open));
+    close.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', event => {
+      if (event.target !== dialog) return;
+      const r = dialog.getBoundingClientRect();
+      if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) dialog.close();
     });
-    reopen.addEventListener('click', () => {
-      form.hidden = false; reopen.hidden = true; dock.classList.remove('is-minimized');
-      email.focus();
+    dialog.addEventListener('close', () => {
+      doc.body.classList.remove('signup-dialog-open');
+      if (trigger === doc.querySelector('#dock-open')) dock.hidden = false;
+      const returnTarget = trigger?.getClientRects?.().length === 0 ? doc.querySelector('#menu-toggle') : trigger;
+      returnTarget?.focus({ preventScroll: true });
     });
+    const position = () => {
+      const viewport = win.visualViewport;
+      dialog.style.setProperty('--signup-height', `${viewport?.height || win.innerHeight}px`);
+      dialog.style.setProperty('--signup-top', `${viewport?.offsetTop || 0}px`);
+    };
+    win.visualViewport?.addEventListener('resize', position);
+    win.visualViewport?.addEventListener('scroll', position);
+    win.addEventListener('resize', position);
+    position();
+    doc.body.classList.add('signup-ready');
   }
 
   function initForm(form, win) {

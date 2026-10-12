@@ -1,6 +1,7 @@
 (() => {
   const messages = {
     en: {
+      mobile: { apply: "Apply for a role", closeSignup: "Close signup", signupIntro: "Investment opportunities. Straight to your inbox." },
       gallery: { collection: "14 selected projects", more: "View 12 more projects", less: "Show fewer projects", from: "More completed projects", source: "Moo Capital portfolio ↗", exterior: "Completed apartment building exterior", student: "Student housing", apartment: "Apartments" },
       connect: { emailAction: "Email me deals", emailHeading: "Get deals in your inbox.", emailSubmit: "Send me deals →", emailPlaceholder: "Your email", joinShort: "Join →", wechat: "WeChat", copyLabel: "Copy Frank's WeChat ID: bestusc", copy: "Copy ID ⧉", preferWechat: "Prefer to chat directly?", instructions: "Copy the ID, then search for bestusc in WeChat to add Frank.", copied: "WeChat ID copied: bestusc. Open WeChat and search for bestusc to add Frank.", manual: "WeChat ID: bestusc. Copy it manually, then search in WeChat to add Frank." },
       editorial: { navigation: "Explore the story", contents: "IN THIS EDITION", overview: "Overview", record: "Track record", next: "What’s next" },
@@ -36,6 +37,7 @@ story: { eyebrow: "VERTICALLY INTEGRATED REAL ESTATE Development & Management", 
       trades: {}
     },
     zh: {
+      mobile: { apply: "申请职位", closeSignup: "关闭订阅", signupIntro: "投资机会，直接发送至您的邮箱。" },
       gallery: { collection: "14 个精选项目", more: "展开另外 12 个项目", less: "收起更多项目", from: "更多已完工项目", source: "Moo Capital 项目集 ↗", exterior: "已完工公寓楼的建筑外观", student: "学生公寓", apartment: "住宅公寓" },
       connect: { emailAction: "接收投资项目", emailHeading: "新项目，直接发到您的邮箱。", emailSubmit: "发送项目给我 →", emailPlaceholder: "您的邮箱", joinShort: "订阅 →", wechat: "微信", copyLabel: "复制 Frank 的微信号：bestusc", copy: "复制微信号 ⧉", preferWechat: "想直接聊聊？", instructions: "复制微信号，然后在微信中搜索 bestusc 添加 Frank。", copied: "微信号已复制：bestusc。请打开微信，搜索 bestusc 添加 Frank。", manual: "微信号：bestusc。请手动复制，再到微信中搜索并添加 Frank。" },
       editorial: { navigation: "探索项目故事", contents: "内容导览", overview: "概览", record: "项目业绩", next: "下一篇章" },

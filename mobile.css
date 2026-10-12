@@ -1,0 +1,126 @@
+/* Focused phone layouts and a stable, accessible contact launcher. */
+html{scroll-padding-bottom:100px}
+.site-refined.editorial-site.signup-ready{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+.editorial-site .investor-dock{display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:8px;width:min(460px,calc(100vw - 24px));padding:8px;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom,0px));border-radius:8px;overflow:visible;max-height:none}
+.editorial-site .investor-dock[hidden]{display:none}
+.editorial-site .dock-open,.site-refined.editorial-site .dock-wechat{display:flex;align-items:center;justify-content:center;gap:12px;min-height:48px;font:600 .9375rem/1.3 var(--body);border-radius:4px;cursor:pointer;padding:10px 14px}
+.editorial-site .dock-open{background:#173644;color:#fff;border:1px solid #173644}
+.editorial-site .dock-open:hover{background:#245d76}
+.site-refined.editorial-site .dock-wechat{background:#e5eeeb;border:1px solid #b3c8bf;color:#274f41}
+.signup-dialog{position:fixed;inset:auto;margin:0;top:calc(var(--signup-top,0px) + 16px);left:50%;transform:translateX(-50%);width:min(460px,calc(100vw - 24px));max-width:none;max-height:calc(var(--signup-height,100dvh) - 32px);overflow:auto;overscroll-behavior:contain;border:1px solid #c0ced4;border-radius:12px;background:#f6f8f7;color:#152026;padding:36px 28px 28px;box-shadow:0 24px 100px #0005;z-index:100}
+.signup-dialog:not([open]){display:none}
+.signup-dialog::backdrop{background:#10202bc7;backdrop-filter:blur(5px)}
+.signup-dialog-open{overflow:hidden}
+.signup-dialog-close{position:absolute;right:8px;top:8px;width:44px;height:44px;border:0;border-radius:50%;background:transparent;color:#405863;font-size:1.75rem;cursor:pointer}
+.signup-dialog-close:hover{background:#e3eaec}
+.signup-dialog h2{font:500 1.875rem/1.2 var(--display);letter-spacing:-.04em;color:#152026;margin:18px 0 12px;padding-right:12px}
+.signup-dialog-intro{font:400 1rem/1.5 var(--body);color:#52646c;margin:0 0 24px}
+.signup-dialog .dock-email>span{position:static;clip-path:none;display:block;width:auto;height:auto;font:500 .875rem/1.5 var(--body);margin-bottom:8px}
+.signup-dialog .dock-email input{height:52px;padding:12px;border-radius:5px;font-size:16px;background:#fff;border:1px solid #9bafb9;color:#152026}
+.signup-dialog .dock-details{padding:0;margin:20px 0}
+.signup-dialog .signup-consent{font-size:.875rem;line-height:1.5;color:#405761;gap:12px;min-height:44px;margin:0 0 12px}
+.signup-dialog .signup-consent input{width:22px;height:22px;flex:0 0 22px;accent-color:#245d76;margin:0}
+.signup-dialog .dock-privacy{font-size:.75rem;line-height:1.5;color:#56646b;margin-left:34px}
+.site-refined.editorial-site .signup-dialog .signup-submit{width:100%;min-height:52px;background:#173644;color:#fff;border-radius:5px;font-size:1rem}
+.signup-dialog :focus-visible{outline:2px solid #245d76;outline-offset:3px}
+.signup-dialog [hidden]{display:none!important}
+.mobile-disclosure>summary{display:none}
+@media(min-width:701px){.signup-dialog{top:calc(var(--signup-top,0px) + max(16px,(var(--signup-height,100dvh) - 540px)/2))}}
+@media(max-width:700px){
+  .site-refined.editorial-site{--section-heading:2rem}
+  .editorial-site .investor-hero-copy{padding:32px 24px}
+  .editorial-site .hero-eyebrow,.editorial-site .journey-scroll,.editorial-site .hero-project-photo figcaption,
+  .editorial-site .achievement-intro>.journey-eyebrow,.editorial-site .achievement-lead,.editorial-site .achievement-ruler,.editorial-site .achievement-photos,.editorial-site .achievement-project-link,
+  .editorial-site .achievement-figure .figure-index,.editorial-site .achievement-figure>p,
+  .editorial-site .proof-eyebrow,.editorial-site .proof-heading>p,.editorial-site .project-collection-heading>span,
+  .editorial-site .investment-preview-heading>.journey-eyebrow,.editorial-site .partnerships-heading>.journey-eyebrow,
+  .editorial-site .signup-copy>.journey-eyebrow,.editorial-site .signup-benefits,.editorial-site .signup-no-commitment{display:none}
+  .editorial-site.signup-ready .hero-investor-actions{display:none}
+  .editorial-site .hero-impact{font-size:clamp(3.25rem,14vw,4rem);margin-top:4px;max-width:8ch}
+  .editorial-site .hero-tenure{font-size:1.375rem}
+  .editorial-site .hero-invitation{margin-top:18px}
+  .editorial-site .hero-ledger{margin-top:24px;padding-top:20px;gap:12px}
+  .editorial-site .hero-ledger>div>strong,.site-refined.editorial-site .investor-irr-value{font-size:1.75rem}
+  .editorial-site .hero-ledger>div>span,.site-refined.editorial-site .investor-irr>a{font-family:var(--body);font-size:.75rem;text-transform:none;letter-spacing:0;line-height:1.5;margin-top:6px}
+  .site-refined.editorial-site .investor-irr-label{font-size:.75rem}
+  .editorial-site .hero-visual{height:260px}
+  .editorial-site .hero-project-photo img{inset:0;height:100%;transform:none;object-position:center}
+  .editorial-site.journey-ready .hero-project-photo figcaption{display:none}
+  .editorial-site .hero-impact,.editorial-site .hero-project-photo{animation:none}
+  .editorial-site .achievement-story,.site-refined.editorial-site .project-proof,.site-refined.editorial-site .standalone-investments,.site-refined.editorial-site .partnerships,.site-refined.editorial-site .employee-share,.site-refined.editorial-site .investor-signup{padding:56px 24px}
+  .editorial-site .achievement-intro{padding:0 0 24px;margin:0}
+  .editorial-site .achievement-layout{gap:24px}
+  .editorial-site .achievement-intro h2,.editorial-site .proof-heading h2,.site-refined.editorial-site #investment-model h2,.site-refined.editorial-site .investment-preview-heading h2,.site-refined.editorial-site .partnerships-heading h2,.site-refined.editorial-site .employee-share-heading h2,.site-refined.editorial-site .signup-copy h2{font-size:2rem;line-height:1.15;letter-spacing:-.04em}
+  .editorial-site .achievement-figures{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 20px}
+  .editorial-site .achievement-figure{padding:20px 0;min-height:0;opacity:1;transform:none}
+  .editorial-site .achievement-figure::before{display:none}
+  .editorial-site .achievement-figure>strong{font-size:2rem;color:var(--edition-ink);line-height:1.2}
+  .editorial-site .achievement-figure h3{font-size:.875rem;line-height:1.5;margin-top:8px}
+  .editorial-site .track-basis{margin-top:20px;font-size:.8125rem}
+  .editorial-site .track-basis summary,.editorial-site .model-assumptions summary{min-height:44px;display:flex;align-items:center}
+  .editorial-site .proof-heading{margin-bottom:24px}
+  .editorial-site .reel-tabs button{font-family:var(--body);font-size:.75rem;letter-spacing:0;min-height:48px;padding:12px 5px;text-transform:none}
+  .editorial-site .film-caption{padding:16px 0}
+  .editorial-site .film-caption span{font-family:var(--body);font-size:.6875rem;letter-spacing:0}
+  .editorial-site .film-caption strong{font-size:1rem}
+  .site-refined.editorial-site .film-caption .video-project-overlay{grid-template-columns:.9fr 1.3fr .65fr;gap:16px}
+  .site-refined.editorial-site .film-caption .video-project-overlay span{font-size:.6875rem;letter-spacing:0}
+  .editorial-site .completed-projects{margin-top:40px}
+  .editorial-site .project-collection-heading h3{font-size:1.375rem;line-height:1.3}
+  .editorial-site .project-cards{gap:32px}
+  .editorial-site .project-card>img{aspect-ratio:3/2}
+  .editorial-site .project-card>div{padding-top:16px;gap:8px}
+  .editorial-site .project-card .project-year,.editorial-site .project-card a{font-family:var(--body);font-size:.8125rem;letter-spacing:0}
+  .editorial-site .project-card a{min-height:44px}
+  .editorial-site .project-evidence-note{font-size:.8125rem;line-height:1.6}
+  .site-refined.editorial-site #investment-model .story-pin{min-height:calc(100svh - var(--story-top,65px) - 84px);padding:24px;gap:14px}
+  .site-refined.editorial-site #investment-model .story-summary,.site-refined.editorial-site #investment-model .story-step-copy>p:first-child{display:none}
+  .editorial-site .story-chapters{margin-top:14px;gap:8px}
+  .editorial-site .story-chapters strong{font-size:.75rem;letter-spacing:0}
+  .editorial-site .story-chapters button span{font-size:.6875rem}
+  .site-refined.editorial-site #investment-model .story-continue{font-size:.8125rem;min-height:40px;margin-top:6px}
+  .site-refined.editorial-site #investment-model .story-step{min-height:clamp(250px,34svh,300px)}
+  .site-refined.editorial-site #investment-model .story-step-copy{padding:70px 20px 22px}
+  .site-refined.editorial-site #investment-model .story-step h3{font-size:1.625rem;line-height:1.15}
+  .site-refined.editorial-site #investment-model .story-step-copy>p:last-child{font-size:.9375rem;line-height:1.5}
+  .site-refined.editorial-site #investment-model .story-controls{padding-bottom:8px}
+  .site-refined.editorial-site #investment-model .story-index{font-size:.75rem}
+  .editorial-site .investment-preview-grid{margin-top:24px}
+  .editorial-site .investment-slider-controls{padding:0;gap:24px}
+  .editorial-site .investment-slider-controls label{font-size:.875rem}
+  .editorial-site .investment-slider-controls output{font-size:1.25rem}
+  .editorial-site .investment-preview-results{margin-top:24px}
+  .editorial-site .investment-preview-result{padding:16px 0;gap:16px}
+  .editorial-site .investment-preview-result small{font:400 .8125rem/1.45 var(--body);text-transform:none;letter-spacing:0}
+  .editorial-site .investment-preview-result strong{font-size:1.25rem}
+  .editorial-site .investment-contact-link{display:none}
+  .editorial-site .investment-preview-note,.editorial-site .model-assumptions{font-size:.8125rem;line-height:1.6}
+  .editorial-site .partnership-tagline,.editorial-site .hiring-location{font-size:1rem;line-height:1.5}
+  .site-refined.editorial-site .partnership-acquisition{margin-top:24px;padding:24px 0}
+  .editorial-site .partnership-acquisition>p{font-size:.75rem;letter-spacing:.04em}
+  .editorial-site .partnership-acquisition>a strong{font-size:.875rem;overflow-wrap:anywhere}
+  .editorial-site .partnership-acquisition>a span{font-size:1rem}
+  .mobile-disclosure>summary{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:56px;padding:16px 0;border-block:1px solid #b8c8ce;color:#245d76;font-size:1rem;cursor:pointer;list-style:none}
+  .mobile-disclosure>summary::-webkit-details-marker{display:none}
+  .mobile-disclosure[open]>summary>span:last-child{transform:rotate(45deg)}
+  .mobile-disclosure .job-application-form{padding-top:20px}
+  .site-refined.editorial-site .job-application{border:0;margin-top:28px;padding-top:0}
+  .site-refined.editorial-site .investor-signup{gap:24px}
+  .editorial-site .signup-intro{font-family:var(--body);font-size:1rem;line-height:1.6;margin-top:16px}
+  .editorial-site .investor-signup-form{padding:24px 20px}
+  .editorial-site .investor-signup-form h3{display:none}
+  .editorial-site .investor-signup-form .signup-consent{font-size:.875rem;line-height:1.5}
+  .editorial-site .signup-privacy{font-size:.75rem;line-height:1.6}
+  .editorial-site .contact-footer{padding:32px 24px}
+  .editorial-site .contact-footer .brand{display:none}
+  .editorial-site .investor-dock{grid-template-columns:minmax(0,1fr) 110px}
+  .signup-dialog{padding:34px 22px 24px}
+  .editorial-site .edition-reveal{clip-path:none!important;opacity:1!important}
+  .editorial-site a,.editorial-site button,.editorial-site summary{scroll-margin-bottom:100px}
+}
+@media(max-width:359px){
+  .editorial-site .dock-open{font-size:.8125rem;gap:8px;padding:10px}
+  .editorial-site .investor-hero-copy,.editorial-site .achievement-story,.site-refined.editorial-site .project-proof,.site-refined.editorial-site .standalone-investments,.site-refined.editorial-site .partnerships,.site-refined.editorial-site .employee-share,.site-refined.editorial-site .investor-signup{padding-left:20px;padding-right:20px}
+  .editorial-site .story-chapters strong{font-size:.6875rem}
+  .editorial-site .hero-ledger>div>strong,.site-refined.editorial-site .investor-irr-value{font-size:1.5rem}
+}
