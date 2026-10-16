@@ -25,9 +25,13 @@
       retry.hidden = state !== 'error';
       host.setAttribute('aria-busy', String(state === 'loading'));
     };
+    function updateButton() {
+      const button = host.querySelector('[data-qe-id="form-button"]');
+      if (button) button.textContent = win.siteI18n?.t('guest.popupSubmit') || 'Connect with Frank';
+    }
     function checkForm() {
       if (!host.querySelector('form')) return false;
-      state = 'ready'; win.clearTimeout(timer); observer?.disconnect(); render();
+      state = 'ready'; win.clearTimeout(timer); observer?.disconnect(); updateButton(); render();
       return true;
     }
     function load() {
@@ -75,7 +79,7 @@
     win.visualViewport?.addEventListener('resize', position);
     win.visualViewport?.addEventListener('scroll', position);
     win.addEventListener('resize', position);
-    win.siteI18n?.onChange(render);
+    win.siteI18n?.onChange(() => { render(); updateButton(); });
     position(); render(); doc.body.classList.add('signup-ready');
   }
   return { ACCOUNT, SCRIPT_URL, init };

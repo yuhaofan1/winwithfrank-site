@@ -27,7 +27,8 @@
 .guest-form-fallback a{color:#173644}
 /* Retain the provider's fields, consent, branding and submission UI. */
 #guest-form-host .ctct-form-defaults{padding:0!important;background:#fff!important;font-family:var(--body)!important}
-#guest-form-host .ctct-form-header{display:none}
+#guest-form-host .ctct-form-header,#guest-form-host [data-qe-id="form-description"]{display:none}
+.guest-popup-intro{margin:0 0 24px;color:#334d5a;font:400 1rem/1.6 var(--body)}
 #guest-form-host .ctct-form-text,#guest-form-host label{color:#334d5a!important;font-family:var(--body)!important}
 #guest-form-host input{font-size:16px!important;min-height:48px;max-width:100%;box-sizing:border-box}
 #guest-form-host .ctct-form-button{background:#173644!important;border-color:#173644!important;min-height:50px;font-family:var(--body)!important}
