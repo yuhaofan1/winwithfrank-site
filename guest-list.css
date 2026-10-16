@@ -1,0 +1,47 @@
+/* Distinct actions: receive invitations through Constant Contact; send deals by email. */
+.editorial-site .guest-list-card{display:flex;flex-direction:column;gap:16px;min-width:0;color:#152026}
+.editorial-site .guest-list-prompt{margin:0;font:400 1rem/1.6 var(--body);color:#405863}
+.editorial-site .guest-list-link{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 22px;min-height:56px;color:#fff;text-decoration:none;font:600 1rem/1.4 var(--body)}
+.editorial-site .guest-list-link:hover{color:#fff}
+.editorial-site .guest-list-notice{margin:0;color:#56646b;font:400 .75rem/1.6 var(--body)}
+.editorial-site .guest-deal-contact{border-top:1px solid #b9c9cf;margin-top:12px;padding-top:24px}
+.editorial-site .guest-email-copy{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;text-align:left;width:100%;padding:8px 0;background:transparent;border:0;color:#173644;cursor:pointer;font:500 1rem/1.5 var(--body)}
+.editorial-site .guest-email-copy strong{grid-row:2;font-size:.875rem;font-weight:400;overflow-wrap:anywhere}
+.editorial-site .guest-email-copy>[aria-hidden]{grid-column:2;grid-row:1/3;align-self:center;font-size:1.25rem}
+.editorial-site .deal-copy-hint{display:block;color:#56646b;font:400 .75rem/1.6 var(--body)}
+.editorial-site .agent-deal-contact{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:20px;width:100%;padding:20px 22px;text-align:left;border:1px solid #c5d1d6;background:#e2e9eb;color:var(--edition-blue);font:500 1rem/1.5 var(--body);cursor:pointer}
+.editorial-site .agent-deal-contact strong{font-size:1rem;overflow-wrap:anywhere}
+.editorial-site .agent-deal-contact b{font-size:1.25rem}
+.editorial-site .agent-deal-contact:hover{background:#d6e2e6}
+.editorial-site .partnership-acquisition .deal-copy-hint{margin-top:-16px}
+.editorial-site .guest-list-card .wechat-alternative{margin-top:0;padding-top:16px}
+.editorial-site .dock-open{text-decoration:none;text-align:center}
+.editorial-site .guest-list-link:focus-visible,.editorial-site [data-copy-email]:focus-visible{outline:2px solid #477f95;outline-offset:4px}
+.editorial-site .guest-signup-dialog{width:min(580px,calc(100vw - 24px));max-height:calc(var(--signup-height,100dvh) - 32px);padding:0;top:calc(var(--signup-top,0px) + max(16px,(var(--signup-height,100dvh) - 780px)/2));overflow:hidden}
+.editorial-site .guest-signup-dialog[open]{display:flex;flex-direction:column}
+.guest-dialog-header{position:relative;flex-shrink:0;padding:24px 60px 22px 24px;border-bottom:1px solid #d2dce0}
+.editorial-site .guest-dialog-header h2{margin:0;padding:0;font-size:1.375rem;line-height:1.3;letter-spacing:-.025em}
+.guest-dialog-header .signup-dialog-close{top:14px;right:12px}
+.guest-form-scroll{min-height:0;overflow:auto;overscroll-behavior:contain;padding:24px;background:#fff}
+.guest-form-fallback{padding:12px 0;font:500 .9375rem/1.5 var(--body);overflow-wrap:anywhere}
+.guest-form-fallback a{color:#173644}
+/* Retain the provider's fields, consent, branding and submission UI. */
+#guest-form-host .ctct-form-defaults{padding:0!important;background:#fff!important;font-family:var(--body)!important}
+#guest-form-host .ctct-form-header{display:none}
+#guest-form-host .ctct-form-text,#guest-form-host label{color:#334d5a!important;font-family:var(--body)!important}
+#guest-form-host input{font-size:16px!important;min-height:48px;max-width:100%;box-sizing:border-box}
+#guest-form-host .ctct-form-button{background:#173644!important;border-color:#173644!important;min-height:50px;font-family:var(--body)!important}
+#guest-form-host .ctct-gdpr-text{font-size:12px!important;line-height:1.5!important;color:#405863!important}
+.guest-load-status{margin:0;padding:12px 24px;font-size:.875rem;color:#405863;flex-shrink:0}
+.editorial-site .guest-dialog-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0;padding:12px 20px;border-top:1px solid #d2dce0;font-size:.75rem;line-height:1.4;color:#56646b;background:#f6f8f7}
+.guest-dialog-footer button{min-height:44px;padding:8px;background:transparent;border:0;color:#173644;font:500 .8125rem/1.4 var(--body);text-decoration:underline;cursor:pointer}
+@media(max-width:700px){
+  .editorial-site .agent-deal-contact{grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;padding:18px}
+  .editorial-site .agent-deal-contact strong{grid-row:2;grid-column:1;font-size:.875rem}
+  .editorial-site .agent-deal-contact b{grid-column:2;grid-row:1/3}
+  .editorial-site .guest-list-link{padding:16px;font-size:.9375rem}
+  .editorial-site .guest-list-card{gap:14px}
+  .guest-dialog-header{padding:20px 56px 18px 20px}
+  .guest-form-scroll{padding:20px}
+  .editorial-site .guest-dialog-header h2{font-size:1.2rem}
+}
