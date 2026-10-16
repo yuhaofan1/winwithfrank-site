@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Explore winwithfrank's vertically integrated real estate platform, operating track record, and investor model." />
   <title>winwithfrank | Real Estate Investment &amp; Operations</title>
+  <meta name="clarity-project-id" content="yytpb1rcq8" />
   <link rel="canonical" href="https://winwithfrank.com/" />
   <meta name="theme-color" content="#111214" />
   <meta property="og:title" content="Win With Frank — A decade of building value" />
@@ -26,6 +27,8 @@
   <script src="contact.js?v=20261016-guest-list-r1" defer></script>
   <script src="app.js?v=20261011-mobile-r4" defer></script>
   <script src="journey.js?v=20261011-mobile-r2" defer></script>
+  <link rel="stylesheet" href="analytics.css?v=20261016-r1" />
+  <script src="analytics.js?v=20261016-r1" defer></script>
   <noscript><style>.reel-tabs,.film-controls,.story-controls,.story-chapters,.story-scroll-stages{display:none!important}.site-refined .investment-story .story-pin{position:static;display:block;min-height:0}.site-refined .investment-story-steps{display:block;overflow:visible}.site-refined #investment-model .story-step{transform:none;margin-top:20px;opacity:1}</style></noscript>
 </head>
 <body class="site-refined cinematic-site editorial-site">
@@ -340,7 +343,7 @@
           <div class="trade-grid" id="trade-grid" aria-live="polite"></div>
         </div>
       </section>
-      <section class="job-application job-application-compact" id="job-application" aria-label="Job application" data-i18n-aria="compact.jobApplication">
+      <section class="job-application job-application-compact" id="job-application" data-clarity-mask="true" aria-label="Job application" data-i18n-aria="compact.jobApplication">
         <details class="mobile-disclosure" data-mobile-collapse open>
           <summary><span data-i18n="mobile.apply">Apply for a role</span><span aria-hidden="true">＋</span></summary>
         <form class="job-application-form" id="job-application-form" data-recipient="frank.fan@moohousing.com">
@@ -368,7 +371,7 @@
         <h2 id="signup-title" data-i18n="guest.title">Join Frank’s Guest List</h2>
         <p class="signup-intro" data-i18n="guest.intro">Meet Frank. Explore off-market opportunities.</p>
       </div>
-      <div class="investor-signup-form guest-list-card" id="investor-signup-form" tabindex="-1" aria-labelledby="signup-title">
+      <div class="investor-signup-form guest-list-card" id="investor-signup-form" data-clarity-mask="true" tabindex="-1" aria-labelledby="signup-title">
         <p class="guest-list-prompt" data-i18n="guest.prompt">Sign up for invitations and opportunities.</p>
         <a class="signup-submit guest-list-link" href="https://lp.constantcontactpages.com/sl/OwITEuS" data-guest-list aria-haspopup="dialog" aria-controls="dock-dialog"><span data-i18n="guest.title">Join Frank’s Guest List</span><span aria-hidden="true">↗</span></a>
         <p class="guest-list-notice" data-i18n="guest.provider">Signup managed by Constant Contact.</p>
@@ -387,7 +390,7 @@
     <button class="wechat-contact dock-wechat" type="button" data-copy-wechat aria-label="Copy Frank's WeChat ID: bestusc" data-i18n-aria="connect.copyLabel"><span data-i18n="connect.wechat">WeChat</span><span aria-hidden="true">⧉</span></button>
   </aside>
 
-  <dialog class="signup-dialog guest-signup-dialog" id="dock-dialog" aria-labelledby="dock-title">
+  <dialog class="signup-dialog guest-signup-dialog" id="dock-dialog" data-clarity-mask="true" aria-labelledby="dock-title">
     <header class="guest-dialog-header">
       <h2 id="dock-title" data-i18n="guest.title">Join Frank’s Guest List</h2>
       <button class="signup-dialog-close" id="dock-close" type="button" aria-label="Close signup" data-i18n-aria="mobile.closeSignup">×</button>
@@ -409,10 +412,11 @@
   <footer class="contact-footer" id="contact" aria-label="Frank contact information" data-i18n-aria="aria.contact">
     <a class="brand" href="#top"><span class="brand-icon">W</span><span><strong>winwithfrank</strong></span></a>
     <div class="footer-contact"><a href="mailto:frank.fan@moohousing.com">frank.fan@moohousing.com</a><button class="wechat-contact footer-wechat" type="button" data-copy-wechat aria-label="Copy Frank's WeChat ID: bestusc" data-i18n-aria="connect.copyLabel"><span data-i18n="connect.wechat">WeChat</span><strong>bestusc</strong><span aria-hidden="true">⧉</span></button></div>
+    <div class="analytics-links"><a href="privacy.html" data-analytics-text="privacy">Privacy</a><button type="button" data-analytics-settings data-analytics-text="settings">Analytics choices</button></div>
   </footer>
 
 
-  <dialog class="deal-dialog" id="deal-dialog" aria-labelledby="deal-form-title" aria-describedby="deal-form-intro">
+  <dialog class="deal-dialog" id="deal-dialog" data-clarity-mask="true" aria-labelledby="deal-form-title" aria-describedby="deal-form-intro">
     <form class="deal-form" id="deal-form" data-recipient="invest@moocapital.com">
       <header class="deal-form-head">
         <div><p data-i18n="deal.kicker">AGENT DEAL SUBMISSION</p><h2 id="deal-form-title" data-i18n="deal.title">Upload a Deal Deck</h2><span id="deal-form-intro" data-i18n="deal.intro">Enter the property address and paste a link to the deal deck.</span></div>
@@ -451,5 +455,12 @@
     </form>
   </dialog>
   <!-- Load the TikTok embed script only if its saved section is made visible. -->
+  <aside class="analytics-banner" id="analytics-banner" aria-labelledby="analytics-title" hidden>
+    <h2 id="analytics-title" data-analytics-text="title">Help improve this website</h2>
+    <p data-analytics-text="copy">Allow Microsoft Clarity to record page visits, time spent, clicks, scrolling and mouse movement? Form contents are masked.</p>
+    <div class="analytics-actions"><button type="button" data-analytics-deny data-analytics-text="deny">No thanks</button><button type="button" data-analytics-allow data-analytics-text="allow">Allow analytics</button></div>
+    <p class="analytics-status" data-analytics-status aria-live="polite"></p>
+    <div class="analytics-bottom"><a href="privacy.html" data-analytics-text="privacy">Privacy</a><button type="button" data-analytics-close data-analytics-text="close" hidden>Close</button></div>
+  </aside>
 </body>
 </html>
