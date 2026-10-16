@@ -305,3 +305,9 @@
   @keyframes edition-image-in{from{clip-path:inset(0 0 0 100%)}to{clip-path:inset(0)}}
 }
 @media(prefers-reduced-motion:reduce){.editorial-site .achievement-ruler span{transition:none}.editorial-site .edition-reveal{opacity:1;clip-path:none}}
+
+/* Reversible site switch: set data-investment-calculator="visible" on <html> to restore. */
+html[data-investment-calculator="hidden"] #rewards,
+html[data-investment-calculator="hidden"] a[href="#rewards"] {
+  display: none !important;
+}
