@@ -44,6 +44,7 @@ html{scroll-padding-bottom:100px}
   .editorial-site .hero-ledger>div>span,.site-refined.editorial-site .investor-irr>a{font-family:var(--body);font-size:.75rem;text-transform:none;letter-spacing:0;line-height:1.5;margin-top:6px}
   .site-refined.editorial-site .investor-irr-label{font-size:.75rem}
   .editorial-site .hero-visual{height:260px}
+  .editorial-site .hero-visual.hero-profile-visual{height:clamp(360px,100vw,460px)}
   .editorial-site .hero-project-photo img{inset:0;height:100%;transform:none;object-position:center}
   .editorial-site.journey-ready .hero-project-photo figcaption{display:none}
   .editorial-site .hero-impact,.editorial-site .hero-project-photo{animation:none}

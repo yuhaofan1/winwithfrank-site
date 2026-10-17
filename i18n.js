@@ -1,6 +1,7 @@
 (() => {
   const messages = {
     en: {
+      portrait: { alt: "Portrait of Frank Fan" },
       guest: { title: "Join Frank’s Guest List", short: "Sell to Frank / List Frank’s buildings", popupTitle: "Sell to Frank / List Frank’s Buildings", popupIntro: "Have a property to sell or want to represent Frank’s buildings? Leave your contact details to connect with Frank about buying and listing opportunities.", popupSubmit: "Connect with Frank", intro: "Meet Frank. Explore off-market opportunities.", prompt: "Sign up for invitations and opportunities.", provider: "Signup managed by Constant Contact.", loading: "Loading signup form…", unavailable: "The signup form could not load. Please email Frank or try again later.", reload: "Try again", sendDeals: "Send Frank Deals", copyHint: "Click to copy email." },
       mobile: { apply: "Apply for a role", closeSignup: "Close signup", signupIntro: "Investment opportunities. Straight to your inbox." },
       gallery: { collection: "14 selected projects", more: "View 12 more", less: "Show fewer", from: "More projects", source: "Moo Capital portfolio ↗", exterior: "Completed apartment building exterior", student: "Student housing", apartment: "Apartments" },
@@ -38,6 +39,7 @@ story: { eyebrow: "VERTICALLY INTEGRATED REAL ESTATE Development & Management", 
       trades: {}
     },
     zh: {
+      portrait: { alt: "Frank Fan 的个人照片" },
       guest: { title: "加入 Frank 的嘉宾名单", short: "卖给 Frank / 代理 Frank 的楼盘", popupTitle: "卖给 Frank / 代理 Frank 的楼盘", popupIntro: "有房产想出售，或希望代理 Frank 的楼盘？留下您的联系方式，与 Frank 洽谈收购及销售合作。", popupSubmit: "联系 Frank", intro: "与 Frank 见面，探索场外项目机会。", prompt: "登记联系信息，获取邀请与项目机会。", provider: "报名由 Constant Contact 管理。", loading: "正在加载报名表…", unavailable: "报名表暂时无法加载。请发邮件给 Frank，或稍后重试。", reload: "重试", sendDeals: "向 Frank 推荐项目", copyHint: "点击复制邮箱。" },
       mobile: { apply: "申请职位", closeSignup: "关闭订阅", signupIntro: "投资机会，直接发送至您的邮箱。" },
       gallery: { collection: "14 个精选项目", more: "展开其余 12 个", less: "收起", from: "更多项目", source: "Moo Capital 项目集 ↗", exterior: "已完工公寓楼的建筑外观", student: "学生公寓", apartment: "住宅公寓" },
