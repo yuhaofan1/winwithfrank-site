@@ -109,7 +109,7 @@ a:focus-visible,button:focus-visible{outline:3px solid #b37b22;outline-offset:4p
   .welcome-projects .welcome-panel-copy>p{margin:6px 0 8px}
   .welcome-partners{padding:0 0 env(safe-area-inset-bottom);gap:0;--opportunity-gutter:24px;--opportunity-icon:30px;--opportunity-gap:12px}
   .welcome-partners h2{font-size:1.375rem}
-  .opportunity-intro{padding-block:12px}
+  .opportunity-intro{padding-block:8px}
   .opportunity-title{font-size:.9375rem}
   .opportunity-title,.opportunity-grid[data-enhanced] .is-open .opportunity-title{transform:translateY(-10px)}
   .opportunity-detail{top:calc(50% + 6px)}
