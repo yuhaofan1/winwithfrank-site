@@ -12,9 +12,10 @@
   <meta property="og:image" content="https://winwithfrank.com/assets/media/process-acquire-1280.webp" />
   <meta property="og:url" content="https://winwithfrank.com/" />
   <link rel="preload" href="assets/fonts/plus-jakarta-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="landing.css?v=20261019-entrance-r2" />
+  <link rel="stylesheet" href="landing.css?v=20261019-video-r1" />
   <script src="landing.js?v=20261019-entrance-r2" defer></script>
   <script src="i18n.js?v=20261019-entrance-r2" defer></script>
+  <script src="landing-video.js?v=20261019-video-r1" defer></script>
 </head>
 <body class="landing-page">
   <a class="skip-link" href="#choose" data-i18n="proof.skip">Skip to content</a>
@@ -31,8 +32,10 @@
   </header>
   <main class="welcome-split" id="choose" tabindex="-1" aria-labelledby="welcome-title">
     <h1 class="sr-only" id="welcome-title" data-i18n="entry.choose">Choose your page</h1>
+    <div class="welcome-project-choice">
     <a class="welcome-panel welcome-projects" href="projects.html" aria-labelledby="welcome-projects-title welcome-projects-cta">
       <img class="welcome-building" src="assets/media/process-acquire-1280.webp" srcset="assets/media/process-acquire-640.webp 640w, assets/media/process-acquire-1280.webp 1280w" sizes="(max-width: 700px) 100vw, 50vw" width="1280" height="720" fetchpriority="high" decoding="async" alt="" />
+      <video class="welcome-building welcome-reel" id="welcome-project-video" muted loop playsinline preload="none" poster="assets/media/process-acquire-1280.webp" width="1280" height="720" aria-hidden="true" tabindex="-1"></video>
       <span class="welcome-eyebrow" data-i18n="entry.portfolio">THE PORTFOLIO</span>
       <div class="welcome-panel-copy">
         <h2 id="welcome-projects-title" data-i18n="entry.projects">Frank’s Projects</h2>
@@ -40,6 +43,8 @@
         <span class="welcome-action"><span id="welcome-projects-cta" data-i18n="entry.explore">Explore Projects</span><span class="welcome-arrow" aria-hidden="true">↗</span></span>
       </div>
     </a>
+    <button class="welcome-video-toggle" id="welcome-video-toggle" type="button" aria-controls="welcome-project-video" hidden>Play video</button>
+    </div>
     <a class="welcome-panel welcome-partners" href="partnership/" aria-labelledby="welcome-partners-title welcome-partners-cta">
       <span class="welcome-eyebrow" data-i18n="entry.opportunity">THE OPPORTUNITY</span>
       <div class="welcome-panel-copy">

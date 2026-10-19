@@ -18,6 +18,14 @@ button{font:inherit}
 .welcome-split{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));min-height:0;overflow:hidden}
 .welcome-panel{position:relative;isolation:isolate;display:flex;flex-direction:column;justify-content:space-between;gap:20px;min-width:0;min-height:0;padding:clamp(28px,6dvh,72px) clamp(28px,4.3vw,88px);overflow:hidden}
 .welcome-projects{color:white;background:#19313c}
+.welcome-project-choice{position:relative;min-width:0;min-height:0}
+.welcome-project-choice>.welcome-panel{height:100%}
+.welcome-projects .welcome-eyebrow{padding-right:110px}
+.welcome-reel{pointer-events:none;opacity:0}
+.welcome-reel.is-ready{opacity:1}
+.welcome-video-toggle{position:absolute;top:calc(clamp(28px,6dvh,72px) - 12px);right:clamp(28px,4.3vw,88px);z-index:2;min-height:44px;padding:10px 14px;border:1px solid #ffffff70;border-radius:24px;background:#102b36b3;color:#fff;font-size:.6875rem;line-height:1.4;cursor:pointer;backdrop-filter:blur(8px)}
+.welcome-video-toggle:hover{background:#102b36}
+.welcome-video-toggle[hidden]{display:none}
 .welcome-building{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:52% 50%;z-index:-2;transition:transform 900ms cubic-bezier(.2,.65,.3,1)}
 .welcome-projects::after{position:absolute;inset:0;z-index:-1;content:"";background:linear-gradient(180deg,#0a1b2833 0%,#10233100 28%,#0b202580 58%,#0b2025ed 100%)}
 .welcome-partners{background:#e8eeeb;border-left:1px solid #c5d2ce;transition:background 350ms ease}
@@ -48,6 +56,7 @@ a:focus-visible,button:focus-visible{outline:3px solid #b37b22;outline-offset:4p
   .language-toggle{margin-left:auto;min-width:52px}
   .welcome-split{grid-template-columns:1fr;grid-template-rows:repeat(2,minmax(0,1fr))}
   .welcome-panel{padding:clamp(16px,2.6dvh,28px) 24px;gap:12px}
+  .welcome-video-toggle{top:calc(clamp(16px,2.6dvh,28px) - 12px);right:24px;padding-inline:12px;font-size:.625rem}
   .welcome-partners{border-left:0;border-top:1px solid #c5d2ce;padding-bottom:max(18px,env(safe-area-inset-bottom))}
   .welcome-eyebrow{font-size:.5625rem;letter-spacing:.15em}
   .welcome-panel h2{font-size:clamp(1.875rem,min(8.5vw,4.5dvh),2.625rem);line-height:1.12;max-width:none;letter-spacing:-.045em}
@@ -61,11 +70,13 @@ a:focus-visible,button:focus-visible{outline:3px solid #b37b22;outline-offset:4p
 @media(max-height:700px) and (max-width:700px){
   .welcome-frank{display:none}
   .welcome-panel{padding-block:16px}
+  .welcome-video-toggle{top:4px}
   .welcome-panel-copy>p{margin:8px 0 12px}
 }
 @media(max-height:550px) and (min-width:701px){
   .landing-header{min-height:56px;padding-block:6px}
   .welcome-panel{padding-block:24px}
+  .welcome-video-toggle{top:12px}
   .welcome-frank{margin-bottom:18px}
   .welcome-frank img{width:44px;height:44px}
   .welcome-panel-copy>p{margin:12px 0 18px}
@@ -74,6 +85,7 @@ a:focus-visible,button:focus-visible{outline:3px solid #b37b22;outline-offset:4p
 @media(max-height:450px){
   .welcome-split{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:minmax(0,1fr)}
   .welcome-panel{padding:16px 20px}
+  .welcome-video-toggle{top:4px;right:20px}
   .welcome-partners{border-top:0;border-left:1px solid #c5d2ce}
   .welcome-frank{display:none}
   .welcome-panel h2{font-size:clamp(1.5rem,4vw,2.25rem)}
