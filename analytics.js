@@ -1,4 +1,5 @@
-/* Optional behavior analytics. No recorder is requested before opt-in.
+/* Optional behavior analytics. Choices open only from the footer, never automatically.
+   No recorder is requested before opt-in.
    Events contain fixed labels only; form values are never read here. */
 (function (root, factory) {
   const api = factory();
@@ -56,7 +57,7 @@
       doc.querySelectorAll('[data-analytics-text]').forEach(el => { el.textContent = text[el.dataset.analyticsText]; });
       allow.disabled = !eligible();
       status.textContent = privacySignal(win) ? text.signal : choice === 'granted' ? text.on : choice === 'denied' ? text.off : text.pending;
-      close.hidden = !choice;
+      close.hidden = false;
     }
     function show(open, focus = false) {
       banner.hidden = !open;
@@ -133,12 +134,12 @@
     deny.addEventListener('click', () => choose('denied'));
     close.addEventListener('click', () => show(false));
     settings?.addEventListener('click', () => { render(); show(true, true); });
-    banner.addEventListener('keydown', e => { if (e.key === 'Escape' && choice) show(false); });
+    banner.addEventListener('keydown', e => { if (e.key === 'Escape') show(false); });
     win.addEventListener('storage', e => {
       if (e.key !== KEY && e.key !== null) return;
       choice = readChoice(storage, Date.now());
       if (permitted()) start(); else stop();
-      render(); show(!choice && eligible());
+      render(); show(false);
     });
     ['pointerdown', 'pointermove', 'scroll', 'keydown', 'touchstart'].forEach(name => {
       win.addEventListener(name, () => { if (active) lastActivity = win.performance.now(); }, { passive: true });
@@ -173,7 +174,7 @@
       if (active && permitted()) { call('set', 'language', doc.documentElement.lang.startsWith('zh') ? 'zh' : 'en'); event('language_changed'); }
     });
     render();
-    show(!choice && eligible());
+    show(false);
     if (permitted()) start();
   }
   return { init, readChoice, privacySignal, engagementDelta, KEY, MAX_AGE };
