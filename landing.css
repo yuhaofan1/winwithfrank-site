@@ -65,7 +65,8 @@ button{font:inherit}
 .welcome-projects .welcome-panel-copy>p{color:#e4eeeb}
 .welcome-action{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:60px;padding-top:20px;border-top:1px solid #ffffff59;font-size:.9375rem;font-weight:600;line-height:1.5}
 .opportunity-contact{display:flex;flex-wrap:wrap;align-items:center;gap:0 24px;min-height:72px;padding:10px var(--opportunity-gutter);border-top:1px solid #ffffff25;font-size:.8125rem;color:#c6d4ce}
-.opportunity-contact a{display:flex;align-items:center;gap:10px;min-height:44px;max-width:100%}
+.opportunity-contact a,.opportunity-wechat{display:flex;align-items:center;gap:10px;min-height:44px;max-width:100%}
+.opportunity-wechat{white-space:nowrap}
 .opportunity-contact a:hover{color:#d1f58b}
 .opportunity-contact a span{overflow-wrap:anywhere}
 .opportunity-contact svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round;color:#d1f58b}
@@ -76,6 +77,7 @@ a:focus-visible,button:focus-visible{outline:3px solid #b37b22;outline-offset:4p
 .skip-link:focus{position:fixed;z-index:10;top:8px;left:8px;padding:12px;background:#fff;color:#173644}
 .lang-zh .welcome-panel h2{letter-spacing:-.025em;line-height:1.2}
 @media(hover:hover){.welcome-projects:hover .welcome-building{transform:scale(1.035)}.welcome-projects:hover .welcome-arrow{transform:translate(3px,-3px)}}
+@media(max-width:1100px){.opportunity-contact a[href^="mailto:"]{order:2}}
 @media(max-width:900px){.landing-header nav{gap:16px}.landing-header{gap:16px;padding-inline:24px}}
 @media(max-width:700px){
   .landing-header{min-height:60px;padding:8px 20px;gap:12px}
