@@ -1,7 +1,7 @@
 (() => {
   const messages = {
     en: {
-      entry: { choose: "Choose your page", projects: "Frank’s Projects", partners: "Partner & Earn", portfolio: "THE PORTFOLIO", opportunity: "THE OPPORTUNITY", projectsIntro: "$300,000,000 Built Across California", partnersIntro: "Bring Frank opportunities. Share the rewards.", explore: "Explore Projects", benefits: "Explore Partnerships", metaTitle: "Win With Frank | Projects & Partnerships", metaDescription: "Explore Frank’s real estate projects or discover opportunities to partner and earn." },
+      entry: { choose: "Choose your page", projects: "Frank’s Projects", partners: "Partner & Earn", portfolio: "THE PORTFOLIO", opportunity: "THE OPPORTUNITY", projectsIntro: "$300,000,000 Built Across California", partnersIntro: "Bring Frank opportunities. Share the rewards.", explore: "View Frank’s Apartments", benefits: "Explore Partnerships", metaTitle: "Win With Frank | Projects & Partnerships", metaDescription: "Explore Frank’s real estate projects or discover opportunities to partner and earn." },
       opportunity: { deals: "Send Me Deals", dealsDetail: "$60M Cash to Buy", dealsBenefit: "Be My Dual Agent", trades: "Trade Worker", tradesBenefit: "Competitive Pay in NorCal", investments: "Investments", investmentsBenefit: "X% Referral Commission", referrals: "Resource Referrals", referralsBenefit: "One Time Referral Fee", invitation: "Help me win,", promise: "I write you a check." },
       partnershipPage: { metaTitle: "Partner & Earn | Win With Frank", metaDescription: "Partnership opportunities with Frank. This page is coming soon.", status: "Coming soon", intro: "This page is being built. Check back for partnership opportunities.", back: "Explore Frank’s projects" },
       portrait: { alt: "Portrait of Frank Fan" },
@@ -42,7 +42,7 @@ story: { eyebrow: "VERTICALLY INTEGRATED REAL ESTATE Development & Management", 
       trades: {}
     },
     zh: {
-      entry: { choose: "选择页面", projects: "Frank 的项目", partners: "合作共赢", portfolio: "项目展示", opportunity: "合作机会", projectsIntro: "在加州建成总值 3 亿美元的项目", partnersIntro: "带来机会，共享回报。", explore: "探索项目", benefits: "探索合作机会", metaTitle: "Win With Frank | 项目与合作", metaDescription: "探索 Frank 的房地产项目，或了解合作共赢的机会。" },
+      entry: { choose: "选择页面", projects: "Frank 的项目", partners: "合作共赢", portfolio: "项目展示", opportunity: "合作机会", projectsIntro: "在加州建成总值 3 亿美元的项目", partnersIntro: "带来机会，共享回报。", explore: "查看 Frank 的公寓", benefits: "探索合作机会", metaTitle: "Win With Frank | 项目与合作", metaDescription: "探索 Frank 的房地产项目，或了解合作共赢的机会。" },
       opportunity: { deals: "推荐项目", dealsDetail: "6,000 万美元现金收购", dealsBenefit: "担任买卖双方代理", trades: "建筑工人", tradesBenefit: "北加州优厚薪酬", investments: "投资合作", investmentsBenefit: "X% 推荐佣金", referrals: "资源引荐", referralsBenefit: "一次性推荐费", invitation: "助我成功，", promise: "我给你开支票。" },
       partnershipPage: { metaTitle: "合作共赢 | Win With Frank", metaDescription: "与 Frank 合作的机会。页面即将上线。", status: "即将上线", intro: "合作页面正在筹备中，敬请期待。", back: "探索 Frank 的项目" },
       portrait: { alt: "Frank Fan 的个人照片" },
