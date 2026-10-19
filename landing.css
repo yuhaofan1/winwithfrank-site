@@ -44,6 +44,10 @@ button{font:inherit}
 .opportunity-icon{display:grid;place-items:center;width:var(--opportunity-icon);height:var(--opportunity-icon);border:1px solid #ffffff26;border-radius:12px;color:#d1f58b;transition:border-color 240ms ease,color 240ms ease,transform 240ms ease}
 .opportunity-icon svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .opportunity-title{font-size:clamp(1.125rem,2vw,2rem);font-weight:500;line-height:1.25;letter-spacing:-.035em;transform:translateY(-12px);transition:transform 240ms cubic-bezier(.2,.65,.3,1)}
+.opportunity-title-with-caption{display:flex;align-items:center;gap:clamp(6px,1vw,14px)}
+.opportunity-title-with-caption>span{white-space:nowrap}
+.opportunity-caption{font-size:clamp(.6875rem,.55em,.875rem);font-weight:500;letter-spacing:0;color:#d1f58b}
+.opportunity-tile.is-open .opportunity-caption{color:#294b37}
 .opportunity-grid[data-enhanced] .opportunity-title{transform:none}
 .opportunity-grid[data-enhanced] .is-open .opportunity-title{transform:translateY(-12px)}
 .opportunity-detail{position:absolute;top:calc(50% + 10px);left:calc(var(--opportunity-gutter) + var(--opportunity-icon) + var(--opportunity-gap));right:var(--opportunity-gutter);margin:0;font-size:.8125rem;line-height:1.4;color:#c6d4ce;pointer-events:none}
