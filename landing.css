@@ -33,11 +33,9 @@ button{font:inherit}
 .welcome-panel-copy{width:100%;max-width:650px}
 .welcome-panel h2{font-size:clamp(2.5rem,min(5.4vw,9dvh),6.5rem);font-weight:500;line-height:1.07;letter-spacing:-.055em;max-width:10ch;margin:0;text-wrap:balance}
 .opportunity-intro{padding:clamp(24px,4dvh,48px) var(--opportunity-gutter)}
-.opportunity-intro .welcome-eyebrow{display:flex;align-items:center;gap:10px;color:#adc0bc}
-.opportunity-intro .welcome-eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:#d1f58b;box-shadow:0 0 12px #d1f58b50}
-.welcome-partners h2{max-width:none;margin-top:12px;font-size:clamp(2rem,3.5vw,3.75rem);line-height:1.12}
+.welcome-partners h2{max-width:none;margin-top:0;font-size:clamp(2rem,3.5vw,3.75rem);line-height:1.12}
 .opportunity-intro>p{margin:10px 0 0;font:400 clamp(1rem,1.6vw,1.375rem)/1.4 Georgia,'Times New Roman',serif;color:#b9c8c1}
-.opportunity-intro strong{font-weight:400;color:#d1f58b}
+.opportunity-intro strong{font-weight:700;color:#d1f58b}
 .opportunity-grid{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:repeat(4,minmax(0,1fr));gap:0;min-height:0}
 .opportunity-tile{position:relative;min-width:0;min-height:0;border-top:1px solid #ffffff25;background:linear-gradient(110deg,#ffffff05,transparent 70%);transition:background-color 240ms ease,color 240ms ease}
 .opportunity-tile h3{height:100%;margin:0;font-size:inherit;font-weight:inherit}
@@ -63,15 +61,18 @@ button{font:inherit}
 .welcome-panel-copy>p{font-size:clamp(.9375rem,1.35vw,1.25rem);line-height:1.6;margin:clamp(14px,3dvh,28px) 0 clamp(20px,5dvh,48px);max-width:32ch}
 .welcome-projects .welcome-panel-copy>p{color:#e4eeeb}
 .welcome-action{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:60px;padding-top:20px;border-top:1px solid #ffffff59;font-size:.9375rem;font-weight:600;line-height:1.5}
-.welcome-partners .welcome-action{min-height:72px;padding:14px var(--opportunity-gutter);border-color:#ffffff25;font-size:.8125rem;color:#c6d4ce}
-.welcome-partners .welcome-arrow{width:36px;height:36px;font-size:1.25rem;border-color:#ffffff40;color:#d1f58b}
+.opportunity-contact{display:flex;flex-wrap:wrap;align-items:center;gap:0 24px;min-height:72px;padding:10px var(--opportunity-gutter);border-top:1px solid #ffffff25;font-size:.8125rem;color:#c6d4ce}
+.opportunity-contact a{display:flex;align-items:center;gap:10px;min-height:44px;max-width:100%}
+.opportunity-contact a:hover{color:#d1f58b}
+.opportunity-contact a span{overflow-wrap:anywhere}
+.opportunity-contact svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round;color:#d1f58b}
 .welcome-arrow{display:grid;place-items:center;border:1px solid currentColor;border-radius:50%;width:44px;height:44px;flex:none;font-size:1.5rem;transition:transform 250ms ease}
 a:focus-visible,button:focus-visible{outline:3px solid #b37b22;outline-offset:4px}
 .welcome-panel:focus-visible{outline:4px solid #d4ab5c;outline-offset:-8px}
 .sr-only,.skip-link:not(:focus){position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .skip-link:focus{position:fixed;z-index:10;top:8px;left:8px;padding:12px;background:#fff;color:#173644}
 .lang-zh .welcome-panel h2{letter-spacing:-.025em;line-height:1.2}
-@media(hover:hover){.welcome-projects:hover .welcome-building{transform:scale(1.035)}.welcome-projects:hover .welcome-arrow,.opportunity-link:hover .welcome-arrow{transform:translate(3px,-3px)}}
+@media(hover:hover){.welcome-projects:hover .welcome-building{transform:scale(1.035)}.welcome-projects:hover .welcome-arrow{transform:translate(3px,-3px)}}
 @media(max-width:900px){.landing-header nav{gap:16px}.landing-header{gap:16px;padding-inline:24px}}
 @media(max-width:700px){
   .landing-header{min-height:60px;padding:8px 20px;gap:12px}
@@ -86,9 +87,9 @@ a:focus-visible,button:focus-visible{outline:3px solid #b37b22;outline-offset:4p
   .welcome-panel-copy>p{font-size:.875rem;line-height:1.45;margin:10px 0 16px;max-width:none}
   .welcome-action{min-height:40px;padding-top:10px;font-size:.75rem}
   .welcome-arrow{width:30px;height:30px;font-size:1.125rem}
-  .welcome-partners h2{margin-top:5px;font-size:1.625rem}
+  .welcome-partners h2{margin-top:0;font-size:1.625rem}
   .opportunity-intro{padding:18px var(--opportunity-gutter)}
-  .opportunity-intro>p{display:none}
+  .opportunity-intro>p{font-size:.9375rem;margin-top:8px}
   .opportunity-trigger{grid-template-columns:var(--opportunity-icon) minmax(0,1fr) 20px;padding-block:8px}
   .opportunity-icon{border-radius:9px}
   .opportunity-icon svg{width:22px;height:22px}
@@ -96,35 +97,36 @@ a:focus-visible,button:focus-visible{outline:3px solid #b37b22;outline-offset:4p
   .opportunity-detail{font-size:.6875rem;top:calc(50% + 8px)}
   .opportunity-plus{width:20px;height:24px}
   .opportunity-plus::before,.opportunity-plus::after{left:3px;width:14px;top:11px}
-  .welcome-partners .welcome-action{min-height:52px;padding-block:10px;font-size:.75rem}
-  .welcome-partners .welcome-arrow{width:30px;height:30px;font-size:1.125rem}
+  .opportunity-contact{min-height:52px;padding-block:4px;font-size:.75rem}
 }
 @media(max-height:700px) and (max-width:700px){
   .welcome-split{grid-template-rows:minmax(0,1fr) minmax(0,2fr)}
   .welcome-panel{padding-block:16px}
-  .welcome-projects{gap:8px}
+  .welcome-projects{gap:4px;padding-block:12px}
+  .welcome-projects h2{font-size:clamp(1.625rem,7vw,1.875rem)}
   .welcome-video-toggle{top:4px}
   .welcome-panel-copy>p{margin:8px 0 12px}
+  .welcome-projects .welcome-panel-copy>p{margin:6px 0 8px}
   .welcome-partners{padding:0 0 env(safe-area-inset-bottom);gap:0;--opportunity-gutter:24px;--opportunity-icon:30px;--opportunity-gap:12px}
   .welcome-partners h2{font-size:1.375rem}
   .opportunity-intro{padding-block:12px}
   .opportunity-title{font-size:.9375rem}
   .opportunity-title,.opportunity-grid[data-enhanced] .is-open .opportunity-title{transform:translateY(-10px)}
   .opportunity-detail{top:calc(50% + 6px)}
-  .welcome-partners .welcome-action{min-height:44px;padding-block:6px}
+  .opportunity-contact{min-height:44px;padding-block:0}
 }
 @media(max-height:550px) and (min-width:701px){
   .landing-header{min-height:56px;padding-block:6px}
   .welcome-panel{padding-block:24px}
   .welcome-video-toggle{top:12px}
-  .opportunity-intro>p{display:none}
+  .opportunity-intro>p{font-size:.9375rem;margin-top:8px}
   .welcome-partners{padding:0;gap:0;--opportunity-icon:32px;--opportunity-gap:14px}
-  .welcome-partners h2{font-size:1.75rem;margin-top:6px}
+  .welcome-partners h2{font-size:1.75rem;margin-top:0}
   .opportunity-intro{padding-block:16px}
   .opportunity-trigger{padding-block:6px}
   .opportunity-title{font-size:1.125rem}
   .opportunity-detail{font-size:.6875rem;top:calc(50% + 6px)}
-  .welcome-partners .welcome-action{min-height:48px;padding-block:6px}
+  .opportunity-contact{min-height:48px;padding-block:2px}
   .welcome-panel-copy>p{margin:12px 0 18px}
   .welcome-action{min-height:44px;padding-top:12px}
 }
@@ -137,14 +139,14 @@ a:focus-visible,button:focus-visible{outline:3px solid #b37b22;outline-offset:4p
   .welcome-panel-copy>p{font-size:.8125rem;margin:10px 0 12px}
   .welcome-action{min-height:40px;padding-top:10px;font-size:.75rem}
   .welcome-arrow{width:30px;height:30px;font-size:1.125rem}
-  .welcome-partners h2{font-size:1.375rem;margin-top:4px}
+  .welcome-partners h2{font-size:1.375rem;margin-top:0}
   .opportunity-intro{padding-block:12px}
-  .opportunity-intro>p{display:none}
+  .opportunity-intro>p{font-size:.875rem;margin-top:6px}
   .opportunity-trigger{grid-template-columns:var(--opportunity-icon) minmax(0,1fr) 20px;padding-block:4px}
   .opportunity-icon svg{width:20px;height:20px}
   .opportunity-title{font-size:1rem}
   .opportunity-title,.opportunity-grid[data-enhanced] .is-open .opportunity-title{transform:translateY(-10px)}
   .opportunity-detail{font-size:.6875rem;top:calc(50% + 6px)}
-  .welcome-partners .welcome-action{min-height:44px;padding-block:6px}
+  .opportunity-contact{min-height:44px;padding-block:0}
 }
 @media(prefers-reduced-motion:reduce){.welcome-building,.welcome-arrow,.opportunity-tile,.opportunity-title,.opportunity-icon,.opportunity-plus,.opportunity-plus::after{transition:none}.opportunity-tile.is-open .opportunity-detail{animation:none}.welcome-projects:hover .welcome-building,.welcome-panel:hover .welcome-arrow{transform:none}}

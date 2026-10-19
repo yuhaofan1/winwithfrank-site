@@ -1,8 +1,8 @@
 (() => {
   const messages = {
     en: {
-      entry: { choose: "Choose your page", projects: "Frank’s Projects", partners: "Partner & Earn", portfolio: "THE PORTFOLIO", opportunity: "THE OPPORTUNITY", projectsIntro: "Explore what we’ve built.", partnersIntro: "Bring Frank opportunities. Share the rewards.", explore: "Explore Projects", benefits: "Explore Partnerships", metaTitle: "Win With Frank | Projects & Partnerships", metaDescription: "Explore Frank’s real estate projects or discover opportunities to partner and earn." },
-      opportunity: { deals: "Send Me Deals", trades: "Trade Worker", investments: "Investments", referrals: "Resource Referrals", pending: "Details coming soon." },
+      entry: { choose: "Choose your page", projects: "Frank’s Projects", partners: "Partner & Earn", portfolio: "THE PORTFOLIO", opportunity: "THE OPPORTUNITY", projectsIntro: "$300,000,000 Built Across California", partnersIntro: "Bring Frank opportunities. Share the rewards.", explore: "Explore Projects", benefits: "Explore Partnerships", metaTitle: "Win With Frank | Projects & Partnerships", metaDescription: "Explore Frank’s real estate projects or discover opportunities to partner and earn." },
+      opportunity: { deals: "Send Me Deals", trades: "Trade Worker", investments: "Investments", referrals: "Resource Referrals", pending: "Details coming soon.", invitation: "Help me win,", promise: "I write you a check." },
       partnershipPage: { metaTitle: "Partner & Earn | Win With Frank", metaDescription: "Partnership opportunities with Frank. This page is coming soon.", status: "Coming soon", intro: "This page is being built. Check back for partnership opportunities.", back: "Explore Frank’s projects" },
       portrait: { alt: "Portrait of Frank Fan" },
       guest: { title: "Join Frank’s Guest List", short: "Sell to Frank / List Frank’s buildings", popupTitle: "Sell to Frank / List Frank’s Buildings", popupIntro: "Have a property to sell or want to represent Frank’s buildings? Leave your contact details to connect with Frank about buying and listing opportunities.", popupSubmit: "Connect with Frank", intro: "Meet Frank. Explore off-market opportunities.", prompt: "Sign up for invitations and opportunities.", provider: "Signup managed by Constant Contact.", loading: "Loading signup form…", unavailable: "The signup form could not load. Please email Frank or try again later.", reload: "Try again", sendDeals: "Send Frank Deals", copyHint: "Click to copy email." },
@@ -42,8 +42,8 @@ story: { eyebrow: "VERTICALLY INTEGRATED REAL ESTATE Development & Management", 
       trades: {}
     },
     zh: {
-      entry: { choose: "选择页面", projects: "Frank 的项目", partners: "合作共赢", portfolio: "项目展示", opportunity: "合作机会", projectsIntro: "探索我们打造的项目。", partnersIntro: "带来机会，共享回报。", explore: "探索项目", benefits: "探索合作机会", metaTitle: "Win With Frank | 项目与合作", metaDescription: "探索 Frank 的房地产项目，或了解合作共赢的机会。" },
-      opportunity: { deals: "推荐项目", trades: "建筑工人", investments: "投资合作", referrals: "资源引荐", pending: "详情即将公布。" },
+      entry: { choose: "选择页面", projects: "Frank 的项目", partners: "合作共赢", portfolio: "项目展示", opportunity: "合作机会", projectsIntro: "在加州建成总值 3 亿美元的项目", partnersIntro: "带来机会，共享回报。", explore: "探索项目", benefits: "探索合作机会", metaTitle: "Win With Frank | 项目与合作", metaDescription: "探索 Frank 的房地产项目，或了解合作共赢的机会。" },
+      opportunity: { deals: "推荐项目", trades: "建筑工人", investments: "投资合作", referrals: "资源引荐", pending: "详情即将公布。", invitation: "助我成功，", promise: "我给你开支票。" },
       partnershipPage: { metaTitle: "合作共赢 | Win With Frank", metaDescription: "与 Frank 合作的机会。页面即将上线。", status: "即将上线", intro: "合作页面正在筹备中，敬请期待。", back: "探索 Frank 的项目" },
       portrait: { alt: "Frank Fan 的个人照片" },
       guest: { title: "加入 Frank 的嘉宾名单", short: "卖给 Frank / 代理 Frank 的楼盘", popupTitle: "卖给 Frank / 代理 Frank 的楼盘", popupIntro: "有房产想出售，或希望代理 Frank 的楼盘？留下您的联系方式，与 Frank 洽谈收购及销售合作。", popupSubmit: "联系 Frank", intro: "与 Frank 见面，探索场外项目机会。", prompt: "登记联系信息，获取邀请与项目机会。", provider: "报名由 Constant Contact 管理。", loading: "正在加载报名表…", unavailable: "报名表暂时无法加载。请发邮件给 Frank，或稍后重试。", reload: "重试", sendDeals: "向 Frank 推荐项目", copyHint: "点击复制邮箱。" },
