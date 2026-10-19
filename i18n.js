@@ -1,6 +1,8 @@
 (() => {
   const messages = {
     en: {
+      entry: { choose: "Choose your path", portfolio: "THE PORTFOLIO", opportunity: "THE OPPORTUNITY", projects: "Frank’s Projects", projectsIntro: "Explore what we’ve built.", explore: "Explore Projects", partners: "Partner & Earn", partnersIntro: "Bring Frank opportunities. Share the rewards.", benefits: "See Partner Benefits" },
+      partnerPage: { metaTitle: "Partner & Earn | Win With Frank", metaDescription: "Bring Frank off-market opportunities or represent his properties. Explore agent partnerships and connect directly with Frank.", eyebrow: "FOR AGENTS & CONNECTORS", title: "Your opportunity. Our next project.", intro: "Bring the deal. Make the introduction. Let’s build a partnership that rewards your contribution.", discuss: "Discuss a partnership", opportunities: "Two ways to work together.", sendTitle: "Sell to Frank", sendIntro: "Have an off-market property or a development opportunity? Put it in front of Frank.", bringLabel: "YOU BRING", sendBring: "A property, an owner introduction, or a deal worth a closer look.", offerLabel: "THE OPPORTUNITY", sendOffer: "Discuss acquisition representation or referral terms directly with Frank.", sendCta: "Send Frank a Deal", listTitle: "List Frank’s Buildings", listIntro: "Know the market and the right buyers? Let’s talk about representing Frank’s properties.", listBring: "Local market knowledge, qualified buyers, and a plan to sell.", listOffer: "Discuss listing opportunities and a commission agreement for the properties you represent.", listCta: "Ask About Listings", terms: "Availability and compensation are agreed in writing for each engagement, subject to applicable licensing requirements.", contactEyebrow: "LET’S CONNECT", contactTitle: "A good deal starts with a conversation.", contactIntro: "Send a property address or link, a short introduction, and how to reach you.", copyEmail: "Copy Frank’s Email", openEmail: "Open email app ↗", signup: "Leave your contact details", back: "Explore Frank’s projects", portraitCaption: "Frank Fan · Developer & Operator" },
       portrait: { alt: "Portrait of Frank Fan" },
       guest: { title: "Join Frank’s Guest List", short: "Sell to Frank / List Frank’s buildings", popupTitle: "Sell to Frank / List Frank’s Buildings", popupIntro: "Have a property to sell or want to represent Frank’s buildings? Leave your contact details to connect with Frank about buying and listing opportunities.", popupSubmit: "Connect with Frank", intro: "Meet Frank. Explore off-market opportunities.", prompt: "Sign up for invitations and opportunities.", provider: "Signup managed by Constant Contact.", loading: "Loading signup form…", unavailable: "The signup form could not load. Please email Frank or try again later.", reload: "Try again", sendDeals: "Send Frank Deals", copyHint: "Click to copy email." },
       mobile: { apply: "Apply for a role", closeSignup: "Close signup", signupIntro: "Investment opportunities. Straight to your inbox." },
@@ -39,6 +41,8 @@ story: { eyebrow: "VERTICALLY INTEGRATED REAL ESTATE Development & Management", 
       trades: {}
     },
     zh: {
+      entry: { choose: "选择您感兴趣的方向", portfolio: "项目实绩", opportunity: "合作机会", projects: "Frank 的项目", projectsIntro: "看看我们建成的项目。", explore: "探索项目", partners: "携手合作，共享回报", partnersIntro: "带来机会，一起共赢。", benefits: "了解合作回报" },
+      partnerPage: { metaTitle: "合作共赢 | Win With Frank", metaDescription: "向 Frank 推荐场外项目，或代理销售他的物业。了解经纪合作机会，直接联系 Frank。", eyebrow: "面向经纪人与资源伙伴", title: "您的机会，我们的下一个项目。", intro: "推荐项目、引荐资源，让您的贡献获得回报。", discuss: "洽谈合作", opportunities: "两种合作方式。", sendTitle: "向 Frank 推荐物业", sendIntro: "有场外物业或开发机会？推荐给 Frank。", bringLabel: "您带来", sendBring: "物业信息、业主引荐，或值得深入了解的项目。", offerLabel: "合作回报", sendOffer: "直接与 Frank 洽谈收购代理或引荐报酬条款。", sendCta: "向 Frank 推荐项目", listTitle: "代理 Frank 的物业", listIntro: "熟悉当地市场、拥有买家资源？一起聊聊代理销售 Frank 的物业。", listBring: "当地市场经验、合适的买家与销售方案。", listOffer: "洽谈挂牌代理机会，并为您代理的物业约定佣金。", listCta: "咨询代理机会", terms: "具体机会及报酬须逐项书面约定，并符合适用的执照要求。", contactEyebrow: "直接联系", contactTitle: "好项目，从一次交流开始。", contactIntro: "请发送物业地址或链接、简短介绍，以及您的联系方式。", copyEmail: "复制 Frank 的邮箱", openEmail: "打开邮件应用 ↗", signup: "留下您的联系方式", back: "探索 Frank 的项目", portraitCaption: "Frank Fan · 开发与运营" },
       portrait: { alt: "Frank Fan 的个人照片" },
       guest: { title: "加入 Frank 的嘉宾名单", short: "卖给 Frank / 代理 Frank 的楼盘", popupTitle: "卖给 Frank / 代理 Frank 的楼盘", popupIntro: "有房产想出售，或希望代理 Frank 的楼盘？留下您的联系方式，与 Frank 洽谈收购及销售合作。", popupSubmit: "联系 Frank", intro: "与 Frank 见面，探索场外项目机会。", prompt: "登记联系信息，获取邀请与项目机会。", provider: "报名由 Constant Contact 管理。", loading: "正在加载报名表…", unavailable: "报名表暂时无法加载。请发邮件给 Frank，或稍后重试。", reload: "重试", sendDeals: "向 Frank 推荐项目", copyHint: "点击复制邮箱。" },
       mobile: { apply: "申请职位", closeSignup: "关闭订阅", signupIntro: "投资机会，直接发送至您的邮箱。" },
@@ -113,8 +117,9 @@ story: { eyebrow: "VERTICALLY INTEGRATED REAL ESTATE Development & Management", 
   function apply(root = document) {
     document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
     document.documentElement.classList.toggle("lang-zh", language === "zh");
-    document.title = getMessage("meta.title");
-    document.querySelector('meta[name="description"]')?.setAttribute("content", getMessage("meta.description"));
+    const isPartnerPage = document.documentElement.dataset.page === "partners";
+    document.title = getMessage(isPartnerPage ? "partnerPage.metaTitle" : "meta.title");
+    document.querySelector('meta[name="description"]')?.setAttribute("content", getMessage(isPartnerPage ? "partnerPage.metaDescription" : "meta.description"));
     root.querySelectorAll?.("[data-i18n]").forEach((element) => {
       element.textContent = getMessage(element.dataset.i18n);
     });

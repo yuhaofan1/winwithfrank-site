@@ -19,10 +19,10 @@
     rects.forEach((rect, index) => { if (rect.top <= height * .38) active = index; });
     return active;
   }
-  function showDock({ signupTop, signupBottom, height, headerHeight, interacting, dialogOpen = false }) {
+  function showDock({ signupTop, signupBottom, height, headerHeight, interacting, dialogOpen = false, welcomeVisible = false }) {
     // A stable compact launcher, not a form that disappears as text passes it.
     const inlineFormVisible = signupTop < height - 80 && signupBottom > headerHeight;
-    return !dialogOpen && !interacting && !inlineFormVisible;
+    return !dialogOpen && !interacting && !inlineFormVisible && !welcomeVisible;
   }
 
   function init(doc = document, win = window) {
@@ -32,6 +32,7 @@
     if (!hero || !signup || !dock) return;
     const dialog = doc.querySelector('#dock-dialog');
     const header = doc.querySelector('.store-header');
+    const welcome = doc.querySelector('#welcome');
     const film = doc.querySelector('#project-film');
     const figures = [...doc.querySelectorAll('[data-achievement]')];
     const photos = [...doc.querySelectorAll('[data-achievement-photo]')];
@@ -67,6 +68,7 @@
       const heroRect = hero.getBoundingClientRect();
       const signupRect = signup.getBoundingClientRect();
       const filmRect = film?.getBoundingClientRect();
+      const welcomeRect = welcome?.getBoundingClientRect();
       const rects = figures.map(node => node.getBoundingClientRect());
       const chapterRects = chapters.map(item => item.section.getBoundingClientRect());
       const headerHeight = header?.offsetHeight || 65;
@@ -99,7 +101,9 @@
           film.style.setProperty('--film-radius', `${frame.radius.toFixed(1)}px`);
         }
       }
-      dock.hidden = !showDock({ signupTop: signupRect.top, signupBottom: signupRect.bottom, height, headerHeight, interacting, dialogOpen: dialog?.open });
+      // Allow the small anchor-scroll clearance above the project hero.
+      const welcomeVisible = Boolean(welcomeRect && welcomeRect.bottom > headerHeight + 24);
+      dock.hidden = !showDock({ signupTop: signupRect.top, signupBottom: signupRect.bottom, height, headerHeight, interacting, dialogOpen: dialog?.open, welcomeVisible });
       doc.body.classList.toggle('has-signup-dock', !dock.hidden);
     }
     function schedule() {
