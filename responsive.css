@@ -1,0 +1,65 @@
+/* Fluid content within full-bleed sections. Keep portraits independent of viewport shape. */
+html[data-page="projects"] .editorial-site {
+  --content-width: 1320px;
+  --fluid-gutter: clamp(20px, 4vw, 60px);
+  --content-inset: max(var(--fluid-gutter), calc((100% - var(--content-width)) / 2));
+}
+html[data-page="projects"] .header-row {
+  padding-inline: var(--content-inset);
+}
+.site-refined.editorial-site .investor-hero-grid {
+  max-width: 1440px;
+  margin-inline: auto;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+}
+.site-refined.editorial-site .investor-hero-copy {
+  min-width: 0;
+  min-height: 0;
+  padding: clamp(32px, 4vw, 64px);
+}
+.site-refined.editorial-site .hero-visual.hero-profile-visual {
+  height: auto;
+  min-height: 0;
+  align-self: stretch;
+  background: #e8eeed;
+}
+.site-refined.editorial-site .hero-project-photo.hero-profile-photo {
+  aspect-ratio: 4 / 5;
+  height: 100%;
+  min-height: 100%;
+}
+.site-refined.editorial-site .hero-project-photo.hero-profile-photo img {
+  object-fit: cover;
+  object-position: 50% 20%;
+}
+.site-refined.editorial-site .hero-impact {
+  display: block;
+  font-size: clamp(3.25rem, 6.2vw, 6.5rem);
+  max-width: 7ch;
+}
+.site-refined.editorial-site .hero-tenure { display: block; }
+.site-refined.editorial-site .hero-ledger {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.site-refined.editorial-site .hero-ledger > * { min-width: 0; }
+html[data-page="projects"] .editorial-site :is(.achievement-story, .project-proof, .investment-story, .standalone-investments, .partnerships, .employee-share, .investor-signup, .contact-footer) {
+  padding-inline: var(--content-inset);
+}
+html[data-page="projects"] .editorial-site :is(.project-cards, .signup-layout, .achievement-layout, .story-panel) {
+  min-width: 0;
+}
+html[data-page="projects"] .editorial-site :is(.hero-investor-actions, .film-controls, .footer-contact) {
+  flex-wrap: wrap;
+}
+@media (max-width: 700px) {
+  .site-refined.editorial-site .investor-hero-grid { grid-template-columns: minmax(0, 1fr); }
+  .site-refined.editorial-site .investor-hero-copy { padding: 32px var(--fluid-gutter); }
+  .site-refined.editorial-site .hero-impact { font-size: clamp(3rem, 13vw, 4.5rem); }
+  .site-refined.editorial-site .hero-visual.hero-profile-visual {
+    width: min(100%, 480px);
+    justify-self: center;
+    height: auto;
+  }
+  .site-refined.editorial-site .hero-project-photo.hero-profile-photo { height: auto; min-height: 0; }
+  html[data-page="projects"] .header-row { padding-inline: var(--fluid-gutter); }
+}
