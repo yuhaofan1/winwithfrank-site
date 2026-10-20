@@ -36,7 +36,12 @@
         if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.defaultPrevented) return;
         if (privacySignal(win)) return;
         e.preventDefault();
-        destination = link.href;
+        const next = new URL(link.href);
+        const debug = new URLSearchParams(win.location.search || '');
+        // Preserve only vendor debug flags for an explicit QA session.
+        if (/^\d+$/.test(debug.get('gtm_debug') || '')) next.searchParams.set('gtm_debug', debug.get('gtm_debug'));
+        if (debug.get('vge') === 'true') next.searchParams.set('vge', 'true');
+        destination = next.href;
         const zh = doc.documentElement.lang.startsWith('zh');
         dialog.querySelector('[data-visitor-title]').textContent = zh ? '允许访客邮箱匹配？' : 'Allow visitor email matching?';
         dialog.querySelector('[data-visitor-copy]').textContent = zh ? '允许 Retention.com 通过 Google 跟踪代码管理器接收本次访问的浏览器和访问信息，并尝试匹配您的邮箱供 Frank 后续联系吗？这与 Clarity 分析单独管理。拒绝不影响浏览。' : 'Allow Retention.com, loaded through Google Tag Manager, to receive browser and visit information for this visit and attempt to match your email for follow-up from Frank? This is separate from Clarity analytics. You can browse without allowing it.';
