@@ -16,6 +16,8 @@
   <script src="landing.js?v=20261019-entrance-r2" defer></script>
   <script src="i18n.js?v=20261019-apartments-r1" defer></script>
   <script src="landing-video.js?v=20261019-video-r1" defer></script>
+  <script src="visitor-collection.js?v=20261019-click-r1" defer></script>
+  <style>#visitor-collection-choice{max-width:30rem;border:0;border-radius:16px;padding:28px;color:#20312c;background:#f5f7f3;font:16px/1.6 system-ui}#visitor-collection-choice::backdrop{background:#10251dcc}#visitor-collection-choice h2{font-size:24px;line-height:1.2}#visitor-collection-choice button{padding:12px 16px;margin:8px 6px 0 0;border-radius:8px;cursor:pointer}#visitor-collection-choice [data-visitor-allow]{background:#20312c;color:white}</style>
 </head>
 <body class="landing-page">
   <a class="skip-link" href="#choose" data-i18n="proof.skip">Skip to content</a>
@@ -82,5 +84,12 @@
       </footer>
     </section>
   </main>
+  <dialog id="visitor-collection-choice" aria-labelledby="visitor-collection-title" aria-describedby="visitor-collection-description">
+    <h2 id="visitor-collection-title" data-visitor-title>Allow visitor email matching?</h2>
+    <p id="visitor-collection-description" data-visitor-copy></p>
+    <p><a href="privacy.html#visitor-matching" target="_blank" rel="noopener">Privacy / 隐私说明</a></p>
+    <button type="button" data-visitor-deny>View without matching</button>
+    <button type="button" data-visitor-allow>Allow &amp; view</button>
+  </dialog>
 </body>
 </html>
